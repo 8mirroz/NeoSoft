@@ -1,0 +1,19 @@
+{
+  "name": "08_warm_glow",
+  "anchor": "Розовое/персиковое ядро, максимальное свечение.",
+  "blend_mode": "Add",
+  "usage": "GPUParticles2D (сияние)",
+  "description": "Теплое свечение",
+  "base_image": "08_warm_glow_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "08_warm_glow_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "system_id": "level-balance-profiles",
+  "version": "5.1",
+  "difficulty_profiles": {
+    "easy_tier_1": {
+      "target_win_rate": 0.95,
+      "mcts_max_iterations": 1000,
+      "assisted_drop_enabled": true,
+      "lucky_drop_enabled": true,
+      "cascade_depth_cap": 7,
+      "combo_window_sec": 2.0,
+      "fever_threshold_score": 1000,
+      "fail_streak_assist_trigger": 1
+    },
+    "medium_tier_2": {
+      "target_win_rate": 0.55,
+      "mcts_max_iterations": 2000,
+      "assisted_drop_enabled": true,
+      "lucky_drop_enabled": true,
+      "cascade_depth_cap": 5,
+      "combo_window_sec": 1.5,
+      "fever_threshold_score": 2500,
+      "fail_streak_assist_trigger": 2
+    },
+    "hard_tier_3": {
+      "target_win_rate": 0.25,
+      "mcts_max_iterations": 5000,
+      "assisted_drop_enabled": true,
+      "lucky_drop_enabled": false,
+      "cascade_depth_cap": 4,
+      "combo_window_sec": 1.1,
+      "fever_threshold_score": 4000,
+      "fail_streak_assist_trigger": 3
+    }
+  }
+}

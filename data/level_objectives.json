@@ -1,0 +1,23 @@
+{
+  "level_id": "dreamy_skies_level_1",
+  "moves_limit": 25,
+  "score_targets": {
+    "1_star": 1000,
+    "2_stars": 2500,
+    "3_stars": 5000
+  },
+  "objectives": [
+    {
+      "type": "collect_color",
+      "target_color": "blue",
+      "target_count": 20,
+      "current_count": 0
+    },
+    {
+      "type": "clear_blocker",
+      "target_blocker": "ice",
+      "target_count": 5,
+      "current_count": 0
+    }
+  ]
+}

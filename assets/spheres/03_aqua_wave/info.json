@@ -1,0 +1,19 @@
+{
+  "name": "03_aqua_wave",
+  "anchor": "Внутренняя жидкость, пузырек, четкий синий якорь.",
+  "blend_mode": "Blend",
+  "usage": "ShaderMaterial (волна) + Particles",
+  "description": "Водяная сфера с пузырьками",
+  "base_image": "03_aqua_wave_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "03_aqua_wave_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

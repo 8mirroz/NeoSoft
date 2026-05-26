@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://04_violet_pulse"]
+
+[ext_resource type="Texture2D" uid="uid://04_violet_pulse_tex" path="res://assets/spheres/04_violet_pulse/04_violet_pulse_base.png" id="1_04_violet_pulse"]
+
+[node name="04_violet_pulse" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_04_violet_pulse")
+centered = true
+offset = Vector2(-64, -64)
+modulate = Color(1, 1, 1, 1)
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_04_violet_pulse")

@@ -1,0 +1,111 @@
+{
+  "version": "3.0.0",
+  "project": "Neo Soft Frost",
+  "scope": "Main Menu Redesign — Pastel Glassmorphism",
+  "reference_image": "ui1/ChatGPT Image 26 мая 2026 г., 18_11_37 (1).png",
+  "concepts": {
+    "TopCurrencyBar": {
+      "description": "Горизонтальная верхняя панель с двумя валютами (Coins, Stars) и иконкой почты (Inbox). Каждая валюта отображается в glassmorphic pill с иконкой, числовым значением и кнопкой '+' для покупки.",
+      "attributes": {
+        "coins": "int — количество монет из UserData.coins",
+        "stars": "int — количество звёзд (сумма из UserData.level_stars)",
+        "has_unread_mail": "bool — индикатор непрочитанных сообщений"
+      },
+      "verbs": {
+        "refresh": "Обновить отображаемые значения из UserData при каждом show/resume.",
+        "tap_add_coins": "Открыть магазин на вкладке Coins.",
+        "tap_add_stars": "Открыть магазин на вкладке Stars.",
+        "tap_inbox": "Открыть Inbox overlay."
+      }
+    },
+    "TitleBlock": {
+      "description": "Крупный декоративный заголовок 'Neo Soft Frost' с градиентным перламутровым текстом и мягким свечением, расположенный под верхней панелью.",
+      "attributes": {
+        "title_text": "string — название игры",
+        "gradient_colors": "Array[Color] — палитра перламутрового градиента (лаванда → голубой → розовый)"
+      },
+      "verbs": {
+        "animate_shimmer": "Процедурный блик, скользящий по буквам заголовка."
+      }
+    },
+    "CentralOrbDisplay": {
+      "description": "Крупная декоративная радужная сфера в центре экрана, стоящая на стеклянном пьедестале с полупрозрачной аркой сверху. Выполняется процедурной отрисовкой (draw_circle с несколькими слоями радужных градиентов). Является визуальным якорем меню.",
+      "attributes": {
+        "orb_radius": "float — основной радиус (150-180px)",
+        "hue_rotation_speed": "float — скорость вращения радужного градиента",
+        "pedestal_height": "float — высота подставки"
+      },
+      "verbs": {
+        "animate_idle": "Плавное вращение внутреннего градиента, мягкая пульсация масштаба, shimmer-эффект.",
+        "draw_pedestal": "Отрисовка стеклянной подставки и арки."
+      }
+    },
+    "PlayButton": {
+      "description": "Крупная горизонтальная glassmorphic кнопка 'Play' под центральной сферой. Пастельный фон с радужным градиентом, закруглённые углы, звёзды-декор по бокам.",
+      "attributes": {
+        "is_hovered": "bool",
+        "gradient": "Color[] — пастельный радужный градиент"
+      },
+      "verbs": {
+        "on_pressed": "Переход к экрану выбора уровня с fade-анимацией.",
+        "on_hover": "Увеличение scale до 1.05, усиление свечения рамки."
+      }
+    },
+    "QuickActionGrid": {
+      "description": "Сетка 4-х квадратных glassmorphic кнопок (2x2) под кнопкой Play: Levels, Events, Shop, Settings. Каждая кнопка имеет иконку (рисуемую процедурно) и подпись.",
+      "attributes": {
+        "buttons": "Array[{id, icon, label}]"
+      },
+      "verbs": {
+        "tap_levels": "Переход к карте уровней.",
+        "tap_events": "Открыть панель событий (заглушка).",
+        "tap_shop": "Открыть магазин (заглушка).",
+        "tap_settings": "Открыть Settings overlay."
+      }
+    },
+    "BottomNavBar": {
+      "description": "Горизонтальная нижняя навигационная панель с 5 вкладками: Home, Rankings, Collection, Friends, Inbox. Каждая вкладка — glassmorphic иконка с подписью. Активная вкладка подсвечена.",
+      "attributes": {
+        "active_tab": "string — ID текущей вкладки (default: 'home')",
+        "tabs": "Array[{id, icon, label, has_badge}]"
+      },
+      "verbs": {
+        "select_tab": "Переключить активную вкладку, обновить подсветку.",
+        "show_badge": "Отобразить красный badge на иконке (для Inbox)."
+      }
+    },
+    "PastelGlassmorphicBackground": {
+      "description": "Полностью процедурный фон в пастельно-лавандовой гамме с мягкими радужными градиентными кругами, мерцающими звёздами-крестами, плавающими пузырями и параллакс-эффектом при движении курсора.",
+      "attributes": {
+        "base_color": "Color — лавандово-розовый (0.90, 0.88, 0.96)",
+        "bubble_positions": "Array[Vector2]",
+        "star_positions": "Array[Vector2]",
+        "parallax_offset": "Vector2"
+      },
+      "verbs": {
+        "draw_gradient_background": "Рисовать мягкий вертикальный градиент от бледно-лавандового к бледно-розовому.",
+        "draw_floating_bubbles": "Рисовать полупрозрачные радужные пузыри с параллакс-смещением.",
+        "draw_sparkle_stars": "Рисовать мерцающие крестовидные звёзды с пульсацией яркости.",
+        "apply_parallax": "Смещать слои в зависимости от cursor_offset."
+      }
+    },
+    "FloatingDecorations": {
+      "description": "Декоративные свисающие элементы (алмазы, подвески) на тонких линиях по краям экрана, как на референсе. Добавляют ощущение 3D-глубины.",
+      "attributes": {
+        "decorations": "Array[{type, position, depth}]"
+      },
+      "verbs": {
+        "draw_hanging_diamonds": "Рисовать подвесные ромбы на линиях с параллакс-смещением.",
+        "animate_sway": "Лёгкое покачивание подвесок по синусоиде."
+      }
+    }
+  },
+  "dark_matter": [
+    "Нет логики для Events — заглушка (placeholder panel)",
+    "Нет логики для Rankings — заглушка (placeholder panel)",
+    "Нет логики для Collection — заглушка (placeholder panel)",
+    "Нет логики для Friends — заглушка (placeholder panel)",
+    "Нет логики для Inbox — заглушка (placeholder panel)",
+    "Shop — пока только переход к level_select как fallback"
+  ]
+}

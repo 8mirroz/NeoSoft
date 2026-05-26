@@ -1,0 +1,19 @@
+{
+  "name": "01_iridescent_frost",
+  "anchor": "Плотный, матовый белый шар. Максимальная масса.",
+  "blend_mode": "Add",
+  "usage": "AnimatedSprite2D",
+  "description": "Эталон белой матовой сферы",
+  "base_image": "01_iridescent_frost_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "01_iridescent_frost_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

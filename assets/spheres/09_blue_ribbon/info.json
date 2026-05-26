@@ -1,0 +1,19 @@
+{
+  "name": "09_blue_ribbon",
+  "anchor": "Голубая диагональная лента.",
+  "blend_mode": "Blend",
+  "usage": "AnimatedSprite2D",
+  "description": "Голубая лента",
+  "base_image": "09_blue_ribbon_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "09_blue_ribbon_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

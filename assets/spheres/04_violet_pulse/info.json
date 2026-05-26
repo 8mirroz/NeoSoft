@@ -1,0 +1,19 @@
+{
+  "name": "04_violet_pulse",
+  "anchor": "Сложная внутренняя фасетка, фиолетово-синий якорь.",
+  "blend_mode": "Blend",
+  "usage": "ShaderMaterial (пульсация)",
+  "description": "Фиолетовая пульсирующая сфера",
+  "base_image": "04_violet_pulse_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "04_violet_pulse_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

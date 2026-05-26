@@ -1,0 +1,53 @@
+{
+  "system_id": "special-sphere-ecosystem",
+  "version": "5.1",
+  "sphere_properties": {
+    "beam": {
+      "effect": "clear_row_or_column",
+      "damage": 1
+    },
+    "homing": {
+      "effect": "fly_to_priority_target",
+      "damage": 1
+    },
+    "blast": {
+      "effect": "radius_explosion",
+      "radius": 1.5,
+      "damage": 1
+    },
+    "pulse": {
+      "effect": "cross_plus_micro_blast",
+      "damage": 1
+    },
+    "prism": {
+      "effect": "remove_or_convert_color_type",
+      "damage": 1
+    },
+    "cross": {
+      "effect": "row_column_center_burst",
+      "damage": 1
+    },
+    "gravity": {
+      "effect": "pull_then_match",
+      "damage": 2
+    },
+    "lightning": {
+      "effect": "chain_hit_priority_targets",
+      "chain_count": 5,
+      "damage": 1
+    },
+    "field": {
+      "effect": "clear_3x3_area",
+      "damage": 1
+    },
+    "dynamo": {
+      "effect": "large_radius_blast",
+      "radius": 3.0,
+      "damage": 2
+    },
+    "singularity": {
+      "effect": "board_wave_and_layer_strip",
+      "damage": 3
+    }
+  }
+}

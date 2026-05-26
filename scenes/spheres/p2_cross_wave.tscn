@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://p2_cross_wave"]
+
+[ext_resource type="Texture2D" uid="uid://p2_cross_wave_tex" path="res://assets/spheres/P2_cross_wave/P2_cross_wave_base.png" id="1_p2_cross_wave"]
+
+[node name="P2_cross_wave" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_p2_cross_wave")
+centered = true
+offset = Vector2(-64, -64)
+modulate = Color(1, 1, 1, 1)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, 0)
+amount = 32
+lifetime = 1.0
+process_material = SubResource("ParticleMaterial_P2_cross_wave")
+texture = ExtResource("1_p2_cross_wave")

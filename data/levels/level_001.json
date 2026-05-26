@@ -1,0 +1,29 @@
+{
+  "level_id": 1,
+  "title": "First Light",
+  "board": {
+    "width": 8,
+    "height": 8,
+    "gem_kinds": 5,
+    "blocked_cells": [],
+    "initial_blockers": []
+  },
+  "goals": [
+    {
+      "type": 0,
+      "gem_type": -1,
+      "target": 1500
+    }
+  ],
+  "moves": 20,
+  "target_score": 1500,
+  "blockers": [],
+  "modifiers": {
+    "difficulty_band": "intro",
+    "nudge": "teach_basic_swap"
+  },
+  "tutorial": {
+    "enabled": true,
+    "steps": ["show_swap", "show_match"]
+  }
+}

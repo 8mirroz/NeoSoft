@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "project": "Neo Soft Frost",
+  "concepts": {
+    "FeedbackOverlay": {
+      "description": "Интерфейс сбора отзывов, запрашивающий у тестера CSAT-оценку (1-5 звезд) и текстовое поле для развернутого мнения.",
+      "attributes": {
+        "csat_score": "int (1-5)",
+        "comments": "string",
+        "level_id": "int"
+      },
+      "verbs": {
+        "trigger": "Отобразить окно отзывов после завершения сессии.",
+        "submit": "Сохранить отзыв в UserData и инициировать локальную телеметрию."
+      }
+    },
+    "InputBlocker": {
+      "description": "Компонент управления вводом, предотвращающий любые клики по игровому полю во время активных визуальных переходов (обвалы, каскады, спавн).",
+      "attributes": {
+        "is_animating": "bool",
+        "mouse_filter_state": "int (MOUSE_FILTER)"
+      },
+      "verbs": {
+        "lock": "Перевести игровое поле в режим MOUSE_FILTER_IGNORE при старте любой анимации.",
+        "unlock": "Вернуть MOUSE_FILTER_STOP, когда все визуальные эффекты завершены и доска стабильна."
+      }
+    },
+    "EightGemSupport": {
+      "description": "Полная презентационная поддержка всех 8 типов гемов на доске, сопоставленная со стандартом gem_view.gd.",
+      "attributes": {
+        "shape_id": "int (0-7)",
+        "color_palette": "Dictionary"
+      },
+      "verbs": {
+        "render": "Отрисовать уникальный геометрический контур (включая Octagon и Rose) и применить гармоничные цвета."
+      }
+    },
+    "QualitySwitcher": {
+      "description": "Логика быстрого переключения графических профилей в реальном времени.",
+      "attributes": {
+        "active_profile": "string (web_default | android_safe)"
+      },
+      "verbs": {
+        "switch_profile": "Изменить настройки рендеринга (интенсивность glow, альфа фона) и перерисовать доску."
+      }
+    },
+    "LogExporter": {
+      "description": "Экранное представление для извлечения тестером накопленной телеметрии и CSAT-данных.",
+      "verbs": {
+        "export_to_clipboard": "Скомпилировать JSONL-файл событий и скопировать его в буфер обмена.",
+        "export_to_ui": "Вывести текстовое поле с логом для ручного копирования."
+      }
+    }
+  }
+}

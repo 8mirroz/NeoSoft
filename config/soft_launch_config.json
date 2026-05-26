@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "default_quality_profile": "web_default",
+  "analytics": {
+    "enabled": true,
+    "log_path": "user://analytics_events.jsonl"
+  },
+  "retention": {
+    "enabled": true,
+    "streak_bonus_goal": 3,
+    "loss_nudge_threshold": 2
+  },
+  "quality_profiles": {
+    "web_default": {
+      "gem_glow_multiplier": 1.0,
+      "background_effect_alpha": 1.0
+    },
+    "android_safe": {
+      "gem_glow_multiplier": 0.72,
+      "background_effect_alpha": 0.78
+    }
+  },
+  "visual_validation": {
+    "target_fps_web": 60,
+    "target_fps_android": 45,
+    "readability_sizes": [64, 96]
+  }
+}

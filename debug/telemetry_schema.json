@@ -1,0 +1,62 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "BalanceTelemetry",
+	"type": "object",
+	"properties": {
+		"average_combo_length": {
+			"type": "number",
+			"minimum": 0.0
+		},
+		"max_combo_length": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"fever_activation_rate": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"queued_move_success_rate": {
+			"type": "number",
+			"minimum": 0.0,
+			"maximum": 1.0
+		},
+		"queued_move_expire_rate": {
+			"type": "number",
+			"minimum": 0.0,
+			"maximum": 1.0
+		},
+		"invalid_fast_move_rate": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"special_sphere_creation_rate": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"special_combo_usage_rate": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"level_win_rate": {
+			"type": "number",
+			"minimum": 0.0,
+			"maximum": 1.0
+		},
+		"moves_left_on_win": {
+			"type": "integer",
+			"minimum": 0
+		}
+	},
+	"required": [
+		"average_combo_length",
+		"max_combo_length",
+		"fever_activation_rate",
+		"queued_move_success_rate",
+		"queued_move_expire_rate",
+		"invalid_fast_move_rate",
+		"special_sphere_creation_rate",
+		"special_combo_usage_rate",
+		"level_win_rate",
+		"moves_left_on_win"
+	]
+}

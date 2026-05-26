@@ -1,0 +1,19 @@
+{
+  "name": "10_purple_ribbon",
+  "anchor": "Фиолетовая диагональная лента.",
+  "blend_mode": "Blend",
+  "usage": "AnimatedSprite2D",
+  "description": "Фиолетовая лента",
+  "base_image": "10_purple_ribbon_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "10_purple_ribbon_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CascadeRulesSchema",
+  "type": "object",
+  "properties": {
+    "system_id": { "type": "string" },
+    "version": { "type": "string" },
+    "default_settings": {
+      "type": "object",
+      "properties": {
+        "max_cascade_depth_default": { "type": "integer", "minimum": 1 },
+        "max_cascade_depth_fever": { "type": "integer", "minimum": 1 },
+        "assisted_drop_cooldown_turns": { "type": "integer", "minimum": 0 },
+        "assisted_drop_max_per_level": { "type": "integer", "minimum": 0 },
+        "cinematic_drop_max_per_level": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["max_cascade_depth_default", "max_cascade_depth_fever"]
+    }
+  },
+  "required": ["system_id", "version", "default_settings"]
+}

@@ -1,0 +1,110 @@
+{
+  "version": "4.0.0",
+  "project": "Neo Soft Frost",
+  "scope": "Combo Fever Engine — Advanced Match-3 Mechanics System",
+  "concepts": {
+    "BoardStateEngine": {
+      "description": "Логическая сетка, управляющая логическим состоянием каждой ячейки (CellState) независимо от визуального отображения.",
+      "attributes": {
+        "cell_states": "Dictionary[Vector2i, CellState] — мапа состояний ячеек (STABLE, LOCKED, FALLING, SPAWNING, RESOLVING, RESERVED, BLOCKED, TARGET)"
+      },
+      "verbs": {
+        "set_cell_state": "Установить логическое состояние ячейки с оповещением Presentation layer.",
+        "is_cell_stable": "Проверить, находится ли ячейка в состоянии STABLE для возможности совершения хода игроком.",
+        "reserve_cells": "Зарезервировать ячейки (RESERVED) под буферизованный ход (queued move)."
+      }
+    },
+    "MatchShapeDetector": {
+      "description": "Математическая подсистема для сканирования и классификации геометрических фигур из совпавших сфер.",
+      "attributes": {
+        "grid_data": "Matrix — текущая логическая сетка с типами сфер"
+      },
+      "verbs": {
+        "detect_shapes": "Сканировать сетку и возвращать массив MatchShapeResult с типом фигуры, центром, охваченными ячейками, весом и направлением.",
+        "classify_shape": "Классифицировать группу ячеек (Line-3, Line-4, Square-2x2, L-shape, T-shape, Cross, Line-5, Complex-6, Complex-7+, Double Match)."
+      }
+    },
+    "SpecialSphereFactory": {
+      "description": "Фабрика создания специальных сфер на основе распознанных MatchShapeDetector фигур.",
+      "attributes": {
+        "shape_to_special_map": "Dictionary — соответствие фигур типам спец-сфер"
+      },
+      "verbs": {
+        "create_special_sphere": "Создать и разместить в центре совпадения соответствующую спец-сферу (Лучевая, Взрывная, Наводящаяся, Призматическая, Динамо, Ядро сингулярности)."
+      }
+    },
+    "ResolvePipeline": {
+      "description": "Конечный автомат (FSM), управляющий фазами разрешения матча, взрывами спец-сфер, падением (осыпанием), каскадами и обновлением игрового состояния.",
+      "attributes": {
+        "current_phase": "Enum — текущая фаза (IDLE, SWAPPING, MATCHING, RESOLVING_EFFECTS, GRAVITY, CASCADE_CHECK, STABILIZING)"
+      },
+      "verbs": {
+        "start_resolve": "Запустить цикл обработки матча.",
+        "apply_gravity": "Рассчитать и применить логическое смещение сфер вниз (FALLING).",
+        "check_cascades": "Проверить наличие новых совпадений после падения."
+      }
+    },
+    "InputBufferController": {
+      "description": "Контроллер буферизации ввода игрока во время анимаций и каскадов.",
+      "attributes": {
+        "input_queue": "Array[QueuedMove] — очередь буферизованных ходов",
+        "buffer_window": "float — время жизни хода в буфере (0.3 - 0.8 сек)"
+      },
+      "verbs": {
+        "enqueue_move": "Добавить ход в очередь, если целевые ячейки сейчас нестабильны, но могут освободиться.",
+        "validate_queued_moves": "Проверить валидность ходов в очереди на основе текущего состояния сетки (CellState == STABLE и соответствие expected_gem_id).",
+        "cancel_expired_moves": "Удалить устаревшие по времени ходы без штрафа для игрока."
+      }
+    },
+    "ComboFeverController": {
+      "description": "Система управления Combo Window и Fever Mode. Отслеживает динамику комбо и начисляет очки ComboPower.",
+      "attributes": {
+        "chain_index": "int — порядковый номер комбо в цепочке",
+        "combo_window_remaining": "float — оставшееся время Combo Window",
+        "fever_meter": "float — уровень Fever (0.0 - 100.0)"
+      },
+      "verbs": {
+        "open_combo_window": "Активировать Combo Window при первом матче.",
+        "refresh_combo_window": "Продлить время окна в зависимости от ценности совпадения.",
+        "calculate_combo_power": "Рассчитать ComboPower по формуле с clamp/curve.",
+        "activate_fever_mode": "Активировать Fever Mode при Combo x5+ или Fever >= 100."
+      }
+    },
+    "TargetPrioritySystem": {
+      "description": "Интеллектуальная система выбора целей для наводящихся эффектов (Homing Spheres).",
+      "attributes": {
+        "priority_matrix": "Array — упорядоченный список условий выбора целей"
+      },
+      "verbs": {
+        "find_best_target": "Найти наиболее полезную ячейку поля на основе целей уровня (Objective > Locked Objective > Corner Target > Low HP Blocker > Strategic Blocker > Random)."
+      }
+    },
+    "FeedbackOrchestrator": {
+      "description": "Оркестратор аудиовизуальной обратной связи (VFX/SFX/UI). Управляет интенсивностью эффектов по Tier Ladder и контролирует лимиты (performance budget).",
+      "attributes": {
+        "current_tier": "int — текущий уровень интенсивности (1 - 8)",
+        "active_particle_systems": "int — количество одновременно работающих систем частиц"
+      },
+      "verbs": {
+        "trigger_feedback": "Запустить набор эффектов (VFX, SFX, UI-текст, haptic, тряска камеры) для заданного Tier.",
+        "apply_performance_limits": "Отбросить или отложить эффекты, превышающие particle budget или simultaneous limits."
+      }
+    },
+    "BalanceTelemetryLayer": {
+      "description": "Слой логирования игровых метрик баланса для MVP.",
+      "attributes": {
+        "telemetry_data": "Dictionary — буфер собранных метрик (average_combo_length, fever_activations, win_rate и др.)"
+      },
+      "verbs": {
+        "log_event": "Записать событие (создание спец-сферы, комбо, Fever, невалидный ход).",
+        "export_metrics": "Экспортировать накопленную статистику по завершении сессии."
+      }
+    }
+  },
+  "dark_matter": [
+    "Сложные спец-комбинации (Динамо + Призма, Сингулярность) вынесены в Phase 2 Evolution",
+    "Умное динамическое изменение музыки по слоям при Fever Mode — требует аудио-микшера",
+    "Сложные типы препятствий (заражение, босс-объекты) пока представлены в заглушках",
+    "Автоматический сбор телеметрии на удаленный сервер — заглушен локальным логированием"
+  ]
+}

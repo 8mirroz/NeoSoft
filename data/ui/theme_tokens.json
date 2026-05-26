@@ -1,0 +1,26 @@
+{
+  "colors": {
+    "primary": "#CCECFF",
+    "secondary": "#D8CCFF",
+    "accent": "#FFD4E8",
+    "gold": "#FFD700",
+    "white": "#F8F6FF",
+    "dark_blur": "#1A1829"
+  },
+  "motion": {
+    "fade_duration": 0.25,
+    "scale_duration": 0.35,
+    "modal_bounce_duration": 0.45,
+    "combo_tier_1": 0.2,
+    "combo_tier_2": 0.3,
+    "combo_tier_3": 0.4
+  },
+  "audio": {
+    "ping_volume": -6.0,
+    "chime_volume": -4.0,
+    "music_fever_volume": 0.0
+  },
+  "performance": {
+    "shader_quality": "HIGH"
+  }
+}

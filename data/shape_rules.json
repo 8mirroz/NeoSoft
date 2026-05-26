@@ -1,0 +1,31 @@
+{
+  "system_id": "shape-detector",
+  "version": "5.1",
+  "priority_list": [
+    {"shape_type": "rare_9_plus", "priority_score": 100},
+    {"shape_type": "complex_7_plus", "priority_score": 90},
+    {"shape_type": "cross_5", "priority_score": 80},
+    {"shape_type": "zigzag_6", "priority_score": 75},
+    {"shape_type": "hook_6", "priority_score": 70},
+    {"shape_type": "rectangle_2x3", "priority_score": 65},
+    {"shape_type": "line_5", "priority_score": 60},
+    {"shape_type": "t_5", "priority_score": 55},
+    {"shape_type": "l_5", "priority_score": 50},
+    {"shape_type": "square_2x2", "priority_score": 40},
+    {"shape_type": "line_4", "priority_score": 30},
+    {"shape_type": "line_3", "priority_score": 10}
+  ],
+  "shape_mappings": {
+    "line_4": "beam",
+    "square_2x2": "homing",
+    "l_5": "blast",
+    "t_5": "pulse",
+    "line_5": "prism",
+    "cross_5": "cross",
+    "hook_6": "gravity",
+    "zigzag_6": "lightning",
+    "rectangle_2x3": "field",
+    "complex_7_plus": "dynamo",
+    "rare_9_plus": "singularity"
+  }
+}

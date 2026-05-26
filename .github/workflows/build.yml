@@ -1,0 +1,87 @@
+name: Godot CI - Build & Export
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  GODOT_VERSION: "4.5"
+  EXPORT_NAME: "neo-soft-frost"
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Lint & Validate
+  # ─────────────────────────────────────────────
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate level JSON configs
+        run: |
+          for f in data/levels/*.json; do
+            echo "Validating $f..."
+            python3 -c "import json; json.load(open('$f'))" || exit 1
+          done
+
+      - name: Validate balance config
+        run: |
+          python3 -c "import json; json.load(open('data/balance/scoring.json'))"
+
+  # ─────────────────────────────────────────────
+  # Web Export
+  # ─────────────────────────────────────────────
+  export-web:
+    needs: validate
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable/* \
+             ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/ || true
+
+      - name: Web export
+        run: |
+          mkdir -p build/web
+          godot --headless --export-release "Web" build/web/index.html
+
+      - name: Upload Web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web/
+
+  # ─────────────────────────────────────────────
+  # Android Export
+  # ─────────────────────────────────────────────
+  export-android:
+    needs: validate
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable/* \
+             ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/ || true
+
+      - name: Android export
+        run: |
+          mkdir -p build/android
+          godot --headless --export-release "Android" build/android/${EXPORT_NAME}.apk
+
+      - name: Upload Android artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: build/android/

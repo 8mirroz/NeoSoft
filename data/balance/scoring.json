@@ -1,0 +1,39 @@
+{
+  "scoring": {
+    "base_match_score": 60,
+    "extra_gem_bonus": 10,
+    "special_gem_bonus": 400,
+    "remaining_move_bonus": 1000,
+    "cascade_multiplier_formula": "cascade_depth + 1"
+  },
+  "stars": {
+    "star_1_pct": 0.40,
+    "star_2_pct": 0.70,
+    "star_3_pct": 1.00
+  },
+  "timings": {
+    "idle_cycle_min": 3.0,
+    "idle_cycle_max": 6.0,
+    "select_min": 0.18,
+    "select_max": 0.35,
+    "swap_min": 0.22,
+    "swap_max": 0.35,
+    "dissolve_min": 0.35,
+    "dissolve_max": 0.60,
+    "spawn_min": 0.25,
+    "spawn_max": 0.45,
+    "cascade_offset": 0.05,
+    "hint_delay": 5.0
+  },
+  "vfx": {
+    "max_effect_radius_cells": 1.0,
+    "bomb_radius_cells": 2.5,
+    "smoke_radius_cells": 1.0
+  },
+  "board_defaults": {
+    "width": 8,
+    "height": 8,
+    "gem_kinds_mvp": 6,
+    "gem_kinds_full": 8
+  }
+}

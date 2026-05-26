@@ -1,0 +1,54 @@
+name: godot-export-firebelley
+
+on:
+  workflow_dispatch:
+    inputs:
+      godot_executable_download_url:
+        description: "Headless Godot executable archive URL"
+        required: true
+        default: "https://downloads.tuxfamily.org/godotengine/4.5.1/Godot_v4.5.1-stable_linux.x86_64.zip"
+      godot_export_templates_download_url:
+        description: "Godot export templates archive URL"
+        required: true
+        default: "https://downloads.tuxfamily.org/godotengine/4.5.1/Godot_v4.5.1-stable_export_templates.tpz"
+      relative_project_path:
+        description: "Path containing project.godot"
+        required: true
+        default: "./"
+      presets_to_export:
+        description: "Comma-separated export preset names (blank = all)"
+        required: false
+        default: "Android,Web"
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: preflight
+        run: |
+          test -f "${{ inputs.relative_project_path }}/project.godot"
+          test -f "${{ inputs.relative_project_path }}/export_presets.cfg"
+
+      - name: export game
+        id: export
+        uses: firebelley/godot-export@v7.0.0
+        with:
+          godot_executable_download_url: ${{ inputs.godot_executable_download_url }}
+          godot_export_templates_download_url: ${{ inputs.godot_export_templates_download_url }}
+          relative_project_path: ${{ inputs.relative_project_path }}
+          presets_to_export: ${{ inputs.presets_to_export }}
+          archive_output: true
+          cache: true
+
+      - name: upload export archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot-export-archives
+          path: ${{ steps.export.outputs.archive_directory }}
+

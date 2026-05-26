@@ -1,0 +1,216 @@
+[gd_scene load_steps=8 format=3 uid="uid://dp6mcb2e1e0o"]
+
+[ext_resource type="Script" path="res://scenes/menus/feedback_modal.gd" id="1_modal"]
+
+[sub_resource type="Shader" id="Shader_blur"]
+code = "shader_type canvas_item;
+
+uniform float blur_amount : hint_range(0.0, 5.0) = 2.5;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+void fragment() {
+	COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, blur_amount);
+	COLOR.rgb *= 0.82;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blur"]
+shader = SubResource("Shader_blur")
+shader_parameter/blur_amount = 2.8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glass"]
+bg_color = Color(0.98, 0.98, 1.0, 0.08)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 1.0, 1.0, 0.24)
+corner_radius_top_left = 34
+corner_radius_top_right = 34
+corner_radius_bottom_right = 34
+corner_radius_bottom_left = 34
+shadow_color = Color(0.0, 0.0, 0.0, 0.32)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_star"]
+bg_color = Color(0.98, 0.98, 1.0, 0.08)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1.0, 1.0, 1.0, 0.18)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.98, 0.98, 1.0, 0.08)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1.0, 1.0, 1.0, 0.18)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_accent"]
+bg_color = Color(0.98, 0.98, 1.0, 0.16)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.78, 0.76, 1.0, 0.8)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[node name="FeedbackModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_modal")
+
+[node name="BackdropBlur" type="ColorRect" parent=""]
+material = SubResource("ShaderMaterial_blur")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GlassPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -240.0
+offset_right = 220.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_glass")
+
+[node name="MarginContainer" type="MarginContainer" parent="GlassPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GlassPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="TitleLabel" type="Label" parent="GlassPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 1.0, 0.95)
+theme_override_font_sizes/font_size = 24
+text = "How was this level?"
+horizontal_alignment = 1
+
+[node name="StarsHBox" type="HBoxContainer" parent="GlassPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Star1" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/StarsHBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_star")
+theme_override_styles/hover = SubResource("StyleBoxFlat_star")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_star")
+theme_override_styles/focus = SubResource("StyleBoxFlat_star")
+text = "★"
+
+[node name="Star2" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/StarsHBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_star")
+theme_override_styles/hover = SubResource("StyleBoxFlat_star")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_star")
+theme_override_styles/focus = SubResource("StyleBoxFlat_star")
+text = "★"
+
+[node name="Star3" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/StarsHBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_star")
+theme_override_styles/hover = SubResource("StyleBoxFlat_star")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_star")
+theme_override_styles/focus = SubResource("StyleBoxFlat_star")
+text = "★"
+
+[node name="Star4" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/StarsHBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_star")
+theme_override_styles/hover = SubResource("StyleBoxFlat_star")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_star")
+theme_override_styles/focus = SubResource("StyleBoxFlat_star")
+text = "★"
+
+[node name="Star5" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/StarsHBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_star")
+theme_override_styles/hover = SubResource("StyleBoxFlat_star")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_star")
+theme_override_styles/focus = SubResource("StyleBoxFlat_star")
+text = "★"
+
+[node name="CommentEdit" type="TextEdit" parent="GlassPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+placeholder_text = "Write feedback..."
+wrap_mode = 1
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="GlassPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CloseButton" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.96, 1.0, 0.95)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "Cancel"
+
+[node name="SubmitButton" type="Button" parent="GlassPanel/MarginContainer/VBoxContainer/ButtonsHBox"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.96, 1.0, 0.95)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_accent")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_accent")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_accent")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_accent")
+text = "Submit"

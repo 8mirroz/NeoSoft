@@ -1,0 +1,51 @@
+{
+  "system_id": "feedback-director",
+  "version": "5.1",
+  "feedback_tiers": {
+    "1": {
+      "name": "Nice",
+      "sfx": "nice_ping",
+      "vfx": "spark_flash",
+      "shake_amplitude": 0.0,
+      "shake_duration": 0.0,
+      "haptic_tier": "light",
+      "fever_charge": 1.0
+    },
+    "2": {
+      "name": "Combo",
+      "sfx": "combo_chime",
+      "vfx": "ripple_wave",
+      "shake_amplitude": 2.0,
+      "shake_duration": 0.15,
+      "haptic_tier": "medium",
+      "fever_charge": 1.4
+    },
+    "3": {
+      "name": "Chain Reaction",
+      "sfx": "rising_arpeggio",
+      "vfx": "board_pulse",
+      "shake_amplitude": 5.0,
+      "shake_duration": 0.25,
+      "haptic_tier": "medium_heavy",
+      "fever_charge": 1.9
+    },
+    "4": {
+      "name": "Cascade Surge",
+      "sfx": "bass_impact",
+      "vfx": "energy_lines",
+      "shake_amplitude": 10.0,
+      "shake_duration": 0.4,
+      "haptic_tier": "heavy",
+      "fever_charge": 2.6
+    },
+    "5": {
+      "name": "Fever Spark",
+      "sfx": "epic_choir_blast",
+      "vfx": "fever_aura",
+      "shake_amplitude": 15.0,
+      "shake_duration": 0.6,
+      "haptic_tier": "extreme",
+      "fever_charge": 3.5
+    }
+  }
+}

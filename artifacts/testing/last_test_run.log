@@ -1,0 +1,85 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.
+          at: GDScript::reload (res://addons/gut/warnings_manager.gd:79)
+          GDScript backtrace (most recent call first):
+              [0] _static_init (res://addons/gut/gut_loader.gd:32)
+              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
+              [2] _init (res://addons/gut/gut_cmdln.gd:24)
+SCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.
+          at: GDScript::reload (res://addons/gut/warnings_manager.gd:86)
+          GDScript backtrace (most recent call first):
+              [0] _static_init (res://addons/gut/gut_loader.gd:32)
+              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
+              [2] _init (res://addons/gut/gut_cmdln.gd:24)
+ERROR: Failed to load script "res://addons/gut/warnings_manager.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] _static_init (res://addons/gut/gut_loader.gd:32)
+       [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
+       [2] _init (res://addons/gut/gut_cmdln.gd:24)
+SCRIPT ERROR: Invalid access to property or key 'disabled' on a base object of type 'GDScript'.
+          at: _static_init (res://addons/gut/gut_loader.gd:33)
+          GDScript backtrace (most recent call first):
+              [0] _static_init (res://addons/gut/gut_loader.gd:33)
+              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
+              [2] _init (res://addons/gut/gut_cmdln.gd:24)
+SCRIPT ERROR: Parse Error: Could not parse global class "BoardStateEngine" from "res://scripts/core_match3/board_state_engine.gd".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:14)
+SCRIPT ERROR: Parse Error: Could not parse global class "MatchShapeDetector" from "res://scripts/core_match3/match_shape_detector.gd".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:17)
+SCRIPT ERROR: Parse Error: Could not find script for class "BoardStateEngine".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:69)
+SCRIPT ERROR: Parse Error: Could not find script for class "MatchShapeDetector".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:86)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "_init".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:91)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "enqueue_move".
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:187)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/validation/validate_soft_launch_smoke.gd:0)
+ERROR: Failed to load script "res://scripts/validation/validate_soft_launch_smoke.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+SCRIPT ERROR: Invalid call. Nonexistent function 'load_script_ignoring_all_warnings' in base 'GDScript'.
+          at: get_loaded (res://addons/gut/lazy_loader.gd:34)
+          GDScript backtrace (most recent call first):
+              [0] get_loaded (res://addons/gut/lazy_loader.gd:34)
+              [1] @GutFonts_getter (res://addons/gut/utils.gd:118)
+              [2] @static_initializer (res://addons/gut/utils.gd:203)
+              [3] _init (res://addons/gut/gut_cmdln.gd:36)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'Nil'.
+          at: @static_initializer (res://addons/gut/utils.gd:203)
+          GDScript backtrace (most recent call first):
+              [0] @static_initializer (res://addons/gut/utils.gd:203)
+              [1] _init (res://addons/gut/gut_cmdln.gd:36)
+SCRIPT ERROR: Invalid call. Nonexistent function 'get_font_names' in base 'Nil'.
+          at: @implicit_new (res://addons/gut/gut_config.gd:13)
+          GDScript backtrace (most recent call first):
+              [0] @implicit_new (res://addons/gut/gut_config.gd:13)
+              [1] @implicit_new (res://addons/gut/cli/gut_cli.gd:79)
+              [2] _init (res://addons/gut/gut_cmdln.gd:36)
+SCRIPT ERROR: Unable to iterate on object of type 'Nil'.
+          at: OptionResolver._null_copy (res://addons/gut/cli/gut_cli.gd:35)
+          GDScript backtrace (most recent call first):
+              [0] _null_copy (res://addons/gut/cli/gut_cli.gd:35)
+              [1] set_base_opts (res://addons/gut/cli/gut_cli.gd:29)
+              [2] main (res://addons/gut/cli/gut_cli.gd:254)
+              [3] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Unable to iterate on object of type 'Nil'.
+          at: OptionResolver._null_copy (res://addons/gut/cli/gut_cli.gd:35)
+          GDScript backtrace (most recent call first):
+              [0] _null_copy (res://addons/gut/cli/gut_cli.gd:35)
+              [1] set_base_opts (res://addons/gut/cli/gut_cli.gd:30)
+              [2] main (res://addons/gut/cli/gut_cli.gd:254)
+              [3] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'dirs' on a base object of type 'Nil'.
+          at: setup_options (res://addons/gut/cli/gut_cli.gd:114)
+          GDScript backtrace (most recent call first):
+              [0] setup_options (res://addons/gut/cli/gut_cli.gd:114)
+              [1] main (res://addons/gut/cli/gut_cli.gd:256)
+              [2] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'parse' in base 'Nil'.
+          at: main (res://addons/gut/cli/gut_cli.gd:258)
+          GDScript backtrace (most recent call first):
+              [0] main (res://addons/gut/cli/gut_cli.gd:258)
+              [1] _init (res://addons/gut/gut_cmdln.gd:39)

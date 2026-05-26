@@ -1,0 +1,19 @@
+{
+  "name": "02_clear_glass",
+  "anchor": "Тонкий, абсолютно прозрачный контур.",
+  "blend_mode": "Screen",
+  "usage": "ShaderMaterial (преломление)",
+  "description": "Прозрачная стеклянная сфера",
+  "base_image": "02_clear_glass_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "02_clear_glass_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

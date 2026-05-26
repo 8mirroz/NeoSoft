@@ -1,0 +1,34 @@
+{
+  "level_id": 4,
+  "title": "Ripple Lesson",
+  "board": {
+    "width": 8,
+    "height": 8,
+    "gem_kinds": 5,
+    "blocked_cells": [],
+    "initial_blockers": []
+  },
+  "goals": [
+    {
+      "type": 1,
+      "gem_type": 1,
+      "target": 6
+    },
+    {
+      "type": 0,
+      "gem_type": -1,
+      "target": 1800
+    }
+  ],
+  "moves": 24,
+  "target_score": 1800,
+  "blockers": [],
+  "modifiers": {
+    "difficulty_band": "build_up",
+    "nudge": "teach_cascade_value"
+  },
+  "tutorial": {
+    "enabled": true,
+    "steps": ["show_cascade"]
+  }
+}

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://02_clear_glass"]
+
+[ext_resource type="Texture2D" uid="uid://02_clear_glass_tex" path="res://assets/spheres/02_clear_glass/02_clear_glass_base.png" id="1_02_clear_glass"]
+
+[node name="02_clear_glass" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_02_clear_glass")
+centered = true
+offset = Vector2(-64, -64)
+modulate = Color(1, 1, 1, 1)
+
+[node name="Sprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_02_clear_glass")

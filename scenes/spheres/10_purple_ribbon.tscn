@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://10_purple_ribbon"]
+
+[ext_resource type="Texture2D" uid="uid://10_purple_ribbon_tex" path="res://assets/spheres/10_purple_ribbon/10_purple_ribbon_base.png" id="1_10_purple_ribbon"]
+
+[node name="10_purple_ribbon" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_10_purple_ribbon")
+centered = true
+offset = Vector2(-64, -64)
+modulate = Color(1, 1, 1, 1)
+hframes = 4
+vframes = 1
+frame = 0
+playing = false

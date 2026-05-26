@@ -1,0 +1,170 @@
+{
+  "project": "3line",
+  "generated_from": "docs/research/_generated/latest-sources.json",
+  "tasks": [
+    {
+      "stage_id": "A",
+      "stage_name": "Pre-production",
+      "owner_modules": [
+        "core_match3",
+        "build_pipeline",
+        "data_layer"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase A",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "ab6a6583-bd54-4613-969d-804b0348302e",
+          "title": "Architectural Paradigms, Automation Frameworks, and Integration Blueprints in Modern Game Development"
+        },
+        {
+          "id": "288e4620-53cb-45a6-ac3f-cad07dd64fa7",
+          "title": "godot-ci · Actions · GitHub Marketplace"
+        },
+        {
+          "id": "1e94ae18-1e9c-43c9-ac4e-4b05b0a456c4",
+          "title": "game-ci/unity-builder: Build Unity projects for different platforms - GitHub"
+        },
+        {
+          "id": "237d9ee0-aebc-4ec7-a3cb-ea67f87a274e",
+          "title": "abarichello/godot-ci: Docker image to export Godot Engine ... - GitHub"
+        }
+      ]
+    },
+    {
+      "stage_id": "B",
+      "stage_name": "Prototype Core Loop",
+      "owner_modules": [
+        "core_match3",
+        "level_runtime"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase B",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "e27f8572-e6fb-4bd2-b027-396057b58482",
+          "title": "Procedural Content Generation of Puzzle Games using Conditional Generative Adversarial Networks - arXiv"
+        }
+      ]
+    },
+    {
+      "stage_id": "C",
+      "stage_name": "Visual Integration",
+      "owner_modules": [
+        "presentation_layer"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase C",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "bbfb76b8-f87f-4ed7-a5c6-d3a0fe6b4a1f",
+          "title": "The Impact of Motion Design on User Experience in Mobile Apps - MoldStud"
+        }
+      ]
+    },
+    {
+      "stage_id": "D",
+      "stage_name": "MVP Production",
+      "owner_modules": [
+        "data_layer",
+        "level_runtime",
+        "presentation_layer"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase D",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "36e4fd79-0199-4ece-bcb1-cb0e3689611b",
+          "title": "TEST REPORT"
+        },
+        {
+          "id": "63c93ab6-6fe1-4f36-adf5-9ad8d397ba8d",
+          "title": "Frequently Asked Questions (FAQ) - GameCI"
+        },
+        {
+          "id": "237d9ee0-aebc-4ec7-a3cb-ea67f87a274e",
+          "title": "abarichello/godot-ci: Docker image to export Godot Engine ... - GitHub"
+        },
+        {
+          "id": "e27f8572-e6fb-4bd2-b027-396057b58482",
+          "title": "Procedural Content Generation of Puzzle Games using Conditional Generative Adversarial Networks - arXiv"
+        }
+      ]
+    },
+    {
+      "stage_id": "E",
+      "stage_name": "Balance and Playtest",
+      "owner_modules": [
+        "data_layer",
+        "core_match3",
+        "level_runtime"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase E",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "03b9112d-7407-46a1-b78f-428d7aa986e2",
+          "title": "Automated Playtesting of Matching Tile Games - arXiv"
+        }
+      ]
+    },
+    {
+      "stage_id": "F",
+      "stage_name": "Soft Launch Prep",
+      "owner_modules": [
+        "meta_layer",
+        "data_layer",
+        "presentation_layer"
+      ],
+      "task": "Convert top research inputs into implementation checklist for phase F",
+      "acceptance": [
+        "Mapped decisions added to docs/foundation/decision-log.md",
+        "Module-level TODO items created in corresponding script folder",
+        "Validation checks linked to phase gate"
+      ],
+      "evidence_sources": [
+        {
+          "id": "bbfb76b8-f87f-4ed7-a5c6-d3a0fe6b4a1f",
+          "title": "The Impact of Motion Design on User Experience in Mobile Apps - MoldStud"
+        },
+        {
+          "id": "0c118f46-3455-4b76-acda-feb7f6617823",
+          "title": "Section 3. Psychology"
+        },
+        {
+          "id": "d9a3ab01-7ff6-481e-bb0f-28120d4a2f7b",
+          "title": "Perceived Values and Dark Patterns: Investigating Their Influence on Player Continuance Intention to Play Genshin Impact among Indonesian Gamer - Success Culture Press"
+        },
+        {
+          "id": "c84bd8bc-e661-4eef-9a39-6894788adbeb",
+          "title": "Психология «Доната»: контур проблемного исследования Текст научной статьи по специальности «Психологические науки» - КиберЛенинка"
+        }
+      ]
+    }
+  ],
+  "ethics_constraints": [
+    "Do not implement hidden monetization pressure loops or fake discount anchors.",
+    "If random rewards are used, expose probabilities and avoid paywall-only progression.",
+    "Prioritize retention through fair progression and readable UX, not coercive timers."
+  ]
+}

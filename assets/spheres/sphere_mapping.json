@@ -1,0 +1,58 @@
+{
+  "01_iridescent_frost": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (7).png",
+    "anchor": "Плотный, матовый белый шар. Максимальная масса.",
+    "blend_mode": "Add",
+    "usage": "AnimatedSprite2D",
+    "description": "Эталон белой матовой сферы"
+  },
+  "02_clear_glass": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (6).png",
+    "anchor": "Тонкий, абсолютно прозрачный контур.",
+    "blend_mode": "Screen",
+    "usage": "ShaderMaterial (преломление)",
+    "description": "Прозрачная стеклянная сфера"
+  },
+  "03_aqua_wave": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (3).png",
+    "anchor": "Внутренняя жидкость, пузырек, четкий синий якорь.",
+    "blend_mode": "Blend",
+    "usage": "ShaderMaterial (волна) + Particles",
+    "description": "Водяная сфера с пузырьками"
+  },
+  "04_violet_pulse": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (4).png",
+    "anchor": "Сложная внутренняя фасетка, фиолетово-синий якорь.",
+    "blend_mode": "Blend",
+    "usage": "ShaderMaterial (пульсация)",
+    "description": "Фиолетовая пульсирующая сфера"
+  },
+  "08_warm_glow": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (5).png",
+    "anchor": "Розовое/персиковое ядро, максимальное свечение.",
+    "blend_mode": "Add",
+    "usage": "GPUParticles2D (сияние)",
+    "description": "Теплое свечение"
+  },
+  "09_blue_ribbon": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (1).png",
+    "anchor": "Голубая диагональная лента.",
+    "blend_mode": "Blend",
+    "usage": "AnimatedSprite2D",
+    "description": "Голубая лента"
+  },
+  "10_purple_ribbon": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (10).png",
+    "anchor": "Фиолетовая диагональная лента.",
+    "blend_mode": "Blend",
+    "usage": "AnimatedSprite2D",
+    "description": "Фиолетовая лента"
+  },
+  "P2_cross_wave": {
+    "source": "ui1/ChatGPT Image 26 мая 2026 г., 17_35_35 (2).png",
+    "anchor": "Фасетчатая геометрия, спец-гем для взрыва по кресту.",
+    "blend_mode": "Screen",
+    "usage": "GPUParticles2D",
+    "description": "Фасетчатая геометрия"
+  }
+}

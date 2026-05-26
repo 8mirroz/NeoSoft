@@ -1,0 +1,66 @@
+{
+  "system_id": "special-combo-resolver",
+  "version": "5.1",
+  "combos": {
+    "beam+beam": {
+      "effect": "clear_row_and_column",
+      "damage": 2
+    },
+    "beam+blast": {
+      "effect": "clear_3_rows_and_3_columns",
+      "damage": 2
+    },
+    "blast+blast": {
+      "effect": "radius_4_explosion",
+      "damage": 2
+    },
+    "homing+beam": {
+      "effect": "carry_beam_to_priority_target",
+      "damage": 2
+    },
+    "homing+blast": {
+      "effect": "carry_blast_to_priority_target",
+      "damage": 2
+    },
+    "homing+homing": {
+      "effect": "spawn_3_homing_spheres",
+      "damage": 1
+    },
+    "prism+beam": {
+      "effect": "convert_most_common_color_to_beams",
+      "damage": 2
+    },
+    "prism+blast": {
+      "effect": "convert_most_common_color_to_blasts",
+      "damage": 2
+    },
+    "prism+homing": {
+      "effect": "convert_most_common_color_to_homing",
+      "damage": 2
+    },
+    "prism+prism": {
+      "effect": "clear_board_and_strip_one_blocker_layer",
+      "damage": 3
+    },
+    "gravity+blast": {
+      "effect": "pull_then_large_explosion",
+      "damage": 3
+    },
+    "lightning+beam": {
+      "effect": "chain_5_targets_plus_row_clear",
+      "damage": 2
+    },
+    "lightning+blast": {
+      "effect": "chain_5_targets_plus_radius_blast",
+      "damage": 2
+    },
+    "singularity+any": {
+      "effect": "amplify_target_special_to_board_scale",
+      "damage": 3
+    },
+    "cross+prism": {
+      "effect": "convert_color_to_crosses_then_activate",
+      "damage": 2
+    }
+  }
+}

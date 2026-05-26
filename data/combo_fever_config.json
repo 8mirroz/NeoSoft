@@ -1,0 +1,18 @@
+{
+  "combo_window": {
+    "base_duration_easy": 2.0,
+    "base_duration_normal": 1.5,
+    "base_duration_hard": 1.2,
+    "simple_match_refresh": 0.50,
+    "shape_match_refresh": 0.70,
+    "special_sphere_refresh": 0.90,
+    "invalid_move_penalty": 0.30
+  },
+  "fever_mode": {
+    "combo_threshold": 5,
+    "fever_duration": 6.0,
+    "score_multiplier_fever": 2.5,
+    "min_power": 100,
+    "max_power": 1500
+  }
+}

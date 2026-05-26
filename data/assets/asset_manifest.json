@@ -1,0 +1,32 @@
+{
+  "protocol_version": "5.1",
+  "assets": {
+    "gems": {
+      "blue": "res://assets/gems/gem_blue.png",
+      "red": "res://assets/gems/gem_red.png",
+      "green": "res://assets/gems/gem_green.png",
+      "yellow": "res://assets/gems/gem_yellow.png",
+      "purple": "res://assets/gems/gem_purple.png",
+      "fallback": "res://icon.svg"
+    },
+    "specials": {
+      "beam": "res://assets/gems/special_beam.png",
+      "blast": "res://assets/gems/special_blast.png",
+      "homing": "res://assets/gems/special_homing.png",
+      "fallback": "res://icon.svg"
+    },
+    "ui": {
+      "loading_logo": "res://icon.svg",
+      "fallback_panel": "res://icon.svg"
+    },
+    "audio": {
+      "nice_ping": "res://kenney_interface-sounds/Audio/drop_001.ogg",
+      "combo_chime": "res://kenney_interface-sounds/Audio/drop_002.ogg",
+      "fallback": ""
+    },
+    "fonts": {
+      "primary": "res://assets/fonts/Nunito-Regular.ttf",
+      "fallback": ""
+    }
+  }
+}

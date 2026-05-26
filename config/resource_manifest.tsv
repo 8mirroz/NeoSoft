@@ -1,0 +1,24 @@
+# id	category	engine	priority	type	url	local_dir	description
+unity_unitystarter	starter_template	unity	p1	git	https://github.com/MaiKuraki/UnityStarter.git	unity/MaiKuraki-UnityStarter	Production-grade Unity framework with GAS-style patterns and mobile focus
+unity_projectbase	starter_template	unity	p1	git	https://github.com/Dominikkasprzyk/UnityProjectBase.git	unity/Dominikkasprzyk-UnityProjectBase	Unity template with strict standards and dependency setup
+unity_startertemplate	starter_template	unity	p2	git	https://github.com/jeffcampbellmakesgames/UnityStarterTemplate.git	unity/jeffcampbell-UnityStarterTemplate	Tooling-oriented Unity starter with debug and build helpers
+unreal_game_template	starter_template	unreal	p2	git	https://github.com/motionforge/Unreal-Engine-5-Game-Starter-Template.git	unreal/motionforge-UE5-Game-Starter-Template	UE5 Blueprint starter template
+unreal_gas_docs	starter_template	unreal	p2	git	https://github.com/tranek/GASDocumentation.git	unreal/tranek-GASDocumentation	Reference for Gameplay Ability System
+unreal_gas_demo	starter_template	unreal	p2	git	https://github.com/v1vendi/minimal_ue5_GAS_demo.git	unreal/v1vendi-minimal-ue5-GAS-demo	Minimal UE5 GAS example project
+godot_asset_starterkit	starter_template	godot	p2	web	https://store.godotengine.org/search/?query=%23starterkit	-	Godot Asset Store starter-kit query
+godot_asset_survivors	starter_template	godot	p2	web	https://store.godotengine.org/asset/rewar/survivors-starter-kit/	-	Survivors Starter Kit listing (Godot Asset Store)
+godot_asset_cogito	starter_template	godot	p2	web	https://store.godotengine.org/asset/philip-drobar/cogito/	-	Cogito template listing (Godot Asset Store)
+gameci_unity_builder	cicd	unity	p1	git	https://github.com/game-ci/unity-builder.git	cicd/game-ci-unity-builder	Unity build automation action
+gameci_docker	cicd	unity	p1	git	https://github.com/game-ci/docker.git	cicd/game-ci-docker	Unity CI docker image definitions
+gameci_orchestrator	cicd	unity	p2	git	https://github.com/game-ci/orchestrator.git	cicd/game-ci-orchestrator	Distributed workload orchestration for large pipelines
+godot_ci	cicd	godot	p1	git	https://github.com/abarichello/godot-ci.git	cicd/abarichello-godot-ci	Godot CI templates and Docker image references
+godot_export_action	cicd	godot	p1	git	https://github.com/firebelley/godot-export.git	cicd/firebelley-godot-export	GitHub Action for Godot export automation
+itch_butler_publish	cicd	godot	p2	git	https://github.com/manleydev/butler-publish-itchio-action.git	cicd/manleydev-butler-publish-itchio-action	Itch.io deploy action using Butler API
+eos_getting_started	online_services	cross	p1	git	https://github.com/EpicGames/EOS-Getting-Started.git	online/EpicGames-EOS-Getting-Started	EOS starter samples and integration references
+eos_plugin_unity	online_services	unity	p1	git	https://github.com/EOS-Contrib/eos_plugin_for_unity.git	online/EOS-Contrib-eos-plugin-for-unity	EOS Unity plugin
+steamworks_net	online_services	pc	p2	git	https://github.com/rlabrecque/Steamworks.NET.git	online/rlabrecque-Steamworks.NET	Steamworks .NET wrapper
+steamworksnt	online_services	pc	p3	git	https://github.com/marcospgp/steamworksnt.git	online/marcospgp-steamworksnt	Minimal Steamworks wrapper
+microsoft_gdk	platform_sdk	xbox	p2	git	https://github.com/microsoft/GDK.git	platform/microsoft-GDK	Microsoft public GDK repository
+microsoft_xbox_samples	platform_sdk	xbox	p2	git	https://github.com/microsoft/Xbox-GDK-Samples.git	platform/microsoft-Xbox-GDK-Samples	Xbox GDK sample repository
+m3engine_architecture	core_loop_reference	cross	p1	web	https://habr.com/ru/companies/socialquantum/articles/541752/	-	Match-3 framework architecture reference (M3Engine concepts)
+mcts_match3_reference	core_loop_reference	cross	p1	web	https://arxiv.org/pdf/1907.06570	-	Automated playtesting and MCTS-style simulation reference

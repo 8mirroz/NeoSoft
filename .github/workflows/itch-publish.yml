@@ -1,0 +1,37 @@
+name: itch-publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_path:
+        description: "Path to exported build directory or archive"
+        required: true
+        default: "build/web"
+      channel:
+        description: "itch.io channel (web/android/windows/linux/mac)"
+        required: true
+        default: "web"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: preflight
+        run: |
+          test -e "${{ inputs.build_path }}"
+
+      - name: publish to itch.io
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ inputs.channel }}
+          ITCH_GAME: ${{ secrets.ITCH_GAME }}
+          ITCH_USER: ${{ secrets.ITCH_USER }}
+          PACKAGE: ${{ inputs.build_path }}
+

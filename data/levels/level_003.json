@@ -1,0 +1,34 @@
+{
+  "level_id": 3,
+  "title": "Frost Wave",
+  "board": {
+    "width": 8,
+    "height": 8,
+    "gem_kinds": 6,
+    "blocked_cells": [],
+    "initial_blockers": []
+  },
+  "goals": [
+    {
+      "type": 0,
+      "gem_type": -1,
+      "target": 1800
+    },
+    {
+      "type": 1,
+      "gem_type": 2,
+      "target": 4
+    }
+  ],
+  "moves": 24,
+  "target_score": 1800,
+  "blockers": [],
+  "modifiers": {
+    "difficulty_band": "intro_plus",
+    "nudge": "teach_special_expectation"
+  },
+  "tutorial": {
+    "enabled": true,
+    "steps": ["show_match4", "show_special_gem"]
+  }
+}

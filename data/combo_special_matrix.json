@@ -1,0 +1,12 @@
+{
+  "shape_to_special": {
+    "LINE_4": "BEAM_SPHERE",
+    "SQUARE_2X2": "HOMING_SPHERE",
+    "L_SHAPE": "BLAST_SPHERE",
+    "T_SHAPE": "BLAST_SPHERE_PLUS",
+    "CROSS": "BLAST_SPHERE_PLUS",
+    "LINE_5": "PRISM_SPHERE",
+    "COMPLEX_6": "DYNAMO_SPHERE",
+    "COMPLEX_7_PLUS": "SINGULARITY_CORE"
+  }
+}

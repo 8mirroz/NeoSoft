@@ -1,0 +1,19 @@
+{
+  "name": "P2_cross_wave",
+  "anchor": "Фасетчатая геометрия, спец-гем для взрыва по кресту.",
+  "blend_mode": "Screen",
+  "usage": "GPUParticles2D",
+  "description": "Фасетчатая геометрия",
+  "base_image": "P2_cross_wave_base.png",
+  "animations": {
+    "idle": {
+      "spritesheet": "P2_cross_wave_idle.png",
+      "frame_width": 128,
+      "frame_height": 128,
+      "cols": 4,
+      "rows": 1,
+      "total_frames": 4,
+      "fps": 8
+    }
+  }
+}

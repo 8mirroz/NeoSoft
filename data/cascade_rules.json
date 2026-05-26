@@ -1,0 +1,47 @@
+{
+  "system_id": "controlled-cascade-engine",
+  "version": "5.0",
+  "default_settings": {
+    "max_cascade_depth_default": 5,
+    "max_cascade_depth_fever": 8,
+    "assisted_drop_cooldown_turns": 3,
+    "assisted_drop_max_per_level": 4,
+    "cinematic_drop_max_per_level": 1,
+    "lucky_drop_max_per_level": 2,
+    "lucky_drop_min_turn_gap": 5
+  },
+  "probability_bands": {
+    "basic_move": {
+      "min_chance": 0.10,
+      "max_chance": 0.18,
+      "assist_weight_multiplier": 1.0
+    },
+    "line_4_or_square_2x2": {
+      "min_chance": 0.20,
+      "max_chance": 0.30,
+      "assist_weight_multiplier": 1.2
+    },
+    "l_t_or_line_5": {
+      "min_chance": 0.30,
+      "max_chance": 0.45,
+      "assist_weight_multiplier": 1.5
+    },
+    "fever": {
+      "min_chance": 0.45,
+      "max_chance": 0.65,
+      "assist_weight_multiplier": 1.8
+    },
+    "final_near_goal": {
+      "min_chance": 0.50,
+      "max_chance": 0.75,
+      "assist_weight_multiplier": 2.2,
+      "max_triggers_per_level": 1
+    }
+  },
+  "anti_fake_rules": {
+    "never_guarantee_paid_recovery": true,
+    "never_force_loss_state": true,
+    "never_auto_complete_major_objective": true,
+    "max_objective_clearance_by_cascade_pct": 40.0
+  }
+}

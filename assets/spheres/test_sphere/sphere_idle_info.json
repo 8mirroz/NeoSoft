@@ -1,0 +1,11 @@
+{
+  "name": "sphere_idle",
+  "spritesheet": "sphere_idle_spritesheet.png",
+  "frame_width": 128,
+  "frame_height": 128,
+  "cols": 4,
+  "rows": 37,
+  "total_frames": 145,
+  "fps": 24,
+  "duration_seconds": 6.041666666666667
+}

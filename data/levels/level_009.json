@@ -1,0 +1,39 @@
+{
+  "level_id": 9,
+  "title": "Glass Current",
+  "board": {
+    "width": 8,
+    "height": 8,
+    "gem_kinds": 6,
+    "blocked_cells": [],
+    "initial_blockers": []
+  },
+  "goals": [
+    {
+      "type": 0,
+      "gem_type": -1,
+      "target": 2100
+    },
+    {
+      "type": 1,
+      "gem_type": 1,
+      "target": 6
+    },
+    {
+      "type": 1,
+      "gem_type": 4,
+      "target": 4
+    }
+  ],
+  "moves": 28,
+  "target_score": 2100,
+  "blockers": [],
+  "modifiers": {
+    "difficulty_band": "mid_peak",
+    "nudge": "three_lane_planning"
+  },
+  "tutorial": {
+    "enabled": false,
+    "steps": []
+  }
+}
