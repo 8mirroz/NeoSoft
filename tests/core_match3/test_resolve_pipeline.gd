@@ -38,7 +38,7 @@ func test_swap_validation_success() -> void:
 	watch_signals(pipeline)
 	
 	# Запрашиваем свайп
-	var request_ok := pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
+	var request_ok = pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
 	assert_true(request_ok, "Запрос свайпа должен быть принят")
 	assert_eq(context.state, ResolveContext.State.SWAP_REQUESTED)
 	
@@ -105,7 +105,7 @@ func test_special_sphere_explosion_beam() -> void:
 	
 	# Добавляем фишку, чтобы она была валидно стерта
 	# Запускаем взрыв сферы напрямую через вызов _explode_special_sphere
-	var cleared := pipeline._explode_special_sphere(Vector2i(2, 2), SpecialSphereType.Type.BEAM_SPHERE)
+	var cleared = pipeline._explode_special_sphere(Vector2i(2, 2), SpecialSphereType.Type.BEAM_SPHERE)
 	
 	# Beam Sphere должна задеть весь 2-й ряд и 2-й столбец
 	assert_true(Vector2i(0, 2) in cleared)
@@ -115,7 +115,7 @@ func test_special_sphere_explosion_beam() -> void:
 
 func test_special_sphere_explosion_blast() -> void:
 	# BLAST_SPHERE взрывает 3x3
-	var cleared := pipeline._explode_special_sphere(Vector2i(2, 2), SpecialSphereType.Type.BLAST_SPHERE)
+	var cleared = pipeline._explode_special_sphere(Vector2i(2, 2), SpecialSphereType.Type.BLAST_SPHERE)
 	
 	assert_eq(cleared.size(), 9, "Взрыв 3x3 должен затронуть ровно 9 ячеек")
 	assert_true(Vector2i(1, 1) in cleared)
@@ -126,7 +126,7 @@ func test_special_sphere_explosion_homing() -> void:
 	# Задаем одну TARGET ячейку в (5,5)
 	board.set_cell_state(Vector2i(5, 5), CellState.State.TARGET)
 	
-	var cleared := pipeline._explode_special_sphere(Vector2i(0, 0), SpecialSphereType.Type.HOMING_SPHERE)
+	var cleared = pipeline._explode_special_sphere(Vector2i(0, 0), SpecialSphereType.Type.HOMING_SPHERE)
 	
 	# Должно взорвать себя (0,0) и лучшую цель (5,5)
 	assert_true(Vector2i(0, 0) in cleared)

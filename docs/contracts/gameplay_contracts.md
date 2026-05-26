@@ -1,56 +1,52 @@
-# Спецификация контрактов данных и событий геймплея — Genesis v5.1
+# Gameplay Typed Contracts Registry — Neo Soft Frost
 
-Для обеспечения слабой связности (loose coupling) и исключения хаотичного обмена неструктурированными словарями Dictionary между логическим ядром, шиной EventBus, UI и Feedback-директором, все события в проекте **Neo Soft Frost** строго типизированы в виде объектов-контрактов, наследуемых от `RefCounted`.
+> **Specification Version**: `genesis/v5.1`  
+> **Status**: ACTIVE & FROZEN (Architecture Control Plan)
 
-Все контракты размещаются в каталоге `scripts/contracts/` и снабжены методами сериализации (`serialize()`) и десериализации (`deserialize()`) для поддержки replay-системы и безголовых (headless) MCTS симуляций.
+Этот документ содержит спецификацию всех жестко типизированных объектов передачи данных (DTO) в игре **Neo Soft Frost**. Каждый DTO наследуется от `RefCounted` для автоматического управления памятью и реализует метод `.to_dict()` для логгирования, реплеев и телеметрии.
 
 ---
 
-## 1. Реестр утвержденных контрактов
+## 1. Реестр контрактов (Typed DTOs)
 
-### 1.1 `BoardSnapshot`
-* **Файл**: [board_snapshot.gd](file:///Users/user/3-line/scripts/contracts/board_snapshot.gd)
-* **Назначение**: Полный снимок состояния игрового поля на определенный шаг транзакции.
-* **Поля**:
-  * `width` (`int`): Ширина доски (по умолчанию 8).
-  * `height` (`int`): Высота доски (по умолчанию 8).
-  * `cells` (`Array`): Двумерный массив метаданных ячеек (цвет, логическое состояние, тип спец-сферы).
+### 1.1 `BoardSnapshot` (`res://scripts/contracts/board_snapshot.gd`)
+Служит для фиксации мгновенного снимка игрового поля при возникновении спорных игровых ситуаций или в целях тестирования/воспроизведения реплеев.
+- **Поля**:
+  - `width: int` — Ширина сетки.
+  - `height: int` — Высота сетки.
+  - `gems: Array[Array]` — 2D массив строк (типы и цвета фишек).
+  - `cell_states: Array[Array]` — 2D массив целых чисел (логические состояния ячеек).
+  - `timestamp: float` — Время фиксации снимка в секундах.
 
-### 1.2 `MatchEvent`
-* **Файл**: [match_event.gd](file:///Users/user/3-line/scripts/contracts/match_event.gd)
-* **Назначение**: Содержит информацию о найденных и очищенных комбинациях 3+ гемов.
-* **Поля**:
-  * `coordinates` (`Array[Vector2i]`): Координаты ячеек, вовлеченных в матч.
-  * `color` (`String`): Цвет сматченных гемов.
-  * `shape_type` (`String`): Классифицированная форма (например, `line_3`, `line_4`, `square_2x2`).
-  * `score` (`int`): Начисленные за этот конкретный матч очки.
+### 1.2 `MatchEvent` (`res://scripts/contracts/match_event.gd`)
+Служит DTO-контрактом события распознанного и классифицированного совпадения (Match). Передается из детерминированного ядра в Feedback и UI для воспроизведения взрывов и начисления очков.
+- **Поля**:
+  - `shape_type: String` — Тип распознанной фигуры (например, `CROSS`, `ZIGZAG_6`).
+  - `cells: Array[Vector2i]` — Массив координат входящих ячеек.
+  - `center_cell: Vector2i` — Ячейка геометрического центра фигуры (центр взрыва VFX).
+  - `origin_cell: Vector2i` — Ячейка хода свайпа, которая сформировала фигуру.
+  - `gem_color: String` — Цвет совпавших сфер.
+  - `score_granted: int` — Полученные очки за матч.
 
-### 1.3 `CascadeStep`
-* **Файл**: [cascade_step.gd](file:///Users/user/3-line/scripts/contracts/cascade_step.gd)
-* **Назначение**: Шаг каскадного опускания гемов. Используется FeedbackDirector для эскалации VFX/SFX нарастающего комбо.
-* **Поля**:
-  * `depth_level` (`int`): Текущий индекс каскадной глубины (1, 2, 3 и т.д.).
-  * `generated_gems` (`Array`): Сгенерированные гели-заменители с флагами Assisted.
-  * `drop_mode` (`int`): Режим падения (Natural, Assisted, Cinematic).
+### 1.3 `CascadeStep` (`res://scripts/contracts/cascade_step.gd`)
+Описывает единичный шаг осыпания (collapse/drop) гемов во время каскада.
+- **Поля**:
+  - `step_index: int` — Порядковый индекс шага в текущем каскаде.
+  - `drop_mode: int` — Режим выпадения гемов (Natural, Assisted, Cinematic).
+  - `generated_gems: Array` — Сгенерированные сферы и их параметры.
+  - `approved_by_governor: bool` — Флаг подтверждения со стороны Cascade Governor.
 
-### 1.4 `SpecialActivationEvent`
-* **Файл**: [special_activation_event.gd](file:///Users/user/3-line/scripts/contracts/special_activation_event.gd)
-* **Назначение**: Передача данных о взрыве спец-сферы или слиянии двух спец-сфер.
-* **Поля**:
-  * `position` (`Vector2i`): Логическая ячейка активации.
-  * `special_type` (`int`): Логический тип спец-сферы.
-  * `affected_cells` (`Array[Vector2i]`): Все ячейки игрового поля, затронутые зоной взрыва.
-  * `is_combo_trigger` (`bool`): Является ли активация слиянием двух спец-сфер.
-  * `combo_partner_type` (`int`): Тип партнерской спец-сферы при слиянии.
+### 1.4 `TelemetryEvent` (`res://scripts/contracts/telemetry_event.gd`)
+Формат отправки фоновых событий в BalanceTelemetryLayer для логгирования.
+- **Поля**:
+  - `event_name: String` — Имя события (например, `fever_activated`).
+  - `timestamp: float` — Время фиксации события.
+  - `payload: Dictionary` — Ассоциативный массив метрик события.
 
-### 1.5 `TelemetryEvent`
-* **Файл**: [telemetry_event.gd](file:///Users/user/3-line/scripts/contracts/telemetry_event.gd)
-* **Назначение**: Метрики одного игрового хода для баланса и симуляций MCTS.
-* **Поля**:
-  * `timestamp` (`int`): Время создания события.
-  * `turn_index` (`int`): Порядковый номер хода.
-  * `move_type` (`String`): Тип хода (manual, combo_window, replay).
-  * `score_gained` (`int`): Очки, полученные за весь ход со всеми его каскадами.
-  * `cascade_depth` (`int`): Максимальная глубина каскада, достигнутая в этом ходу.
-  * `special_created_count` (`int`): Сколько спец-сфер родилось в ходе.
-  * `fever_active` (`bool`): Был ли активен Fever Mode в момент совершения хода.
+---
+
+## 2. Правила использования DTO
+
+1. **Запрет raw Dictionary**: Ни один геймплейный класс в `scripts/core_match3/` не имеет права возвращать или принимать сырые словари (raw Dicts) при передаче данных о логических сущностях наружу во внешние слои UI и Feedback. Использование типизированных DTO строго обязательно.
+2. **Сериализация**: Метод `to_dict()` должен сохранять только простые JSON-совместимые типы данных (числа, строки, массивы примитивов, плоские словари). Это позволяет прозрачно сериализовать сессии в ReplayRecorder.
+3. **Хеширование**: Снимки `BoardSnapshot` могут использоваться для генерации контрольной суммы игрового поля (final hash) с целью проверки рассинхронизации в реплеях.

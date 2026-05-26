@@ -1,11 +1,47 @@
 Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
 
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/core_match3/shape_detector.gd:0)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/core_match3/input_buffer_controller.gd:0)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/core_match3/target_priority_system.gd:0)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/core_match3/resolve_context.gd:0)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 6 but received 4.
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 1 should be "String" but is "Array[Vector2i]".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 2 should be "Array[Vector2i]" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 3 should be "Vector2i" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Parse Error: Cannot pass a value of type "int" as "Vector2i".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 4 should be "Vector2i" but is "int".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/validation/validate_soft_launch_smoke.gd:0)
+ERROR: Failed to load script "res://scripts/validation/validate_soft_launch_smoke.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
 ---  GUT  ---
 [1m[INFO]:  [0musing [/Users/user/Library/Application Support/Godot/app_userdata/Neo Soft Frost] for temporary output.
 Godot version:  4.5.1
 GUT version:  9.6.0
-SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
-          at: GDScript::reload (res://tests/core_match3/test_combo_fever_controller.gd:57)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -18,8 +54,8 @@ SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Ex
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "power_low" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://tests/core_match3/test_combo_fever_controller.gd:62)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_board_state_engine.gd:0)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -32,7 +68,7 @@ SCRIPT ERROR: Parse Error: Cannot infer the type of "power_low" variable because
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-ERROR: Failed to load script "res://tests/core_match3/test_combo_fever_controller.gd" with error "Parse error".
+ERROR: Failed to load script "res://tests/core_match3/test_board_state_engine.gd" with error "Compilation failed".
    at: load (modules/gdscript/gdscript.cpp:3041)
    GDScript backtrace (most recent call first):
        [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
@@ -46,9 +82,8 @@ ERROR: Failed to load script "res://tests/core_match3/test_combo_fever_controlle
        [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
        [9] main (res://addons/gut/cli/gut_cli.gd:297)
        [10] _init (res://addons/gut/gut_cmdln.gd:39)
-[33m[WARNING]:  [0mIgnoring script res://tests/core_match3/test_combo_fever_controller.gd because it does not extend GutTest
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:6)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -61,8 +96,8 @@ SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the cur
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:6)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_board_visual_sync.gd:0)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -75,147 +110,7 @@ SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:22)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:22)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:38)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:38)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:55)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:55)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:76)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:76)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:93)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
-          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:93)
-          GDScript backtrace (most recent call first):
-              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
-              [1] _parse_script (res://addons/gut/test_collector.gd:76)
-              [2] add_script (res://addons/gut/test_collector.gd:127)
-              [3] add_script (res://addons/gut/gut.gd:1070)
-              [4] add_directory (res://addons/gut/gut.gd:1093)
-              [5] _apply_options (res://addons/gut/gut_config.gd:136)
-              [6] apply_options (res://addons/gut/gut_config.gd:207)
-              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
-              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
-              [9] main (res://addons/gut/cli/gut_cli.gd:297)
-              [10] _init (res://addons/gut/gut_cmdln.gd:39)
-ERROR: Failed to load script "res://tests/core_match3/test_feedback_orchestrator.gd" with error "Parse error".
+ERROR: Failed to load script "res://tests/core_match3/test_board_visual_sync.gd" with error "Compilation failed".
    at: load (modules/gdscript/gdscript.cpp:3041)
    GDScript backtrace (most recent call first):
        [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
@@ -229,10 +124,317 @@ ERROR: Failed to load script "res://tests/core_match3/test_feedback_orchestrator
        [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
        [9] main (res://addons/gut/cli/gut_cli.gd:297)
        [10] _init (res://addons/gut/gut_cmdln.gd:39)
-[33m[WARNING]:  [0mIgnoring script res://tests/core_match3/test_feedback_orchestrator.gd because it does not extend GutTest
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_input_buffer_controller.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_input_buffer_controller.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_match_shape_detector.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_match_shape_detector.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 6 but received 4.
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 1 should be "String" but is "Array[Vector2i]".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 2 should be "Array[Vector2i]" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 3 should be "Vector2i" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Cannot pass a value of type "int" as "Vector2i".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 4 should be "Vector2i" but is "int".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_resolve_pipeline.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_resolve_pipeline.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/core_match3/test_target_priority_system.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_target_priority_system.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 2 should be "int" but is "Array[Dictionary]".
+          at: GDScript::reload (res://scripts/core_match3/controlled_cascade_engine.gd:88)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/e2e/test_ccpe_e2e.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/e2e/test_ccpe_e2e.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
 [33m[WARNING]:  [0mIgnoring script res://tests/e2e/test_ccpe_e2e.gd because it does not extend GutTest
-SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
-          at: GDScript::reload (res://tests/e2e/test_combo_fever_e2e.gd:105)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -245,8 +447,8 @@ SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Ex
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
-          at: GDScript::reload (res://tests/e2e/test_combo_fever_e2e.gd:116)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 6 but received 4.
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
           GDScript backtrace (most recent call first):
               [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
               [1] _parse_script (res://addons/gut/test_collector.gd:76)
@@ -259,7 +461,91 @@ SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Ex
               [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
               [9] main (res://addons/gut/cli/gut_cli.gd:297)
               [10] _init (res://addons/gut/gut_cmdln.gd:39)
-ERROR: Failed to load script "res://tests/e2e/test_combo_fever_e2e.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 1 should be "String" but is "Array[Vector2i]".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 2 should be "Array[Vector2i]" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 3 should be "Vector2i" but is "String".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Cannot pass a value of type "int" as "Vector2i".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Invalid argument for "new()" function: argument 4 should be "Vector2i" but is "int".
+          at: GDScript::reload (res://scripts/core_match3/resolve_pipeline.gd:145)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/e2e/test_combo_fever_e2e.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/e2e/test_combo_fever_e2e.gd" with error "Compilation failed".
    at: load (modules/gdscript/gdscript.cpp:3041)
    GDScript backtrace (most recent call first):
        [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
@@ -273,83 +559,582 @@ ERROR: Failed to load script "res://tests/e2e/test_combo_fever_e2e.gd" with erro
        [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
        [9] main (res://addons/gut/cli/gut_cli.gd:297)
        [10] _init (res://addons/gut/gut_cmdln.gd:39)
-[33m[WARNING]:  [0mIgnoring script res://tests/e2e/test_combo_fever_e2e.gd because it does not extend GutTest
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 0.
+          at: GDScript::reload (res://scripts/debug/replay_player.gd:60)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too few arguments for "new()" call. Expected at least 4 but received 2.
+          at: GDScript::reload (res://scripts/core_match3/board_logic.gd:116)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/replay/test_replay_regressions.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/replay/test_replay_regressions.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
 [4m
 
 res://tests/core_match3/test_board_state_engine.gd
 [0m* test_configure
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_configure (res://tests/core_match3/test_board_state_engine.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] test_configure (res://tests/core_match3/test_board_state_engine.gd:6)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_valid_state_transitions
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_valid_state_transitions (res://tests/core_match3/test_board_state_engine.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] test_valid_state_transitions (res://tests/core_match3/test_board_state_engine.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_invalid_state_transitions
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_invalid_state_transitions (res://tests/core_match3/test_board_state_engine.gd:33)
+          GDScript backtrace (most recent call first):
+              [0] test_invalid_state_transitions (res://tests/core_match3/test_board_state_engine.gd:33)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_force_stabilize
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_force_stabilize (res://tests/core_match3/test_board_state_engine.gd:48)
+          GDScript backtrace (most recent call first):
+              [0] test_force_stabilize (res://tests/core_match3/test_board_state_engine.gd:48)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_stabilization_signal
-[1m5/5 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_stabilization_signal (res://tests/core_match3/test_board_state_engine.gd:62)
+          GDScript backtrace (most recent call first):
+              [0] test_stabilization_signal (res://tests/core_match3/test_board_state_engine.gd:62)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
+[1m0/5 passed.
 [0m[4m
 
 res://tests/core_match3/test_board_visual_sync.gd
 [0m* test_board_view_setup
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_board_view_setup (res://tests/core_match3/test_board_visual_sync.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] test_board_view_setup (res://tests/core_match3/test_board_visual_sync.gd:6)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_animations_finished_signal_after_swap
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_animations_finished_signal_after_swap (res://tests/core_match3/test_board_visual_sync.gd:18)
+          GDScript backtrace (most recent call first):
+              [0] test_animations_finished_signal_after_swap (res://tests/core_match3/test_board_visual_sync.gd:18)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_play_effects_queueing
-[1m3/3 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_play_effects_queueing (res://tests/core_match3/test_board_visual_sync.gd:50)
+          GDScript backtrace (most recent call first):
+              [0] test_play_effects_queueing (res://tests/core_match3/test_board_visual_sync.gd:50)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
+[1m0/3 passed.
+[0m[4m
+
+res://tests/core_match3/test_combo_fever_controller.gd
+[0m* test_combo_window_opens_and_decays
+* test_combo_refresh_and_fever_activation
+* test_invalid_move_penalty
+* test_combo_power_clamping
+[1m4/4 passed.
+[0m[4m
+
+res://tests/core_match3/test_feedback_orchestrator.gd
+[0m* test_load_and_get_tier_for_combo
+* test_particle_budget_web_profile
+* test_particle_budget_android_profile
+* test_camera_shake_throttling
+* test_title_ui_spam_limiter
+* test_orchestrate_combo_feedback
+[1m6/6 passed.
 [0m[4m
 
 res://tests/core_match3/test_input_buffer_controller.gd
 [0m* test_enqueue_on_unstable_cells
-[31m    [Failed]:  [0mХод должен успешно добавиться в буфер, так как ячейка нестабильна
-      at line 21
-[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
-      at line 22
-[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
-      at line 23
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_enqueue_on_unstable_cells (res://tests/core_match3/test_input_buffer_controller.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] test_enqueue_on_unstable_cells (res://tests/core_match3/test_input_buffer_controller.gd:6)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_expiration
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_expiration (res://tests/core_match3/test_input_buffer_controller.gd:26)
+          GDScript backtrace (most recent call first):
+              [0] test_expiration (res://tests/core_match3/test_input_buffer_controller.gd:26)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_validation_success
-[31m    [Failed]:  [0mExpected [<null>] to be anything but NULL:  Ход должен быть валидным
-      at line 53
-[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
-      at line 54
-[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
-      at line 55
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_validation_success (res://tests/core_match3/test_input_buffer_controller.gd:42)
+          GDScript backtrace (most recent call first):
+              [0] test_validation_success (res://tests/core_match3/test_input_buffer_controller.gd:42)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_validation_gem_desync
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_validation_gem_desync (res://tests/core_match3/test_input_buffer_controller.gd:58)
+          GDScript backtrace (most recent call first):
+              [0] test_validation_gem_desync (res://tests/core_match3/test_input_buffer_controller.gd:58)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_queue_limit_and_multiple_enqueues
-[31m    [Failed]:  [0mПервый ход должен добавиться
-      at line 87
-[31m    [Failed]:  [0m[0] expected to equal [1]:  
-      at line 88
-[31m    [Failed]:  [0mВторой ход должен добавиться
-      at line 96
-[31m    [Failed]:  [0m[0] expected to equal [2]:  
-      at line 97
-[31m    [Failed]:  [0mТретий ход должен добавиться
-      at line 101
-[31m    [Failed]:  [0m[0] expected to equal [3]:  
-      at line 102
-[31m    [Failed]:  [0m[0] expected to equal [3]:  
-      at line 107
-[1m2/5 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_queue_limit_and_multiple_enqueues (res://tests/core_match3/test_input_buffer_controller.gd:75)
+          GDScript backtrace (most recent call first):
+              [0] test_queue_limit_and_multiple_enqueues (res://tests/core_match3/test_input_buffer_controller.gd:75)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
+[1m0/5 passed.
 [0m[4m
 
 res://tests/core_match3/test_match_shape_detector.gd
 [0m* test_line_3
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_line_3 (res://tests/core_match3/test_match_shape_detector.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] test_line_3 (res://tests/core_match3/test_match_shape_detector.gd:6)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_line_4
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_line_4 (res://tests/core_match3/test_match_shape_detector.gd:22)
+          GDScript backtrace (most recent call first):
+              [0] test_line_4 (res://tests/core_match3/test_match_shape_detector.gd:22)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_square_2x2
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_square_2x2 (res://tests/core_match3/test_match_shape_detector.gd:39)
+          GDScript backtrace (most recent call first):
+              [0] test_square_2x2 (res://tests/core_match3/test_match_shape_detector.gd:39)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_l_shape
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_l_shape (res://tests/core_match3/test_match_shape_detector.gd:56)
+          GDScript backtrace (most recent call first):
+              [0] test_l_shape (res://tests/core_match3/test_match_shape_detector.gd:56)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_t_shape
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_t_shape (res://tests/core_match3/test_match_shape_detector.gd:77)
+          GDScript backtrace (most recent call first):
+              [0] test_t_shape (res://tests/core_match3/test_match_shape_detector.gd:77)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_cross_shape
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_cross_shape (res://tests/core_match3/test_match_shape_detector.gd:98)
+          GDScript backtrace (most recent call first):
+              [0] test_cross_shape (res://tests/core_match3/test_match_shape_detector.gd:98)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_line_5
-[1m7/7 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_line_5 (res://tests/core_match3/test_match_shape_detector.gd:118)
+          GDScript backtrace (most recent call first):
+              [0] test_line_5 (res://tests/core_match3/test_match_shape_detector.gd:118)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
+[1m0/7 passed.
 [0m[4m
 
 res://tests/core_match3/test_resolve_pipeline.gd
 [0m* test_swap_validation_success
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at: test_swap_validation_success (res://tests/core_match3/test_resolve_pipeline.gd:33)
+          GDScript backtrace (most recent call first):
+              [0] test_swap_validation_success (res://tests/core_match3/test_resolve_pipeline.gd:33)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+      at line -1
 * test_swap_validation_failure
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at: test_swap_validation_failure (res://tests/core_match3/test_resolve_pipeline.gd:61)
+          GDScript backtrace (most recent call first):
+              [0] test_swap_validation_failure (res://tests/core_match3/test_resolve_pipeline.gd:61)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+      at line -1
 * test_cascade_and_special_sphere_generation
-ResolvePipeline: FSM timeout! Forcing stabilization.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at: test_cascade_and_special_sphere_generation (res://tests/core_match3/test_resolve_pipeline.gd:78)
+          GDScript backtrace (most recent call first):
+              [0] test_cascade_and_special_sphere_generation (res://tests/core_match3/test_resolve_pipeline.gd:78)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+      at line -1
 * test_special_sphere_explosion_beam
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'configure' in base 'Nil'.
+          at: test_special_sphere_explosion_beam (res://tests/core_match3/test_resolve_pipeline.gd:103)
+          GDScript backtrace (most recent call first):
+              [0] test_special_sphere_explosion_beam (res://tests/core_match3/test_resolve_pipeline.gd:103)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'configure' in base 'Nil'.
+      at line -1
 * test_special_sphere_explosion_blast
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function '_explode_special_sphere' in base 'Nil'.
+          at: test_special_sphere_explosion_blast (res://tests/core_match3/test_resolve_pipeline.gd:118)
+          GDScript backtrace (most recent call first):
+              [0] test_special_sphere_explosion_blast (res://tests/core_match3/test_resolve_pipeline.gd:118)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function '_explode_special_sphere' in base 'Nil'.
+      at line -1
 * test_special_sphere_explosion_homing
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_cell_state' in base 'Nil'.
+          at: test_special_sphere_explosion_homing (res://tests/core_match3/test_resolve_pipeline.gd:127)
+          GDScript backtrace (most recent call first):
+              [0] test_special_sphere_explosion_homing (res://tests/core_match3/test_resolve_pipeline.gd:127)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_cell_state' in base 'Nil'.
+      at line -1
 * test_cascade_safety_limit
-[31m    [Failed]:  [0mExpected object <RefCounted#-9223371925084960631>(resolve_pipeline.gd) to have emitted signal [recovery_triggered]:   (Signals emitted: ["state_changed"])
-      at line 152
-[1m6/7 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/core_match3/test_resolve_pipeline.gd:15)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid assignment of property or key 'max_cascade_depth' with value of type 'int' on a base object of type 'Nil'.
+          at: test_cascade_safety_limit (res://tests/core_match3/test_resolve_pipeline.gd:138)
+          GDScript backtrace (most recent call first):
+              [0] test_cascade_safety_limit (res://tests/core_match3/test_resolve_pipeline.gd:138)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid assignment of property or key 'max_cascade_depth' with value of type 'int' on a base object of type 'Nil'.
+      at line -1
+[1m0/7 passed.
 [0m[4m
 
 res://tests/core_match3/test_special_sphere_factory.gd
@@ -360,10 +1145,550 @@ res://tests/core_match3/test_special_sphere_factory.gd
 
 res://tests/core_match3/test_target_priority_system.gd
 [0m* test_priority_objective_target_first
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_priority_objective_target_first (res://tests/core_match3/test_target_priority_system.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] test_priority_objective_target_first (res://tests/core_match3/test_target_priority_system.gd:6)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_priority_locked_objective
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_priority_locked_objective (res://tests/core_match3/test_target_priority_system.gd:18)
+          GDScript backtrace (most recent call first):
+              [0] test_priority_locked_objective (res://tests/core_match3/test_target_priority_system.gd:18)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_priority_corner_target
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_priority_corner_target (res://tests/core_match3/test_target_priority_system.gd:35)
+          GDScript backtrace (most recent call first):
+              [0] test_priority_corner_target (res://tests/core_match3/test_target_priority_system.gd:35)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
 * test_deterministic_tie_breaker
-[1m4/4 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: test_deterministic_tie_breaker (res://tests/core_match3/test_target_priority_system.gd:50)
+          GDScript backtrace (most recent call first):
+              [0] test_deterministic_tie_breaker (res://tests/core_match3/test_target_priority_system.gd:50)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+      at line -1
+[1m0/4 passed.
+[0m[4m
+
+res://tests/e2e/test_combo_fever_e2e.gd
+[0m* test_line_4_creates_beam
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: test_line_4_creates_beam (res://tests/e2e/test_combo_fever_e2e.gd:22)
+          GDScript backtrace (most recent call first):
+              [0] test_line_4_creates_beam (res://tests/e2e/test_combo_fever_e2e.gd:22)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+      at line -1
+* test_square_creates_homing
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: test_square_creates_homing (res://tests/e2e/test_combo_fever_e2e.gd:52)
+          GDScript backtrace (most recent call first):
+              [0] test_square_creates_homing (res://tests/e2e/test_combo_fever_e2e.gd:52)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+      at line -1
+* test_line_5_creates_prism
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: test_line_5_creates_prism (res://tests/e2e/test_combo_fever_e2e.gd:78)
+          GDScript backtrace (most recent call first):
+              [0] test_line_5_creates_prism (res://tests/e2e/test_combo_fever_e2e.gd:78)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+      at line -1
+* test_combo_window_extends
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'chain_index' on a base object of type 'Nil'.
+          at: test_combo_window_extends (res://tests/e2e/test_combo_fever_e2e.gd:104)
+          GDScript backtrace (most recent call first):
+              [0] test_combo_window_extends (res://tests/e2e/test_combo_fever_e2e.gd:104)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'chain_index' on a base object of type 'Nil'.
+      at line -1
+* test_fever_activates
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid assignment of property or key 'chain_index' with value of type 'int' on a base object of type 'Nil'.
+          at: test_fever_activates (res://tests/e2e/test_combo_fever_e2e.gd:111)
+          GDScript backtrace (most recent call first):
+              [0] test_fever_activates (res://tests/e2e/test_combo_fever_e2e.gd:111)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid assignment of property or key 'chain_index' with value of type 'int' on a base object of type 'Nil'.
+      at line -1
+* test_queued_move_executes
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at: test_queued_move_executes (res://tests/e2e/test_combo_fever_e2e.gd:123)
+          GDScript backtrace (most recent call first):
+              [0] test_queued_move_executes (res://tests/e2e/test_combo_fever_e2e.gd:123)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+      at line -1
+* test_queued_move_expires
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at: test_queued_move_expires (res://tests/e2e/test_combo_fever_e2e.gd:140)
+          GDScript backtrace (most recent call first):
+              [0] test_queued_move_expires (res://tests/e2e/test_combo_fever_e2e.gd:140)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+      at line -1
+* test_beam_beam_combo
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at: test_beam_beam_combo (res://tests/e2e/test_combo_fever_e2e.gd:154)
+          GDScript backtrace (most recent call first):
+              [0] test_beam_beam_combo (res://tests/e2e/test_combo_fever_e2e.gd:154)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+      at line -1
+* test_beam_blast_combo
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at: test_beam_blast_combo (res://tests/e2e/test_combo_fever_e2e.gd:178)
+          GDScript backtrace (most recent call first):
+              [0] test_beam_blast_combo (res://tests/e2e/test_combo_fever_e2e.gd:178)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+      at line -1
+* test_prism_prism_combo
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at: test_prism_prism_combo (res://tests/e2e/test_combo_fever_e2e.gd:200)
+          GDScript backtrace (most recent call first):
+              [0] test_prism_prism_combo (res://tests/e2e/test_combo_fever_e2e.gd:200)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+      at line -1
+* test_no_softlock_after_chain
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at: test_no_softlock_after_chain (res://tests/e2e/test_combo_fever_e2e.gd:221)
+          GDScript backtrace (most recent call first):
+              [0] test_no_softlock_after_chain (res://tests/e2e/test_combo_fever_e2e.gd:221)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+      at line -1
+* test_telemetry_export
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: LevelSession._ready (res://scripts/level_runtime/level_session.gd:72)
+          GDScript backtrace (most recent call first):
+              [0] _ready (res://scripts/level_runtime/level_session.gd:72)
+              [1] add_child_autofree (res://addons/gut/test.gd:2784)
+              [2] before_each (res://tests/e2e/test_combo_fever_e2e.gd:11)
+              [3] _run_test (res://addons/gut/gut.gd:612)
+              [4] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [5] test_scripts (res://addons/gut/gut.gd:1047)
+              [6] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [7] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [8] main (res://addons/gut/cli/gut_cli.gd:297)
+              [9] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at: _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+          GDScript backtrace (most recent call first):
+              [0] _fill_board_no_matches (res://tests/e2e/test_combo_fever_e2e.gd:15)
+              [1] before_each (res://tests/e2e/test_combo_fever_e2e.gd:12)
+              [2] _run_test (res://addons/gut/gut.gd:612)
+              [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [4] test_scripts (res://addons/gut/gut.gd:1047)
+              [5] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [6] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [7] main (res://addons/gut/cli/gut_cli.gd:297)
+              [8] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'reset' in base 'Nil'.
+          at: test_telemetry_export (res://tests/e2e/test_combo_fever_e2e.gd:226)
+          GDScript backtrace (most recent call first):
+              [0] test_telemetry_export (res://tests/e2e/test_combo_fever_e2e.gd:226)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'reset' in base 'Nil'.
+      at line -1
+[1m0/12 passed.
 [0m[4m
 
 res://tests/performance/test_vfx_budget.gd
@@ -381,7 +1706,32 @@ res://tests/presentation/test_sphere_factory.gd
 
 res://tests/replay/test_replay_regressions.gd
 [0m* test_replay_desync_prevention
-[1m1/1 passed.
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: before_each (res://tests/replay/test_replay_regressions.gd:11)
+          GDScript backtrace (most recent call first):
+              [0] before_each (res://tests/replay/test_replay_regressions.gd:11)
+              [1] _run_test (res://addons/gut/gut.gd:612)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Invalid call. Nonexistent function 'load_replay_file' in base 'Nil'.
+          at: test_replay_desync_prevention (res://tests/replay/test_replay_regressions.gd:21)
+          GDScript backtrace (most recent call first):
+              [0] test_replay_desync_prevention (res://tests/replay/test_replay_regressions.gd:21)
+              [1] _run_test (res://addons/gut/gut.gd:622)
+              [2] _test_the_scripts (res://addons/gut/gut.gd:835)
+              [3] test_scripts (res://addons/gut/gut.gd:1047)
+              [4] run_tests (res://addons/gut/gui/GutRunner.gd:198)
+              [5] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [6] main (res://addons/gut/cli/gut_cli.gd:297)
+              [7] _init (res://addons/gut/gut_cmdln.gd:39)
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'load_replay_file' in base 'Nil'.
+      at line -1
+[1m0/1 passed.
 [0m
 
 
@@ -390,56 +1740,210 @@ res://tests/replay/test_replay_regressions.gd
 [0m[33m= Run Summary
 [0m[33m==============================================
 [0m[4m
+res://tests/core_match3/test_board_state_engine.gd
+[0m- test_configure
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_valid_state_transitions
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_invalid_state_transitions
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_force_stabilize
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_stabilization_signal
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+[4m
+res://tests/core_match3/test_board_visual_sync.gd
+[0m- test_board_view_setup
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_animations_finished_signal_after_swap
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_play_effects_queueing
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+[4m
 res://tests/core_match3/test_input_buffer_controller.gd
 [0m- test_enqueue_on_unstable_cells
-[31m    [Failed]:  [0mХод должен успешно добавиться в буфер, так как ячейка нестабильна
-          at line 21
-[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
-          at line 22
-[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
-          at line 23
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_expiration
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
 - test_validation_success
-[31m    [Failed]:  [0mExpected [<null>] to be anything but NULL:  Ход должен быть валидным
-          at line 53
-[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
-          at line 54
-[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
-          at line 55
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_validation_gem_desync
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
 - test_queue_limit_and_multiple_enqueues
-[31m    [Failed]:  [0mПервый ход должен добавиться
-          at line 87
-[31m    [Failed]:  [0m[0] expected to equal [1]:  
-          at line 88
-[31m    [Failed]:  [0mВторой ход должен добавиться
-          at line 96
-[31m    [Failed]:  [0m[0] expected to equal [2]:  
-          at line 97
-[31m    [Failed]:  [0mТретий ход должен добавиться
-          at line 101
-[31m    [Failed]:  [0m[0] expected to equal [3]:  
-          at line 102
-[31m    [Failed]:  [0m[0] expected to equal [3]:  
-          at line 107
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+[4m
+res://tests/core_match3/test_match_shape_detector.gd
+[0m- test_line_3
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_line_4
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_square_2x2
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_l_shape
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_t_shape
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_cross_shape
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_line_5
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
 [4m
 res://tests/core_match3/test_resolve_pipeline.gd
-[0m- test_cascade_safety_limit
-[31m    [Failed]:  [0mExpected object <RefCounted#-9223371925084960631>(resolve_pipeline.gd) to have emitted signal [recovery_triggered]:   (Signals emitted: ["state_changed"])
-          at line 152
+[0m- test_swap_validation_success
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at line -1
+- test_swap_validation_failure
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at line -1
+- test_cascade_and_special_sphere_generation
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_piece' in base 'Nil'.
+          at line -1
+- test_special_sphere_explosion_beam
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'configure' in base 'Nil'.
+          at line -1
+- test_special_sphere_explosion_blast
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function '_explode_special_sphere' in base 'Nil'.
+          at line -1
+- test_special_sphere_explosion_homing
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_cell_state' in base 'Nil'.
+          at line -1
+- test_cascade_safety_limit
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid assignment of property or key 'max_cascade_depth' with value of type 'int' on a base object of type 'Nil'.
+          at line -1
+[4m
+res://tests/core_match3/test_target_priority_system.gd
+[0m- test_priority_objective_target_first
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_priority_locked_objective
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_priority_corner_target
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+- test_deterministic_tie_breaker
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at line -1
+[4m
+res://tests/e2e/test_combo_fever_e2e.gd
+[0m- test_line_4_creates_beam
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at line -1
+- test_square_creates_homing
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at line -1
+- test_line_5_creates_prism
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'height' on a base object of type 'Nil'.
+          at line -1
+- test_combo_window_extends
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'chain_index' on a base object of type 'Nil'.
+          at line -1
+- test_fever_activates
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid assignment of property or key 'chain_index' with value of type 'int' on a base object of type 'Nil'.
+          at line -1
+- test_queued_move_executes
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at line -1
+- test_queued_move_expires
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at line -1
+- test_beam_beam_combo
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at line -1
+- test_beam_blast_combo
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at line -1
+- test_prism_prism_combo
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'set_special_sphere' in base 'Nil'.
+          at line -1
+- test_no_softlock_after_chain
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid access to property or key 'context' on a base object of type 'Nil'.
+          at line -1
+- test_telemetry_export
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'reset' in base 'Nil'.
+          at line -1
+[4m
+res://tests/replay/test_replay_regressions.gd
+[0m- test_replay_desync_prevention
+[31m    [Failed]:  [0mUnexpected Errors:
+    [1] <engine-2>Invalid call. Nonexistent function 'load_replay_file' in base 'Nil'.
+          at line -1
 
 Totals
 ------
-Warnings              4
+Warnings              1
 
-Scripts              10
-Tests                39
-Passing Tests        35
-Failing Tests         4
-Asserts           105/119
-Time              0.412s
+Scripts              13
+Tests                61
+Passing Tests        17
+Failing Tests        44
+Asserts           67/111
+Time              0.403s
 
 
-[31m---- 4 failing tests ----
+[31m---- 44 failing tests ----
 [0mThis version of GUT may not be compatible with Godot 4.5.1.  Consider changing to GUT 9.5.0:  https://github.com/bitwes/Gut/releases/tag/v9.5.0
 
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-     at: cleanup (core/object/object.cpp:2514)

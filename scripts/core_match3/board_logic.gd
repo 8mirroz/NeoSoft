@@ -108,20 +108,18 @@ func load_snapshot(snapshot: BoardSnapshot) -> void:
 		cells[y].resize(width)
 		states[y].resize(width)
 		for x in range(width):
-			var cell_data = snapshot.cells[y][x]
-			cells[y][x] = cell_data.get("color", "red")
-			states[y][x] = cell_data.get("state", CellState.State.STABLE)
+			cells[y][x] = snapshot.gems[y][x]
+			states[y][x] = snapshot.cell_states[y][x]
 
 func create_snapshot() -> BoardSnapshot:
-	var snapshot = BoardSnapshot.new(width, height)
+	var gems_copy: Array[Array] = []
+	var states_copy: Array[Array] = []
+	gems_copy.resize(height)
+	states_copy.resize(height)
 	for y in range(height):
-		for x in range(width):
-			snapshot.cells[y][x] = {
-				"color": cells[y][x],
-				"state": states[y][x],
-				"special_type": 0
-			}
-	return snapshot
+		gems_copy[y] = cells[y].duplicate()
+		states_copy[y] = states[y].duplicate()
+	return BoardSnapshot.new(width, height, gems_copy, states_copy)
 
 func force_stabilize() -> void:
 	for y in range(height):
@@ -144,7 +142,7 @@ func _is_valid_transition(from_state: int, to_state: int) -> bool:
 		return true
 	match from_state:
 		CellState.State.STABLE:
-			return to_state != CellState.State.SPAWNING and to_state != CellState.State.FALLING
+			return to_state != CellState.State.SPAWNING
 		CellState.State.RESERVED:
 			return to_state == CellState.State.STABLE or to_state == CellState.State.RESOLVING
 		CellState.State.RESOLVING:

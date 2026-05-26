@@ -2,6 +2,8 @@
 extends RefCounted
 class_name ShapeDetector
 
+const ShapeClassifier = preload("res://scripts/core_match3/shape_classifier.gd")
+
 ## Сканирует игровое поле для поиска геометрических совпадений 11 продвинутых форм.
 
 func detect_shapes(board: BoardLogic, origin: Vector2i = Vector2i(-1, -1)) -> Array[MatchShapeResult]:

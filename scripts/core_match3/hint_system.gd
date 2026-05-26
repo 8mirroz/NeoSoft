@@ -35,3 +35,31 @@ static func find_hint(board: BoardModel, match_sys: MatchSystem) -> Array[Vector
 ## Проверить, есть ли вообще доступные ходы
 static func has_valid_moves(board: BoardModel, match_sys: MatchSystem) -> bool:
 	return not find_hint(board, match_sys).is_empty()
+
+## Найти первый доступный ход на поле для CFE-режима (BoardLogic + ShapeDetector)
+static func find_cfe_hint(board: BoardLogic, detector: ShapeDetector) -> Array[Vector2i]:
+	var directions := [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP]
+
+	for y in range(board.height):
+		for x in range(board.width):
+			var cell := Vector2i(x, y)
+			if board.get_gem(cell) == "":
+				continue
+
+			for dir in directions:
+				var neighbor: Vector2i = cell + dir
+				if not board.is_in_bounds(neighbor):
+					continue
+				if board.get_gem(neighbor) == "":
+					continue
+
+				# Пробуем swap
+				board.swap_gems(cell, neighbor)
+				var matches := detector.detect_shapes(board)
+				# Откатываем
+				board.swap_gems(cell, neighbor)
+
+				if not matches.is_empty():
+					return [cell, neighbor]
+
+	return []

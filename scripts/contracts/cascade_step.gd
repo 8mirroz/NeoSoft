@@ -1,42 +1,33 @@
 # /Users/user/3-line/scripts/contracts/cascade_step.gd
-class_name CascadeStep
 extends RefCounted
+class_name CascadeStep
 
-## Контракт одиночного шага каскадного опускания гемов.
-## Передается по EventBus в FeedbackDirector для эскалации VFX/SFX.
+## Контракт шага каскадного осыпания (Cascade Step DTO).
 
-var depth_level: int = 1
-var generated_gems: Array = [] # Массив Dictionary вида {"position": Vector2i, "gem_type": String, "is_assisted": bool}
+var step_index: int = 1
 var drop_mode: int = 0 # ControlledCascadeEngine.DropMode (NATURAL, ASSISTED, CINEMATIC)
+var generated_gems: Array = [] # Array of Dictionary {"position": Vector2i, "gem_type": String, "is_assisted": bool}
+var approved_by_governor: bool = true
 
-func _init(p_depth: int = 1, p_gems: Array = [], p_mode: int = 0) -> void:
-	depth_level = p_depth
-	generated_gems = p_gems
+func _init(p_idx: int, p_mode: int, p_gems: Array, p_approved: bool = true) -> void:
+	step_index = p_idx
 	drop_mode = p_mode
+	generated_gems = p_gems
+	approved_by_governor = p_approved
 
-func serialize() -> Dictionary:
-	var gems_data = []
-	for gem in generated_gems:
-		gems_data.append({
-			"x": gem.position.x,
-			"y": gem.position.y,
-			"gem_type": gem.gem_type,
-			"is_assisted": gem.get("is_assisted", false)
-		})
-	return {
-		"depth_level": depth_level,
-		"generated_gems": gems_data,
-		"drop_mode": drop_mode
-	}
-
-func deserialize(data: Dictionary) -> void:
-	depth_level = data.get("depth_level", 1)
-	drop_mode = data.get("drop_mode", 0)
-	generated_gems.clear()
-	var gems_data = data.get("generated_gems", [])
-	for g in gems_data:
-		generated_gems.append({
-			"position": Vector2i(g.get("x", 0), g.get("y", 0)),
+func to_dict() -> Dictionary:
+	var flat_gems = []
+	for g in generated_gems:
+		var pos = g.get("position", Vector2i(-1, -1))
+		flat_gems.append({
+			"x": pos.x,
+			"y": pos.y,
 			"gem_type": g.get("gem_type", ""),
 			"is_assisted": g.get("is_assisted", false)
 		})
+	return {
+		"step_index": step_index,
+		"drop_mode": drop_mode,
+		"generated_gems": flat_gems,
+		"approved_by_governor": approved_by_governor
+	}

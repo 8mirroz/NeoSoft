@@ -8,7 +8,7 @@ func _ready() -> void:
 	# В dev mode — сразу на gameplay сцену
 	if dev_mode:
 		await get_tree().create_timer(0.5).timeout
-		get_tree().change_scene_to_file("res://scenes/gameplay/gameplay_soft_frost.tscn")
+		get_tree().change_scene_to_file("res://scenes/gameplay/gameplay.tscn")
 		return
 
 	# Production: splash → menu

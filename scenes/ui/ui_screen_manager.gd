@@ -8,8 +8,9 @@ var current_quality: String = "HIGH"
 
 func _ready() -> void:
 	# Считываем настройки качества из ThemeTokens
-	if "shader_quality" in ThemeTokens.performance:
-		current_quality = ThemeTokens.performance.shader_quality
+	var tokens := get_tree().root.get_node_or_null("ThemeTokensAutoload")
+	if tokens != null and "shader_quality" in tokens.performance:
+		current_quality = tokens.performance.shader_quality
 	
 	apply_quality_profile(current_quality)
 

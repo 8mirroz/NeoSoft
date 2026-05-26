@@ -18,7 +18,7 @@ func _fill_board_no_matches(board: BoardLogic) -> void:
 
 func test_line_4_creates_beam() -> void:
 	# Настраиваем доску так, чтобы swap создавал линию из 4 элементов
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	for y in range(board.height):
 		for x in range(board.width):
 			board.set_piece(Vector2i(x, y), 0)
@@ -32,7 +32,7 @@ func test_line_4_creates_beam() -> void:
 	board.set_piece(Vector2i(2, 1), 1)
 	
 	# Запускаем swap
-	var success := session.pipeline.request_swap(Vector2i(2, 0), Vector2i(2, 1))
+	var success: bool = session.pipeline.request_swap(Vector2i(2, 0), Vector2i(2, 1))
 	assert_true(success, "Свап должен быть запрошен")
 	
 	# Продвигаем FSM
@@ -40,7 +40,7 @@ func test_line_4_creates_beam() -> void:
 	
 	# Проверяем, что в (2,0) (или центре слияния) появилась спец-сфера типа BEAM
 	# Специальные сферы в pipeline хранятся в active_specials
-	var special_found := false
+	var special_found: bool = false
 	for cell in session.pipeline.active_specials:
 		if session.pipeline.active_specials[cell] == SpecialSphereType.Type.BEAM_SPHERE:
 			special_found = true
@@ -48,7 +48,7 @@ func test_line_4_creates_beam() -> void:
 	assert_true(special_found, "Должна создаться горизонтальная/вертикальная Beam сфера")
 
 func test_square_creates_homing() -> void:
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	for y in range(board.height):
 		for x in range(board.width):
 			board.set_piece(Vector2i(x, y), 0)
@@ -62,11 +62,11 @@ func test_square_creates_homing() -> void:
 	board.set_piece(Vector2i(1, 1), 2)
 	board.set_piece(Vector2i(1, 2), 1) # чтобы при свапе (1,1) и (1,2) получился квадрат!
 	
-	var success := session.pipeline.request_swap(Vector2i(1, 1), Vector2i(1, 2))
+	var success: bool = session.pipeline.request_swap(Vector2i(1, 1), Vector2i(1, 2))
 	assert_true(success)
 	session._advance_cfe_pipeline()
 	
-	var special_found := false
+	var special_found: bool = false
 	for cell in session.pipeline.active_specials:
 		if session.pipeline.active_specials[cell] == SpecialSphereType.Type.HOMING_SPHERE:
 			special_found = true
@@ -74,7 +74,7 @@ func test_square_creates_homing() -> void:
 	assert_true(special_found, "Должна создаться Homing сфера (бабочка/самолетик) за 2x2")
 
 func test_line_5_creates_prism() -> void:
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	for y in range(board.height):
 		for x in range(board.width):
 			board.set_piece(Vector2i(x, y), 0)
@@ -88,11 +88,11 @@ func test_line_5_creates_prism() -> void:
 	board.set_piece(Vector2i(4, 0), 1)
 	board.set_piece(Vector2i(3, 1), 1)
 	
-	var success := session.pipeline.request_swap(Vector2i(3, 0), Vector2i(3, 1))
+	var success: bool = session.pipeline.request_swap(Vector2i(3, 0), Vector2i(3, 1))
 	assert_true(success)
 	session._advance_cfe_pipeline()
 	
-	var special_found := false
+	var special_found: bool = false
 	for cell in session.pipeline.active_specials:
 		if session.pipeline.active_specials[cell] == SpecialSphereType.Type.PRISM_SPHERE:
 			special_found = true
@@ -102,7 +102,7 @@ func test_line_5_creates_prism() -> void:
 func test_combo_window_extends() -> void:
 	# Имитируем успешный матч и проверяем увеличение Combo Window
 	assert_eq(session.combo_controller.chain_index, 0)
-	session.combo_controller.on_match_detected("LINE_3", false)
+	session.combo_controller.on_match_detected("LINE_3", 100.0, false)
 	assert_eq(session.combo_controller.chain_index, 1, "Цепочка комбо должна вырасти")
 	assert_gt(session.combo_controller.combo_window_remaining, 0.0, "Таймер комбо должен увеличиться")
 
@@ -110,10 +110,10 @@ func test_fever_activates() -> void:
 	# Доводим комбо до порога активации Fever
 	session.combo_controller.chain_index = 0
 	session.combo_controller.is_fever_active = false
-	var threshold := session.combo_controller.fever_combo_threshold
+	var threshold: int = session.combo_controller.fever_combo_threshold
 	
 	for i in range(threshold):
-		session.combo_controller.on_match_detected("LINE_3", false)
+		session.combo_controller.on_match_detected("LINE_3", 100.0, false)
 		
 	assert_true(session.combo_controller.is_fever_active, "Fever должен активироваться при достижении порога комбо")
 	assert_gt(session.combo_controller.fever_remaining, 0.0, "Время Fever должно быть заполнено")
@@ -124,7 +124,7 @@ func test_queued_move_executes() -> void:
 	session.board_state_engine.set_cell_state(Vector2i(0, 0), CellState.State.FALLING)
 	
 	# Пытаемся сделать ход во время каскада (ставим в очередь)
-	var current_time := Time.get_ticks_msec() / 1000.0
+	var current_time: float = Time.get_ticks_msec() / 1000.0
 	session.input_buffer.enqueue_move(Vector2i(0, 0), Vector2i(1, 0), session.board_state_engine, current_time)
 	
 	assert_eq(session.input_buffer.queue.size(), 1, "Ход должен успешно встать в очередь буфера")
@@ -140,21 +140,21 @@ func test_queued_move_expires() -> void:
 	session.pipeline.context.state = ResolveContext.State.MATCH_SCANNING
 	session.board_state_engine.set_cell_state(Vector2i(0, 0), CellState.State.FALLING)
 	
-	var current_time := Time.get_ticks_msec() / 1000.0
+	var current_time: float = Time.get_ticks_msec() / 1000.0
 	session.input_buffer.enqueue_move(Vector2i(0, 0), Vector2i(1, 0), session.board_state_engine, current_time)
 	
 	# Шагаем время на 2 секунды вперед (время жизни по умолчанию 0.5)
-	var expired_move := session.input_buffer.validate_and_get_next(session.board_state_engine, current_time + 2.0)
+	var expired_move = session.input_buffer.validate_and_get_next(session.board_state_engine, current_time + 2.0)
 	assert_null(expired_move, "Устаревший ход не должен возвращаться из буфера")
 	assert_eq(session.input_buffer.queue.size(), 0, "Устаревший ход должен быть удален из очереди")
 
 func test_beam_beam_combo() -> void:
 	# Тестируем спец-комбинацию Beam + Beam step-by-step
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	session.pipeline.set_special_sphere(Vector2i(0, 0), SpecialSphereType.Type.BEAM_SPHERE)
 	session.pipeline.set_special_sphere(Vector2i(1, 0), SpecialSphereType.Type.BEAM_SPHERE)
 	
-	var success := session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
+	var success: bool = session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
 	assert_true(success)
 	
 	session.pipeline.advance() # SWAP_REQUESTED -> SWAP_VALIDATING
@@ -174,11 +174,11 @@ func test_beam_beam_combo() -> void:
 	assert_eq(session.pipeline.get_special_sphere(Vector2i(1, 0)), SpecialSphereType.Type.NONE)
 
 func test_beam_blast_combo() -> void:
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	session.pipeline.set_special_sphere(Vector2i(0, 0), SpecialSphereType.Type.BEAM_SPHERE)
 	session.pipeline.set_special_sphere(Vector2i(1, 0), SpecialSphereType.Type.BLAST_SPHERE)
 	
-	var success := session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
+	var success: bool = session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
 	assert_true(success)
 	
 	session.pipeline.advance() # SWAP_REQUESTED -> SWAP_VALIDATING
@@ -196,11 +196,11 @@ func test_beam_blast_combo() -> void:
 	assert_eq(session.pipeline.get_special_sphere(Vector2i(1, 0)), SpecialSphereType.Type.NONE)
 
 func test_prism_prism_combo() -> void:
-	var board := session.board_state_engine
+	var board: BoardLogic = session.board_state_engine
 	session.pipeline.set_special_sphere(Vector2i(0, 0), SpecialSphereType.Type.PRISM_SPHERE)
 	session.pipeline.set_special_sphere(Vector2i(1, 0), SpecialSphereType.Type.PRISM_SPHERE)
 	
-	var success := session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
+	var success: bool = session.pipeline.request_swap(Vector2i(0, 0), Vector2i(1, 0))
 	assert_true(success)
 	
 	session.pipeline.advance() # SWAP_REQUESTED -> SWAP_VALIDATING
@@ -229,15 +229,14 @@ func test_telemetry_export() -> void:
 	session.telemetry.record_special_created()
 	session.telemetry.record_session_end(true, 5)
 	
-	var json_str := session.telemetry.export_json()
+	var json_str: String = session.telemetry.export_json()
 	assert_not_null(json_str)
 	
-	var parser := JSON.new()
-	var err := parser.parse(json_str)
+	var parser: JSON = JSON.new()
+	var err: Error = parser.parse(json_str)
 	assert_eq(err, OK, "Экспортированный JSON должен быть валидным")
 	
 	var data: Dictionary = parser.data
 	assert_eq(data["max_combo_length"], 3.0)
 	assert_eq(data["fever_activation_rate"], 1.0)
 	assert_eq(data["level_win_rate"], 1.0)
-

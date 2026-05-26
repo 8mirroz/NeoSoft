@@ -1,37 +1,33 @@
 # /Users/user/3-line/scripts/contracts/match_event.gd
-class_name MatchEvent
 extends RefCounted
+class_name MatchEvent
 
-## Контракт найденной группы совпадений (Match-3+).
-## Передается по EventBus в VFX и систему начисления очков.
+## Контракт события совпадения (Match Event DTO).
 
-var coordinates: Array[Vector2i] = []
-var color: String = ""
-var shape_type: String = "line_3" # E.g. line_3, line_4, square_2x2
-var score: int = 0
+var shape_type: String = "LINE_3" # LINE_3, LINE_4, SQUARE_2X2, CROSS, ZIGZAG_6, etc.
+var cells: Array[Vector2i] = []
+var center_cell: Vector2i = Vector2i(-1, -1)
+var origin_cell: Vector2i = Vector2i(-1, -1)
+var gem_color: String = ""
+var score_granted: int = 0
 
-func _init(p_coords: Array[Vector2i] = [], p_color: String = "", p_shape: String = "line_3", p_score: int = 0) -> void:
-	coordinates = p_coords
-	color = p_color
-	shape_type = p_shape
-	score = p_score
+func _init(p_type: String, p_cells: Array[Vector2i], p_center: Vector2i, p_origin: Vector2i, p_color: String, p_score: int) -> void:
+	shape_type = p_type
+	cells = p_cells
+	center_cell = p_center
+	origin_cell = p_origin
+	gem_color = p_color
+	score_granted = p_score
 
-func serialize() -> Dictionary:
-	var coords_arr = []
-	for coord in coordinates:
-		coords_arr.append({"x": coord.x, "y": coord.y})
+func to_dict() -> Dictionary:
+	var flat_cells = []
+	for c in cells:
+		flat_cells.append({"x": c.x, "y": c.y})
 	return {
-		"coordinates": coords_arr,
-		"color": color,
 		"shape_type": shape_type,
-		"score": score
+		"cells": flat_cells,
+		"center_cell": {"x": center_cell.x, "y": center_cell.y},
+		"origin_cell": {"x": origin_cell.x, "y": origin_cell.y},
+		"gem_color": gem_color,
+		"score_granted": score_granted
 	}
-
-func deserialize(data: Dictionary) -> void:
-	color = data.get("color", "")
-	shape_type = data.get("shape_type", "line_3")
-	score = data.get("score", 0)
-	coordinates.clear()
-	var coords_arr = data.get("coordinates", [])
-	for c in coords_arr:
-		coordinates.append(Vector2i(c.get("x", 0), c.get("y", 0)))

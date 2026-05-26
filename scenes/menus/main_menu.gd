@@ -23,17 +23,16 @@ var coin_label: Label
 var star_label: Label
 var subtitle_label: Label
 
-# Design Tokens (Pastel Glassmorphism)
-const COLOR_BG_START = Color(0.92, 0.88, 0.98)
-const COLOR_BG_END = Color(0.96, 0.90, 0.95)
-const COLOR_TEXT_PRIMARY = Color(0.45, 0.38, 0.55)
-const COLOR_TEXT_MUTED = Color(0.60, 0.55, 0.70)
-const COLOR_GLASS_BG = Color(1.0, 1.0, 1.0, 0.35)
-const COLOR_GLASS_BORDER = Color(1.0, 1.0, 1.0, 0.65)
-const COLOR_GLASS_SHADOW = Color(0.60, 0.50, 0.70, 0.12)
-const COLOR_ACCENT_COIN = Color(0.98, 0.72, 0.28)
-const COLOR_ACCENT_STAR = Color(0.28, 0.65, 0.92)
-const COLOR_ACCENT_PLAY = Color(0.78, 0.60, 0.90)
+var COLOR_BG_START: Color = Color.WHITE
+var COLOR_BG_END: Color = Color.WHITE
+var COLOR_TEXT_PRIMARY: Color = Color.WHITE
+var COLOR_TEXT_MUTED: Color = Color.WHITE
+var COLOR_GLASS_BG: Color = Color.WHITE
+var COLOR_GLASS_BORDER: Color = Color.WHITE
+var COLOR_GLASS_SHADOW: Color = Color.WHITE
+var COLOR_ACCENT_COIN: Color = Color.WHITE
+var COLOR_ACCENT_STAR: Color = Color.WHITE
+var COLOR_ACCENT_PLAY: Color = Color.WHITE
 
 # Floating Gems properties
 class FloatingGem:
@@ -111,6 +110,34 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		queue_redraw()
 
+func _theme_color(key: String, fallback: Color) -> Color:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		var tokens = (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+		if tokens != null:
+			var value = tokens.color(key, fallback)
+			if value is Color:
+				return value
+			if value is String:
+				return Color(String(value))
+	return fallback
+
+func _theme_path(path: String, fallback: Color = Color.WHITE) -> Color:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		var tokens = (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+		if tokens != null and tokens.has_method("color_path"):
+			return tokens.color_path(path, fallback)
+	return fallback
+
+func _theme_int(path: String, fallback: int) -> int:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		var tokens = (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+		if tokens != null and tokens.has_method("int_value"):
+			return tokens.int_value(path, fallback)
+	return fallback
+
 # --- CUSTOM COMPONENTS SETUP ---
 
 func _setup_top_bar() -> void:
@@ -121,12 +148,12 @@ func _setup_top_bar() -> void:
 	# Coin Pill
 	var coin_pill = PanelContainer.new()
 	coin_pill.name = "CoinPill"
-	coin_pill.custom_minimum_size = Vector2(110, 42)
+	coin_pill.custom_minimum_size = Vector2(150, 54)
 	coin_pill.set("theme_override_styles/panel", _make_glass_style(21, COLOR_GLASS_BG, COLOR_GLASS_BORDER))
 	
 	var coin_hb = HBoxContainer.new()
 	coin_hb.alignment = BoxContainer.ALIGNMENT_CENTER
-	coin_hb.add_theme_constant_override("separation", 6)
+	coin_hb.add_theme_constant_override("separation", 10)
 	
 	var coin_icon = Label.new()
 	coin_icon.text = "🪙"
@@ -136,8 +163,20 @@ func _setup_top_bar() -> void:
 	coin_label = Label.new()
 	coin_label.text = "0"
 	coin_label.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
-	coin_label.add_theme_font_size_override("font_size", 15)
+	coin_label.add_theme_font_size_override("font_size", 18)
 	coin_hb.add_child(coin_label)
+
+	var coin_plus_btn = Button.new()
+	coin_plus_btn.text = "+"
+	coin_plus_btn.custom_minimum_size = Vector2(32, 32)
+	coin_plus_btn.focus_mode = Control.FOCUS_NONE
+	coin_plus_btn.set("theme_override_styles/normal", _make_glass_style(16, COLOR_GLASS_BG.lightened(0.06), COLOR_GLASS_BORDER))
+	coin_plus_btn.set("theme_override_styles/hover", _make_glass_style(16, COLOR_GLASS_BG.lightened(0.18), COLOR_ACCENT_PLAY))
+	coin_plus_btn.set("theme_override_styles/pressed", _make_glass_style(16, COLOR_GLASS_BG.darkened(0.06), COLOR_ACCENT_PLAY))
+	coin_plus_btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
+	coin_plus_btn.add_theme_font_size_override("font_size", 16)
+	coin_plus_btn.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
+	coin_hb.add_child(coin_plus_btn)
 	
 	coin_pill.add_child(coin_hb)
 	top_bar.add_child(coin_pill)
@@ -145,12 +184,12 @@ func _setup_top_bar() -> void:
 	# Star Pill
 	var star_pill = PanelContainer.new()
 	star_pill.name = "StarPill"
-	star_pill.custom_minimum_size = Vector2(95, 42)
+	star_pill.custom_minimum_size = Vector2(150, 54)
 	star_pill.set("theme_override_styles/panel", _make_glass_style(21, COLOR_GLASS_BG, COLOR_GLASS_BORDER))
 	
 	var star_hb = HBoxContainer.new()
 	star_hb.alignment = BoxContainer.ALIGNMENT_CENTER
-	star_hb.add_theme_constant_override("separation", 6)
+	star_hb.add_theme_constant_override("separation", 10)
 	
 	var star_icon = Label.new()
 	star_icon.text = "⭐"
@@ -160,8 +199,20 @@ func _setup_top_bar() -> void:
 	star_label = Label.new()
 	star_label.text = "0"
 	star_label.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
-	star_label.add_theme_font_size_override("font_size", 15)
+	star_label.add_theme_font_size_override("font_size", 18)
 	star_hb.add_child(star_label)
+
+	var star_plus_btn = Button.new()
+	star_plus_btn.text = "+"
+	star_plus_btn.custom_minimum_size = Vector2(32, 32)
+	star_plus_btn.focus_mode = Control.FOCUS_NONE
+	star_plus_btn.set("theme_override_styles/normal", _make_glass_style(16, COLOR_GLASS_BG.lightened(0.06), COLOR_GLASS_BORDER))
+	star_plus_btn.set("theme_override_styles/hover", _make_glass_style(16, COLOR_GLASS_BG.lightened(0.18), COLOR_ACCENT_PLAY))
+	star_plus_btn.set("theme_override_styles/pressed", _make_glass_style(16, COLOR_GLASS_BG.darkened(0.06), COLOR_ACCENT_PLAY))
+	star_plus_btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
+	star_plus_btn.add_theme_font_size_override("font_size", 16)
+	star_plus_btn.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
+	star_hb.add_child(star_plus_btn)
 	
 	star_pill.add_child(star_hb)
 	top_bar.add_child(star_pill)
@@ -174,7 +225,7 @@ func _setup_top_bar() -> void:
 	# Inbox Button (Mail icon)
 	var inbox_btn = Button.new()
 	inbox_btn.name = "InboxBtn"
-	inbox_btn.custom_minimum_size = Vector2(44, 44)
+	inbox_btn.custom_minimum_size = Vector2(56, 56)
 	inbox_btn.set("theme_override_styles/normal", _make_glass_style(22, COLOR_GLASS_BG, COLOR_GLASS_BORDER))
 	inbox_btn.set("theme_override_styles/hover", _make_glass_style(22, COLOR_GLASS_BG.lightened(0.2), COLOR_ACCENT_STAR))
 	inbox_btn.set("theme_override_styles/pressed", _make_glass_style(22, COLOR_GLASS_BG.darkened(0.1), COLOR_ACCENT_STAR))
@@ -195,6 +246,14 @@ func _setup_top_bar() -> void:
 		SoundManager.play("tap")
 		_spawn_toast("Inbox: No new messages")
 	)
+
+	var inbox_badge = Panel.new()
+	inbox_badge.custom_minimum_size = Vector2(10, 10)
+	inbox_badge.position = Vector2(34, 2)
+	inbox_badge.size = Vector2(10, 10)
+	inbox_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inbox_badge.set("theme_override_styles/panel", _make_glass_style(5, Color(0.98, 0.50, 0.72, 1.0), Color(1.0, 0.88, 0.95, 1.0)))
+	inbox_btn.add_child(inbox_badge)
 	top_bar.add_child(inbox_btn)
 
 func _setup_subtitle_label() -> void:
@@ -249,7 +308,7 @@ func _setup_quick_actions() -> void:
 	for action in actions:
 		var btn = Button.new()
 		btn.name = action["name"] + "Button"
-		btn.custom_minimum_size = Vector2(70, 70)
+		btn.custom_minimum_size = Vector2(86, 104)
 		btn.set("theme_override_styles/normal", _make_glass_style(20, COLOR_GLASS_BG, COLOR_GLASS_BORDER))
 		btn.set("theme_override_styles/hover", _make_glass_style(20, COLOR_GLASS_BG.lightened(0.15), COLOR_ACCENT_PLAY))
 		btn.set("theme_override_styles/pressed", _make_glass_style(20, COLOR_GLASS_BG.darkened(0.1), COLOR_ACCENT_PLAY))
@@ -271,9 +330,9 @@ func _setup_quick_actions() -> void:
 		lbl.text = action["name"]
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		lbl.add_theme_color_override("font_color", COLOR_TEXT_MUTED)
-		lbl.add_theme_font_size_override("font_size", 10)
-		lbl.position = Vector2(0, 50)
-		lbl.size = Vector2(70, 20)
+		lbl.add_theme_font_size_override("font_size", 12)
+		lbl.position = Vector2(0, 68)
+		lbl.size = Vector2(86, 20)
 		btn.add_child(lbl)
 		
 		# Setup button connection
@@ -308,7 +367,7 @@ func _setup_bottom_nav() -> void:
 	for tab in tabs:
 		var tab_btn = Button.new()
 		tab_btn.name = tab["name"] + "Tab"
-		tab_btn.custom_minimum_size = Vector2(64, 76)
+		tab_btn.custom_minimum_size = Vector2(72, 84)
 		tab_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		
 		var active_color = COLOR_ACCENT_PLAY if tab["active"] else COLOR_GLASS_BG
@@ -327,14 +386,14 @@ func _setup_bottom_nav() -> void:
 		var icon_lbl = Label.new()
 		icon_lbl.text = tab["icon"]
 		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.add_theme_font_size_override("font_size", 20)
+		icon_lbl.add_theme_font_size_override("font_size", 22)
 		icon_lbl.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY if tab["active"] else COLOR_TEXT_MUTED)
 		vbox.add_child(icon_lbl)
 		
 		var text_lbl = Label.new()
 		text_lbl.text = tab["name"]
 		text_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text_lbl.add_theme_font_size_override("font_size", 9)
+		text_lbl.add_theme_font_size_override("font_size", 10)
 		text_lbl.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY if tab["active"] else COLOR_TEXT_MUTED)
 		vbox.add_child(text_lbl)
 		
@@ -357,28 +416,39 @@ func _setup_bottom_nav() -> void:
 # --- THEME & STYLING ---
 
 func _apply_theme() -> void:
+	COLOR_BG_START = _theme_path("shared.colors.bg_top")
+	COLOR_BG_END = _theme_path("shared.colors.bg_bottom")
+	COLOR_TEXT_PRIMARY = _theme_path("menu.text.title")
+	COLOR_TEXT_MUTED = _theme_path("menu.text.muted")
+	COLOR_ACCENT_COIN = _theme_path("shared.colors.accent_gold")
+	COLOR_ACCENT_STAR = _theme_path("shared.colors.accent_primary")
+	COLOR_ACCENT_PLAY = _theme_path("colors.accent")
+	COLOR_GLASS_BG = _theme_path("shared.colors.glass_bg")
+	COLOR_GLASS_BORDER = _theme_path("shared.colors.glass_border")
+	COLOR_GLASS_SHADOW = _theme_path("shared.colors.shadow")
+
 	# Main Title
-	_set_label_style(title_label, 42, COLOR_TEXT_PRIMARY)
-	title_label.add_theme_color_override("font_outline_color", Color(1.0, 1.0, 1.0, 0.9))
-	title_label.add_theme_constant_override("outline_size", 8)
+	_set_label_style(title_label, _theme_int("shared.font.hero", 48), COLOR_TEXT_PRIMARY)
+	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.glass_border"))
+	title_label.add_theme_constant_override("outline_size", 10)
 	
 	# Main Play Button (Accent style)
-	var play_normal = _make_glass_style(26, COLOR_ACCENT_PLAY.lightened(0.1), COLOR_GLASS_BORDER)
-	var play_hover = _make_glass_style(26, COLOR_ACCENT_PLAY.lightened(0.25), COLOR_ACCENT_PLAY)
-	var play_press = _make_glass_style(26, COLOR_ACCENT_PLAY.darkened(0.1), COLOR_ACCENT_PLAY)
+	var play_normal = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.lightened(0.12), COLOR_GLASS_BORDER)
+	var play_hover = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.lightened(0.24), COLOR_ACCENT_PLAY)
+	var play_press = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.darkened(0.1), COLOR_ACCENT_PLAY)
 	
 	play_button.set("theme_override_styles/normal", play_normal)
 	play_button.set("theme_override_styles/hover", play_hover)
 	play_button.set("theme_override_styles/pressed", play_press)
 	play_button.set("theme_override_styles/focus", StyleBoxEmpty.new())
-	play_button.add_theme_font_size_override("font_size", 22)
-	play_button.add_theme_color_override("font_color", Color.WHITE)
-	play_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	play_button.add_theme_font_size_override("font_size", 26)
+	play_button.add_theme_color_override("font_color", _theme_path("shared.colors.text_inverse"))
+	play_button.add_theme_color_override("font_hover_color", _theme_path("shared.colors.text_inverse"))
 	
 	# Settings Overlay Custom Glass styling
-	var settings_glass = _make_glass_style(32, Color(1.0, 1.0, 1.0, 0.55), COLOR_GLASS_BORDER)
+	var settings_glass = _make_glass_style(_theme_int("shared.radius.xl", 40), COLOR_GLASS_BG.lightened(0.18), COLOR_GLASS_BORDER)
 	$SettingsOverlay/GlassPanel.set("theme_override_styles/panel", settings_glass)
-	$SettingsOverlay.color = Color(0.92, 0.88, 0.98, 0.65) # Pastel tint
+	$SettingsOverlay.color = COLOR_BG_START
 	
 	_set_label_style($SettingsOverlay/GlassPanel/TitleLabel, 30, COLOR_TEXT_PRIMARY)
 	
@@ -432,9 +502,11 @@ func _make_glass_style(radius: int, bg_col: Color, border_col: Color) -> StyleBo
 	style.corner_radius_bottom_left = radius
 	style.corner_radius_bottom_right = radius
 	style.shadow_color = COLOR_GLASS_SHADOW
-	style.shadow_size = 12
+	style.shadow_size = 16
 	style.content_margin_left = 12
 	style.content_margin_right = 12
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
 	return style
 
 # --- DRAW PROCESSES (Procedural Background & Hanging Diamonds) ---
@@ -833,7 +905,7 @@ class IconDrawerScript extends Control:
 		match icon_type:
 			"levels":
 				# Render beautiful list bullet layout
-				var line_w = 26
+				var line_w = 26.0
 				var line_h = 3.5
 				draw_rect(Rect2(-line_w/2, -10, line_w, line_h), color, true)
 				draw_rect(Rect2(-line_w/2, -2, line_w, line_h), color, true)

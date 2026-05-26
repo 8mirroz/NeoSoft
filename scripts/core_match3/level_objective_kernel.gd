@@ -13,6 +13,25 @@ var stars_earned: int = 0
 var objectives: Array = []
 var score_targets: Dictionary = {}
 
+func _get_game_event_bus() -> Node:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		return (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	return null
+
+func _emit_game_event(signal_name: String, arg1: Variant = null, arg2: Variant = null, arg3: Variant = null) -> void:
+	var bus := _get_game_event_bus()
+	if bus == null or not bus.has_signal(signal_name):
+		return
+	if arg1 == null and arg2 == null and arg3 == null:
+		bus.emit_signal(signal_name)
+	elif arg2 == null and arg3 == null:
+		bus.emit_signal(signal_name, arg1)
+	elif arg3 == null:
+		bus.emit_signal(signal_name, arg1, arg2)
+	else:
+		bus.emit_signal(signal_name, arg1, arg2, arg3)
+
 func initialize(path: String = "res://data/level_objectives.json") -> void:
 	var file = FileAccess.open(path, FileAccess.READ)
 	if not file:
@@ -38,8 +57,12 @@ func initialize(path: String = "res://data/level_objectives.json") -> void:
 	stars_earned = 0
 	
 	# Подписываемся на события шины
-	GameEventBus.match_detected.connect(_on_match_detected)
-	GameEventBus.special_activated.connect(_on_special_activated)
+	var bus := _get_game_event_bus()
+	if bus != null:
+		if bus.has_signal("match_detected"):
+			bus.connect("match_detected", _on_match_detected)
+		if bus.has_signal("special_activated"):
+			bus.connect("special_activated", _on_special_activated)
 
 func get_objective_progress() -> Array:
 	return objectives
@@ -47,13 +70,13 @@ func get_objective_progress() -> Array:
 func decrease_moves() -> void:
 	if moves_remaining > 0:
 		moves_remaining -= 1
-		GameEventBus.emit_signal("moves_updated", moves_remaining)
+		_emit_game_event("moves_updated", moves_remaining)
 		_check_level_status()
 
 func add_score(amount: int) -> void:
 	score_current += amount
 	_update_stars()
-	GameEventBus.emit_signal("score_updated", score_current, stars_earned)
+	_emit_game_event("score_updated", score_current, stars_earned)
 	_check_level_status()
 
 func _update_stars() -> void:
@@ -94,14 +117,17 @@ func _check_level_status() -> void:
 			break
 			
 	if won:
-		GameEventBus.emit_signal("level_result_resolved", true, score_current, stars_earned)
+		_emit_game_event("level_result_resolved", true, score_current, stars_earned)
 		_disconnect_events()
 	elif moves_remaining <= 0:
-		GameEventBus.emit_signal("level_result_resolved", false, score_current, stars_earned)
+		_emit_game_event("level_result_resolved", false, score_current, stars_earned)
 		_disconnect_events()
 
 func _disconnect_events() -> void:
-	if GameEventBus.match_detected.is_connected(_on_match_detected):
-		GameEventBus.match_detected.disconnect(_on_match_detected)
-	if GameEventBus.special_activated.is_connected(_on_special_activated):
-		GameEventBus.special_activated.disconnect(_on_special_activated)
+	var bus := _get_game_event_bus()
+	if bus == null:
+		return
+	if bus.is_connected("match_detected", _on_match_detected):
+		bus.disconnect("match_detected", _on_match_detected)
+	if bus.is_connected("special_activated", _on_special_activated):
+		bus.disconnect("special_activated", _on_special_activated)

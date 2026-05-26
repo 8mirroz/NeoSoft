@@ -11,11 +11,21 @@ var active_particles_count: int = 0
 var max_particles_limit: int = 40
 var is_safe_mode: bool = false
 
+func _get_game_event_bus() -> Node:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		return (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	return null
+
 func _init() -> void:
 	_load_config()
 	# Подписываемся на события шины
-	GameEventBus.cascade_step_resolved.connect(_on_cascade_step_resolved)
-	GameEventBus.special_activated.connect(_on_special_activated)
+	var bus := _get_game_event_bus()
+	if bus != null:
+		if bus.has_signal("cascade_step_resolved"):
+			bus.connect("cascade_step_resolved", _on_cascade_step_resolved)
+		if bus.has_signal("special_activated"):
+			bus.connect("special_activated", _on_special_activated)
 
 func _load_config() -> void:
 	var fallback_tiers := {

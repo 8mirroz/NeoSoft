@@ -10,12 +10,29 @@ signal pipeline_stabilized()
 signal recovery_triggered()
 signal swap_started(from: Vector2i, to: Vector2i)
 signal swap_completed(from: Vector2i, to: Vector2i, success: bool)
+signal matches_detected(matches: Array)
+signal gravity_applied(movements: Array, spawns: Array)
+signal combo_updated(combo_count: int, fever_active: bool)
 
 var context: ResolveContext
 var active_specials: Dictionary = {} # Vector2i -> int
 var piece_kinds: int = 5
 var rng := RandomNumberGenerator.new()
 var fsm_timer_sec: float = 0.0
+
+func _emit_game_event(signal_name: String, arg1: Variant = null, arg2: Variant = null) -> void:
+	var loop := Engine.get_main_loop()
+	if not (loop is SceneTree):
+		return
+	var bus := (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	if bus == null or not bus.has_signal(signal_name):
+		return
+	if arg1 == null and arg2 == null:
+		bus.emit_signal(signal_name)
+	elif arg2 == null:
+		bus.emit_signal(signal_name, arg1)
+	else:
+		bus.emit_signal(signal_name, arg1, arg2)
 
 func _init(p_context: ResolveContext) -> void:
 	context = p_context
@@ -109,15 +126,31 @@ func advance() -> void:
 				context.pending_matches = context.shape_detector.detect_shapes(context.board)
 				
 			if not context.pending_matches.is_empty() or context.is_special_swap:
+				emit_signal("matches_detected", context.pending_matches)
 				context.pending_specials.clear()
 				var cleared_cells: Array[Vector2i] = []
+				
+				if context.is_special_swap:
+					if context.active_swap_from != Vector2i(-1, -1) and not context.active_swap_from in cleared_cells:
+						cleared_cells.append(context.active_swap_from)
+						context.board.set_cell_state(context.active_swap_from, CellState.State.RESOLVING)
+					if context.active_swap_to != Vector2i(-1, -1) and not context.active_swap_to in cleared_cells:
+						cleared_cells.append(context.active_swap_to)
+						context.board.set_cell_state(context.active_swap_to, CellState.State.RESOLVING)
 				
 				for shape in context.pending_matches:
 					# Публикуем событие MatchEvent в EventBus
 					var match_coords: Array[Vector2i] = []
 					match_coords.assign(shape.cells)
-					var match_event = MatchEvent.new(match_coords, context.board.get_gem(shape.cells[0]), shape.shape_type, 100)
-					GameEventBus.emit_signal("match_detected", match_event)
+					var match_event = MatchEvent.new(
+						shape.shape_type,
+						match_coords,
+						shape.center_cell,
+						shape.origin_cell,
+						context.board.get_gem(shape.cells[0]),
+						100
+					)
+					_emit_game_event("match_detected", match_event)
 					
 					for cell in shape.cells:
 						if not cell in cleared_cells:
@@ -147,7 +180,7 @@ func advance() -> void:
 						context.board.set_cell_state(cell, CellState.State.STABLE)
 						
 					# Публикуем спавн спец-сферы
-					GameEventBus.emit_signal("special_spawned", cell, special_type)
+					_emit_game_event("special_spawned", cell, special_type)
 				context.pending_specials.clear()
 				
 			_transition_to(ResolveContext.State.EFFECT_RESOLVING)
@@ -172,7 +205,7 @@ func advance() -> void:
 					var act_coords: Array[Vector2i] = []
 					act_coords.assign(secondary_cells)
 					var act_event = SpecialActivationEvent.new(cell, special_type, act_coords)
-					GameEventBus.emit_signal("special_activated", act_event)
+					_emit_game_event("special_activated", act_event)
 					
 					for sc in secondary_cells:
 						if not sc in cleared_cells and context.board.is_in_bounds(sc):
@@ -192,6 +225,9 @@ func advance() -> void:
 			
 		ResolveContext.State.GRAVITY_APPLYING:
 			# Гравитация и Refill
+			var movements: Array[Dictionary] = []
+			var spawns: Array[Dictionary] = []
+			
 			for x in range(context.board.width):
 				var write_y = context.board.height - 1
 				for y in range(context.board.height - 1, -1, -1):
@@ -215,6 +251,7 @@ func advance() -> void:
 						set_special_sphere(from_cell, 0)
 						
 						context.board.set_cell_state(to_cell, CellState.State.FALLING)
+						movements.append({"from": from_cell, "to": to_cell})
 					write_y = to_cell.y - 1
 					
 			# Накатываем новые гемы через ControlledCascadeEngine
@@ -244,12 +281,14 @@ func advance() -> void:
 					var gem: String = drop["gem_type"]
 					context.board.set_gem(pos, gem)
 					context.board.set_cell_state(pos, CellState.State.SPAWNING)
+					spawns.append({"position": pos, "gem_type": gem})
 					
+			emit_signal("gravity_applied", movements, spawns)
 			_transition_to(ResolveContext.State.CASCADE_CHECKING)
 			
 		ResolveContext.State.CASCADE_CHECKING:
 			context.current_cascade_depth += 1
-			GameEventBus.emit_signal("cascade_started", context.current_cascade_depth)
+			_emit_game_event("cascade_started", context.current_cascade_depth)
 			
 			if context.current_cascade_depth >= context.max_cascade_depth:
 				_transition_to(ResolveContext.State.FAILED_RECOVERY)
@@ -263,9 +302,12 @@ func advance() -> void:
 				_transition_to(ResolveContext.State.COMBO_UPDATING)
 				
 		ResolveContext.State.COMBO_UPDATING:
+			var combo_count := 0
+			var fever_active := false
 			if context.combo_controller != null:
-				# Сохраняем Fever Meter
-				pass
+				combo_count = context.combo_controller.chain_index
+				fever_active = context.combo_controller.is_fever_active
+			emit_signal("combo_updated", combo_count, fever_active)
 			_transition_to(ResolveContext.State.STABILIZING)
 			
 		ResolveContext.State.STABILIZING:
@@ -273,6 +315,9 @@ func advance() -> void:
 			context.current_cascade_depth = 0
 			context.active_swap_from = Vector2i(-1, -1)
 			context.active_swap_to = Vector2i(-1, -1)
+			
+			if context.has_meta("cascade_engine"):
+				context.get_meta("cascade_engine").notify_turn_ended()
 			
 			emit_signal("pipeline_stabilized")
 			_transition_to(ResolveContext.State.IDLE)
@@ -286,6 +331,9 @@ func advance() -> void:
 			active_specials.clear()
 			context.active_swap_from = Vector2i(-1, -1)
 			context.active_swap_to = Vector2i(-1, -1)
+			
+			if context.has_meta("cascade_engine"):
+				context.get_meta("cascade_engine").notify_turn_ended()
 			
 			emit_signal("pipeline_stabilized")
 			_transition_to(ResolveContext.State.IDLE)

@@ -12,6 +12,20 @@ var current_move_index: int = 0
 signal replay_step_completed(turn_index: int)
 signal replay_finished(desync_error: bool, reason: String)
 
+func _emit_game_event(signal_name: String, arg1: Variant = null, arg2: Variant = null) -> void:
+	var loop := Engine.get_main_loop()
+	if not (loop is SceneTree):
+		return
+	var bus := (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	if bus == null or not bus.has_signal(signal_name):
+		return
+	if arg1 == null and arg2 == null:
+		bus.emit_signal(signal_name)
+	elif arg2 == null:
+		bus.emit_signal(signal_name, arg1)
+	else:
+		bus.emit_signal(signal_name, arg1, arg2)
+
 func load_replay_file(path: String) -> Error:
 	var file = FileAccess.open(path, FileAccess.READ)
 	if not file:
@@ -63,14 +77,14 @@ func _play_next_step(board_logic_node: Node) -> void:
 	var to_cell = Vector2i(move.swipe_to.x, move.swipe_to.y)
 	
 	# Эмулируем свайп
-	GameEventBus.emit_signal("swap_requested", from_cell, to_cell)
+	_emit_game_event("swap_requested", from_cell, to_cell)
 	
 	# Симулируем буферизованные ввода (с задержкой или сразу)
 	var queued_inputs = move.get("queued_inputs_during_turn", [])
 	for qi in queued_inputs:
 		var q_from = Vector2i(qi.swipe_from.x, qi.swipe_from.y)
 		var q_to = Vector2i(qi.swipe_to.x, qi.swipe_to.y)
-		GameEventBus.emit_signal("input_queued", q_from, q_to)
+		_emit_game_event("input_queued", q_from, q_to)
 		
 	current_move_index += 1
 	emit_signal("replay_step_completed", current_move_index)

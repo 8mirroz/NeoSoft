@@ -92,6 +92,19 @@ func _ready() -> void:
 		telemetry = BalanceTelemetryLayer.new()
 
 		resolve_context = ResolveContext.new(board_state_engine, combo_controller, input_buffer, shape_detector, sphere_factory, target_priority)
+		
+		var cascade_engine = ControlledCascadeEngine.new()
+		var rules_data := {}
+		if FileAccess.file_exists("res://data/cascade_rules.json"):
+			var file := FileAccess.open("res://data/cascade_rules.json", FileAccess.READ)
+			var json_conv := JSON.new()
+			if json_conv.parse(file.get_as_text()) == OK:
+				rules_data = json_conv.data
+			file.close()
+		cascade_engine.initialize(rules_data, randi())
+		cascade_engine.prepare_for_level(profile)
+		resolve_context.set_meta("cascade_engine", cascade_engine)
+
 		pipeline = ResolvePipeline.new(resolve_context)
 		pipeline.piece_kinds = board_cfg.get("gem_kinds", 6)
 
@@ -297,7 +310,12 @@ func _emit_status_updates() -> void:
 
 func _show_hint() -> void:
 	hint_active = true
-	var hint_cells := HintSystem.find_hint(board_controller.board, board_controller.match_system)
+	var hint_cells: Array[Vector2i] = []
+	if fever_mode_enabled:
+		hint_cells = HintSystem.find_cfe_hint(board_state_engine, shape_detector)
+	else:
+		hint_cells = HintSystem.find_hint(board_controller.board, board_controller.match_system)
+		
 	if not hint_cells.is_empty():
 		EventBus.hint_requested.emit(hint_cells)
 	else:
@@ -387,8 +405,14 @@ func _commit_pending_undo(reason: String) -> void:
 	_pending_undo_snapshot.clear()
 
 func _capture_runtime_snapshot() -> Dictionary:
+	var board_snap = null
+	if board_controller != null:
+		board_snap = board_controller.snapshot()
+	elif board_state_engine != null:
+		board_snap = board_state_engine.create_snapshot()
+		
 	return {
-		"board": board_controller.snapshot(),
+		"board": board_snap,
 		"score": score_system.snapshot(),
 		"goals": goal_tracker.snapshot(),
 		"moves": move_counter.snapshot(),
@@ -398,7 +422,12 @@ func _capture_runtime_snapshot() -> Dictionary:
 	}
 
 func _restore_runtime_snapshot(snapshot: Dictionary) -> void:
-	board_controller.restore(snapshot.get("board", {}))
+	var board_snap = snapshot.get("board")
+	if board_controller != null:
+		board_controller.restore(board_snap if board_snap != null else {})
+	elif board_state_engine != null and board_snap != null:
+		board_state_engine.load_snapshot(board_snap)
+		
 	score_system.restore(snapshot.get("score", {}))
 	goal_tracker.restore(snapshot.get("goals", []))
 	move_counter.restore(snapshot.get("moves", {}))
@@ -408,6 +437,8 @@ func _restore_runtime_snapshot(snapshot: Dictionary) -> void:
 	EventBus.gem_deselected.emit()
 
 func _ensure_playable_board(reason: String) -> void:
+	if board_controller == null:
+		return
 	if board_controller.has_valid_moves():
 		return
 	EventBus.dead_board_detected.emit({
@@ -448,16 +479,15 @@ func _advance_cfe_pipeline() -> void:
 	
 	# Продвигаем до состояния, требующего ожидания visual анимации, или до IDLE
 	while true:
-		var prev_state := pipeline.context.state
+		var prev_state: int = pipeline.context.state
 		pipeline.advance()
-		var curr_state := pipeline.context.state
+		var curr_state: int = pipeline.context.state
 		
 		if curr_state == ResolveContext.State.IDLE:
 			break
 			
 		# Проверяем состояния, требующие визуального ожидания
 		if curr_state == ResolveContext.State.SWAP_REQUESTED or \
-		   curr_state == ResolveContext.State.EFFECT_RESOLVING or \
 		   curr_state == ResolveContext.State.GRAVITY_APPLYING:
 			break
 			

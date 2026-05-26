@@ -10,6 +10,12 @@ var is_recording: bool = false
 var turn_counter: int = 0
 var current_turn_moves: Array = []
 
+func _get_game_event_bus() -> Node:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		return (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	return null
+
 func start_recording(level_id: String, difficulty: String, seed_val: int, initial_board: BoardSnapshot) -> void:
 	current_replay = {
 		"protocol_version": "5.1",
@@ -29,8 +35,12 @@ func start_recording(level_id: String, difficulty: String, seed_val: int, initia
 	current_turn_moves.clear()
 	
 	# Подписываемся на события шины
-	GameEventBus.swap_resolved.connect(_on_swap_resolved)
-	GameEventBus.input_queued.connect(_on_input_queued)
+	var bus := _get_game_event_bus()
+	if bus != null:
+		if bus.has_signal("swap_resolved"):
+			bus.connect("swap_resolved", _on_swap_resolved)
+		if bus.has_signal("input_queued"):
+			bus.connect("input_queued", _on_input_queued)
 
 func record_move(swipe_from: Vector2i, swipe_to: Vector2i) -> void:
 	if not is_recording:
@@ -76,10 +86,12 @@ func finish_recording(won: bool, final_score: int, stars: int, moves_left: int) 
 	is_recording = false
 	
 	# Отписываемся от событий
-	if GameEventBus.swap_resolved.is_connected(_on_swap_resolved):
-		GameEventBus.swap_resolved.disconnect(_on_swap_resolved)
-	if GameEventBus.input_queued.is_connected(_on_input_queued):
-		GameEventBus.input_queued.disconnect(_on_input_queued)
+	var bus := _get_game_event_bus()
+	if bus != null:
+		if bus.is_connected("swap_resolved", _on_swap_resolved):
+			bus.disconnect("swap_resolved", _on_swap_resolved)
+		if bus.is_connected("input_queued", _on_input_queued):
+			bus.disconnect("input_queued", _on_input_queued)
 		
 	return current_replay
 

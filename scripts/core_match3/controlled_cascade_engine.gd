@@ -24,6 +24,20 @@ var _casc_gov: CascadeGovernor
 var _bal_gov: BalanceGovernor
 var _rules: Dictionary = {}
 
+func _emit_game_event(signal_name: String, arg1: Variant = null, arg2: Variant = null) -> void:
+	var loop := Engine.get_main_loop()
+	if not (loop is SceneTree):
+		return
+	var bus := (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	if bus == null or not bus.has_signal(signal_name):
+		return
+	if arg1 == null and arg2 == null:
+		bus.emit_signal(signal_name)
+	elif arg2 == null:
+		bus.emit_signal(signal_name, arg1)
+	else:
+		bus.emit_signal(signal_name, arg1, arg2)
+
 func initialize(rules_json: Dictionary, seed_val: int) -> void:
 	_rules = rules_json
 	_rng_ctrl = DropRngController.new(seed_val)
@@ -71,8 +85,8 @@ func fill_empty_cells(board_state: Array, empty_cells: Array[Vector2i], last_mov
 	_casc_gov.increment_depth()
 	
 	# Публикуем типизированный контракт CascadeStep в EventBus
-	var step_contract = CascadeStep.new(_casc_gov.current_depth, result, mode)
-	GameEventBus.emit_signal("cascade_step_resolved", step_contract)
+	var step_contract = CascadeStep.new(_casc_gov.current_depth, mode, result)
+	_emit_game_event("cascade_step_resolved", step_contract)
 	
 	emit_signal("cascade_calculated", _casc_gov.current_depth, mode, result)
 	return result

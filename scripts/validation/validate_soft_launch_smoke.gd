@@ -3,7 +3,7 @@ extends Node
 const BOOT_SCENE := "res://scenes/boot/boot.tscn"
 const MENU_SCENE := "res://scenes/menus/main_menu.tscn"
 const LEVEL_SELECT_SCENE := "res://scenes/menus/level_select.tscn"
-const GAMEPLAY_SCENE := "res://scenes/gameplay/gameplay_soft_frost.tscn"
+const GAMEPLAY_SCENE := "res://scenes/gameplay/gameplay.tscn"
 
 const SAVE_PATH := "user://save_data.cfg"
 const SAVE_BACKUP_PATH := "user://save_data.cfg.smoke_backup"

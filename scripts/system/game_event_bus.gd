@@ -1,65 +1,59 @@
 # /Users/user/3-line/scripts/system/game_event_bus.gd
 extends Node
 
-## Глобальная событийно-ориентированная шина (Autoload).
-## Единственный мост взаимодействия между детерминированным ядром (Layers 1-4)
-## и Feedback/UI/Telemetry (Layers 5-6). Прямые вызовы между слоями запрещены.
+## Глобальная централизованная шина событий (Autoload: GameEventBus).
+## Единственный мост между core, UI, feedback и telemetry.
 
 # ──────────────────────────────────────────────
-# Ввод игрока (Player Input)
+# Ввод и Буфер
 # ──────────────────────────────────────────────
 signal swap_requested(from_cell: Vector2i, to_cell: Vector2i)
+signal input_queued(from_cell: Vector2i, to_cell: Vector2i)
 signal swap_rejected(from_cell: Vector2i, to_cell: Vector2i)
 signal swap_resolved(from_cell: Vector2i, to_cell: Vector2i)
-signal input_queued(from_cell: Vector2i, to_cell: Vector2i)
 
 # ──────────────────────────────────────────────
-# Детерминированное ядро (Layer 1 Core Matches)
+# Матчи и Спец-сферы
 # ──────────────────────────────────────────────
-## Вызывается при нахождении совпадения. Передает объект MatchEvent.
-signal match_detected(event: MatchEvent)
-
-## Вызывается после распознавания геометрической формы (11 типов).
-signal shape_classified(coordinates: Array[Vector2i], shape_type: String, priority_score: int)
+signal match_detected(match_data: MatchEvent)
+signal shape_classified(shape_data: MatchShapeResult)
+signal special_spawned(pos: Vector2i, type: String)
+signal special_activated(pos: Vector2i, type: String)
 
 # ──────────────────────────────────────────────
-# Каскады и Управляемые Вероятности (Layer 2)
+# Каскады и Гравитация
 # ──────────────────────────────────────────────
-signal cascade_started(depth: int)
-
-## Вызывается на каждом шаге каскадного опускания. Передает CascadeStep.
-signal cascade_step_resolved(step: CascadeStep)
-
-## Вызывается при срабатывании блокировщика каскадов (Governor).
+signal cascade_started()
+signal cascade_step_resolved(step_data: CascadeStep)
 signal cascade_governed(reason: String)
+signal board_collapsed(movements: Array)
+signal pieces_generated(spawns: Array)
 
 # ──────────────────────────────────────────────
-# Fever Meter & Fever Mode
+# Fever & Комбо-окно
 # ──────────────────────────────────────────────
-signal fever_meter_changed(pct: float)
+signal combo_window_updated(remaining: float, chain: int)
+signal fever_meter_changed(percent: float)
 signal fever_started(duration: float, multiplier: float)
 signal fever_ended()
 
 # ──────────────────────────────────────────────
-# Спец-сферы (Layer 4)
+# Игры и Состояние уровня
 # ──────────────────────────────────────────────
-signal special_spawned(position: Vector2i, special_type: int)
-
-## Вызывается при взрыве или слиянии спец-сфер. Передает SpecialActivationEvent.
-signal special_activated(event: SpecialActivationEvent)
-
-# ──────────────────────────────────────────────
-# Уровень и Экономика
-# ──────────────────────────────────────────────
-signal level_loaded(level_config: Dictionary)
-signal level_result_resolved(won: bool, final_score: int, stars: int)
-signal moves_updated(remaining: int)
-signal score_updated(current: int, stars: int)
-
-# ──────────────────────────────────────────────
-# UI & Общие презентационные сигналы
-# ──────────────────────────────────────────────
-signal gem_selected(cell: Vector2i)
-signal gem_deselected()
+signal turn_finished()
+signal level_loaded(config: Dictionary)
+signal level_finished(result: Dictionary)
+signal dead_board_detected(payload: Dictionary)
+signal auto_shuffle_applied(payload: Dictionary)
+signal undo_used(payload: Dictionary)
 signal game_paused()
 signal game_resumed()
+
+# ──────────────────────────────────────────────
+# Визуальные сигналы презентации
+# ──────────────────────────────────────────────
+signal gem_tapped(cell: Vector2i)
+signal gem_selected(cell: Vector2i)
+signal gem_deselected()
+signal hint_requested(cells: Array[Vector2i])
+signal booster_activated(booster_type: int, target_cell: Vector2i)

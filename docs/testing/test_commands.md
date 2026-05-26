@@ -1,48 +1,50 @@
-# Руководство по тестированию и запуску тестов — Genesis v5.1
+# Automated Testing Guide — Neo Soft Frost
 
-Для обеспечения 100% стабильности детерминированного ядра Match-3 и исключения регрессий в проекте **Neo Soft Frost** развернута многоуровневая система автоматического тестирования на базе фреймворка **GUT (Godot Unit Testing)**.
+> **Specification Version**: `genesis/v5.1`  
+> **Status**: ACTIVE & FROZEN (Architecture Control Plan)
 
-Все тесты делятся на четыре категории:
-1. **Unit-тесты** — Проверка изолированных компонентов (алгоритмы классификации форм, RNG, приоритеты).
-2. **Integration-тесты** — Взаимодействие нескольких слоев (ResolvePipeline + BoardLogic + EventBus).
-3. **Replay-тесты** — Воспроизведение записанных реплеев и сверка финальных снапшотов.
-4. **E2E Headless MCTS-тесты** — Массовые headless-симуляции матчей для автоматической калибровки баланса.
+Этот документ содержит описание всех тестовых команд, конфигурации автоматического тест-раннера и регламент запуска юнит/интеграционных/E2E тестов в системе **Neo Soft Frost**.
 
 ---
 
-## 1. Команды запуска тестов
+## 1. Консольные скрипты тестирования (CI Test Runners)
 
-Все команды запускаются из корня репозитория.
+Для упрощения автозапуска и интеграции с CI/CD в каталоге `scripts/ci/` развернуты два командных файла:
 
-### 1.1 Запуск всех тестов в редакторе Godot
-Если вы находитесь в IDE Godot с установленным аддоном GUT:
-* Откройте GUT-панель (снизу редактора) и нажмите кнопку **Run All**.
+### 1.1 `run_all_tests.sh` (`res://scripts/ci/run_all_tests.sh`)
+Запускает весь набор юнит-тестов ядра игры в безголовом (headless) режиме с выводом результатов GUT в консоль.
+- **Команда для запуска**:
+  ```bash
+  ./scripts/ci/run_all_tests.sh
+  ```
 
-### 1.2 Запуск всех тестов через терминал (Headless-режим)
-Идеально для CI/CD серверов и быстрой проверки перед коммитом:
-```bash
-godot --headless --path . -s addons/gut/gut_cmdln.gd
-```
-
-### 1.3 Запуск конкретного тестового скрипта
-Для запуска только одного файла (например, тестов каскадов):
-```bash
-godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/core_match3/ -gselect=test_controlled_cascade.gd
-```
-
-### 1.4 Запуск симулятора баланса MCTS (Headless E2E)
-Для запуска симулятора MCTS на 10,000 проходов сложности:
-```bash
-godot --headless --path . -s tests/e2e/test_ccpe_e2e.gd
-```
+### 1.2 `run_headless_tests.sh` (`res://scripts/ci/run_headless_tests.sh`)
+Консольный ранер, используемый сервером непрерывной интеграции (CI) для жесткой валидации фиксаций коммитов.
+- **Команда для запуска**:
+  ```bash
+  ./scripts/ci/run_headless_tests.sh
+  ```
 
 ---
 
-## 2. Использование CI шелл-раннера
+## 2. Команды ручного запуска через терминал (Manual Commands)
 
-Мы написали специальный скрипт автозапуска `run_headless_tests.sh`, который настраивает окружение, запускает тесты и возвращает корректный exit code:
-```bash
-./scripts/ci/run_headless_tests.sh
-```
-* **Exit Code 0** — Успех. Все тесты пройдены.
-* **Exit Code != 0** — Ошибка. Один или несколько тестов упали. Логи записаны в `artifacts/testing/last_test_run.log`.
+Вы можете запускать тесты вручную, передавая расширенные параметры в командную строку Godot:
+
+* **Запустить тесты конкретного класса**:
+  ```bash
+  /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/core_match3 -gselect=test_input_buffer_controller.gd
+  ```
+
+* **Запустить конкретный юнит-тест внутри класса**:
+  ```bash
+  /Applications/Godot.app/Contents/MacOS/Godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/core_match3 -gselect=test_input_buffer_controller.gd -gunit=test_queue_limit_and_multiple_enqueues
+  ```
+
+---
+
+## 3. Регламент запуска тестов (QA Readiness Gate)
+
+1. **Перед коммитом (Pre-commit hook)**: Разработчик обязан локально прогнать скрипт `./scripts/ci/run_all_tests.sh`. Коммит разрешен только при 100% прохождении тестов.
+2. **CI-валидация**: При каждом Pull Request запускается `./scripts/ci/run_headless_tests.sh`. Любая ошибка компиляции или падение теста приводит к блокировке слияния ветки.
+3. **Безголовый (Headless) режим**: Во время прогона тестов рендеринг графического интерфейса отключается через флаг `--headless`. Это исключает зависимость тестов от графической видеокарты хоста.

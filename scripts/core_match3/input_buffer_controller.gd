@@ -9,6 +9,20 @@ var queue: Array = [] # Массив QueuedMove
 var max_queue_size: int = 3
 var fast_chain_bonus_eligible: bool = false
 
+func _emit_game_event(signal_name: String, arg1: Variant = null, arg2: Variant = null) -> void:
+	var loop := Engine.get_main_loop()
+	if not (loop is SceneTree):
+		return
+	var bus := (loop as SceneTree).root.get_node_or_null("GameEventBus")
+	if bus == null or not bus.has_signal(signal_name):
+		return
+	if arg1 == null and arg2 == null:
+		bus.emit_signal(signal_name)
+	elif arg2 == null:
+		bus.emit_signal(signal_name, arg1)
+	else:
+		bus.emit_signal(signal_name, arg1, arg2)
+
 func enqueue_move(from: Vector2i, to: Vector2i, board: BoardLogic, current_time: float, lifetime: float = 0.5) -> bool:
 	if not _is_adjacent(from, to):
 		return false
@@ -54,7 +68,7 @@ func enqueue_move(from: Vector2i, to: Vector2i, board: BoardLogic, current_time:
 	fast_chain_bonus_eligible = true
 	
 	# Публикуем событие в EventBus
-	GameEventBus.emit_signal("input_queued", from, to)
+	_emit_game_event("input_queued", from, to)
 	return true
 
 func validate_and_get_next(board: BoardLogic, current_time: float) -> QueuedMove:

@@ -1,43 +1,28 @@
 # /Users/user/3-line/scripts/contracts/board_snapshot.gd
-class_name BoardSnapshot
 extends RefCounted
+class_name BoardSnapshot
 
-## Снапшот состояния игрового поля на определенный шаг транзакции.
-## Используется для детерминированного replay и MCTS симуляций.
+## Контракт снимка логического состояния игрового поля (Read-Only DTO).
 
 var width: int = 8
 var height: int = 8
-var cells: Array = [] # Двумерный массив Dictionary-контрактов ячеек
+var gems: Array[Array] = [] # 2D Array of String (color names or empty)
+var cell_states: Array[Array] = [] # 2D Array of int (CellState.State enum values)
+var timestamp: float = 0.0
 
-func _init(p_width: int = 8, p_height: int = 8) -> void:
+func _init(p_width: int, p_height: int, p_gems: Array[Array], p_states: Array[Array]) -> void:
 	width = p_width
 	height = p_height
-	cells.resize(height)
-	for y in range(height):
-		cells[y] = []
-		cells[y].resize(width)
-		for x in range(width):
-			cells[y][x] = {
-				"color": "",
-				"state": 0, # CellState (0 = STABLE, 1 = RESERVED, etc.)
-				"special_type": 0 # SpecialSphereType
-			}
+	gems = p_gems
+	cell_states = p_states
+	timestamp = Time.get_ticks_msec() / 1000.0
 
-func duplicate_snapshot() -> BoardSnapshot:
-	var dup = BoardSnapshot.new(width, height)
-	for y in range(height):
-		for x in range(width):
-			dup.cells[y][x] = cells[y][x].duplicate()
-	return dup
-
-func serialize() -> Dictionary:
+## Сериализация снимка в плоский JSON-совместимый словарь для Replay/Telemetry
+func to_dict() -> Dictionary:
 	return {
 		"width": width,
 		"height": height,
-		"cells": cells
+		"gems": gems,
+		"cell_states": cell_states,
+		"timestamp": timestamp
 	}
-
-func deserialize(data: Dictionary) -> void:
-	width = data.get("width", 8)
-	height = data.get("height", 8)
-	cells = data.get("cells", [])

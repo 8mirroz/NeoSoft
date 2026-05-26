@@ -49,6 +49,35 @@ var overlay_quality_button: Button
 var overlay_export_button: Button
 var overlay_feedback_button: Button
 
+func _theme_tokens() -> Node:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		return (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+	return null
+
+func _tc(path: String, legacy_key: String = "white") -> Color:
+	var tokens := _theme_tokens()
+	if tokens != null and tokens.has_method("color_path"):
+		return tokens.color_path(path, tokens.color(legacy_key, Color.WHITE))
+	return Color.WHITE
+
+func _ti(path: String, fallback: int = 0) -> int:
+	var tokens := _theme_tokens()
+	if tokens != null and tokens.has_method("int_value"):
+		return tokens.int_value(path, fallback)
+	return fallback
+
+func _with_alpha(base: Color, alpha: float) -> Color:
+	var c := base
+	c.a = alpha
+	return c
+
+func _style(path: String) -> StyleBoxFlat:
+	var tokens := _theme_tokens()
+	if tokens != null and tokens.has_method("make_panel_style"):
+		return tokens.make_panel_style(path)
+	return _make_panel_style(_with_alpha(_tc("shared.colors.glass_bg"), 0.34), _with_alpha(_tc("shared.colors.glass_border"), 0.66), _ti("shared.radius.md", 22), 2)
+
 func _ready() -> void:
 	soft_launch_config = LevelLoader.load_soft_launch_config()
 	quality_profile = _get_quality_profile()
@@ -198,11 +227,11 @@ func _on_score_updated(score: int, stars: int) -> void:
 
 func _on_moves_updated(remaining: int, _used: int) -> void:
 	moves_value.text = str(remaining)
-	var warning_color := Color(0.31, 0.28, 0.46)
+	var warning_color := _tc("gameplay.state.moves_ok", "dark_blur")
 	if remaining <= 3:
-		warning_color = Color(0.78, 0.32, 0.46)
+		warning_color = _tc("gameplay.state.moves_danger", "accent")
 	elif remaining <= 9:
-		warning_color = Color(0.48, 0.31, 0.6)
+		warning_color = _tc("gameplay.state.moves_warning", "gold")
 	moves_value.add_theme_color_override("font_color", warning_color)
 
 func _on_goals_updated(goals: Array[Dictionary]) -> void:
@@ -380,20 +409,20 @@ func _render_goals() -> void:
 	if current_goals.is_empty():
 		var empty_label := Label.new()
 		empty_label.text = "No mission loaded"
-		empty_label.add_theme_font_size_override("font_size", 16)
-		empty_label.add_theme_color_override("font_color", Color(0.4, 0.38, 0.54, 0.84))
+		empty_label.add_theme_font_size_override("font_size", _ti("shared.font.body", 16))
+		empty_label.add_theme_color_override("font_color", _tc("gameplay.text.caption", "dark_blur"))
 		mission_goals.add_child(empty_label)
 		return
 
 	for goal in current_goals:
 		var chip := PanelContainer.new()
-		chip.custom_minimum_size = Vector2(0, 72)
+		chip.custom_minimum_size = Vector2(0, 64)
 		chip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		chip.set("theme_override_styles/panel", _make_panel_style(Color(1.0, 1.0, 1.0, 0.18), Color(1.0, 1.0, 1.0, 0.4), 24, 1))
+		chip.set("theme_override_styles/panel", _style("gameplay.surface.mission_chip"))
 
 		var row := HBoxContainer.new()
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
-		row.add_theme_constant_override("separation", 10)
+		row.add_theme_constant_override("separation", _ti("shared.spacing.sm", 8))
 		chip.add_child(row)
 
 		var icon := Label.new()
@@ -408,14 +437,14 @@ func _render_goals() -> void:
 
 		var title := Label.new()
 		title.text = _goal_title(goal)
-		title.add_theme_font_size_override("font_size", 13)
-		title.add_theme_color_override("font_color", Color(0.35, 0.32, 0.48, 0.86))
+		title.add_theme_font_size_override("font_size", _ti("shared.font.caption", 13))
+		title.add_theme_color_override("font_color", _tc("gameplay.text.caption", "dark_blur"))
 		text_column.add_child(title)
 
 		var count := Label.new()
 		count.text = _goal_progress_text(goal)
-		count.add_theme_font_size_override("font_size", 18)
-		var goal_color := Color(0.38, 0.68, 0.54) if goal.get("completed", false) else Color(0.25, 0.24, 0.38)
+		count.add_theme_font_size_override("font_size", _ti("shared.font.subtitle", 18))
+		var goal_color := _tc("shared.colors.accent_secondary", "accent") if goal.get("completed", false) else _tc("gameplay.text.metric_primary", "dark_blur")
 		count.add_theme_color_override("font_color", goal_color)
 		text_column.add_child(count)
 
@@ -451,7 +480,7 @@ func _update_star_row(stars: int) -> void:
 	for index in range(star_labels.size()):
 		var label := star_labels[index]
 		var unlocked := index < stars
-		label.add_theme_color_override("font_color", Color(0.98, 0.79, 0.32) if unlocked else Color(0.75, 0.73, 0.86, 0.66))
+		label.add_theme_color_override("font_color", _tc("shared.colors.accent_gold", "gold") if unlocked else _with_alpha(_tc("shared.colors.text_muted", "dark_blur"), 0.70))
 		label.scale = Vector2.ONE if unlocked else Vector2.ONE * 0.92
 
 func _play_star_unlock() -> void:
@@ -464,7 +493,7 @@ func _play_star_unlock() -> void:
 
 func _show_status(message: String, is_error: bool = false, alpha: float = 0.9) -> void:
 	status_label.text = message
-	status_label.add_theme_color_override("font_color", Color(0.76, 0.34, 0.46) if is_error else Color(0.34, 0.32, 0.48))
+	status_label.add_theme_color_override("font_color", _tc("gameplay.text.status_error", "accent") if is_error else _tc("gameplay.text.status", "dark_blur"))
 	if status_tween != null:
 		status_tween.kill()
 	status_label.modulate.a = alpha
@@ -474,16 +503,16 @@ func _show_status(message: String, is_error: bool = false, alpha: float = 0.9) -
 	status_tween.tween_property(status_label, "modulate:a", 0.0, 0.4)
 
 func _apply_theme() -> void:
-	# === Opal Glass Panel Styles (Liquid Opal Glass v3) ===
-	var glass_style: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.52), Color(0.88, 0.84, 1.0, 0.72), 34, 2)
-	var board_style: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.42), Color(0.86, 0.82, 1.0, 0.78), 42, 3)
-	var pill_style: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.48), Color(0.90, 0.88, 1.0, 0.68), 30, 2)
-	var booster_bar_style: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.50), Color(0.86, 0.84, 1.0, 0.62), 36, 2)
+	var glass_style: StyleBoxFlat = _style("gameplay.surface.hud")
+	var board_style: StyleBoxFlat = _style("gameplay.surface.board")
+	var moves_style: StyleBoxFlat = _style("gameplay.surface.kpi_primary")
+	var score_style: StyleBoxFlat = _style("gameplay.surface.kpi_secondary")
+	var booster_bar_style: StyleBoxFlat = _style("gameplay.surface.hud")
 
 	$HUD/TopBar/Layout/LevelPanel.set("theme_override_styles/panel", glass_style)
 	$HUD/TopBar/Layout/MissionPanel.set("theme_override_styles/panel", glass_style)
-	moves_panel.set("theme_override_styles/panel", pill_style)
-	score_panel.set("theme_override_styles/panel", pill_style)
+	moves_panel.set("theme_override_styles/panel", moves_style)
+	score_panel.set("theme_override_styles/panel", score_style)
 	$BoardArea/BoardFrame.set("theme_override_styles/panel", board_style)
 	$HUD/BoosterBar.set("theme_override_styles/panel", booster_bar_style)
 
@@ -491,15 +520,14 @@ func _apply_theme() -> void:
 	progress_bar.min_value = 0.0
 	progress_bar.max_value = 100.0
 	progress_bar.value = 0.0
-	progress_bar.set("theme_override_styles/background", _make_opal_panel(Color(1.0, 1.0, 1.0, 0.22), Color(0.88, 0.86, 1.0, 0.32), 18, 1))
+	progress_bar.set("theme_override_styles/background", _style("gameplay.surface.progress_bg"))
 	
-	# Роскошный горизонтальный радужно-опаловый градиент для заполнения прогресс-бара
 	var grad := Gradient.new()
 	grad.colors = PackedColorArray([
-		Color(0.52, 0.88, 1.0, 0.92),   # Aqua opal
-		Color(0.82, 0.62, 1.0, 0.92),   # Violet shimmer
-		Color(1.0, 0.82, 0.88, 0.92),   # Rose pearl
-		Color(1.0, 0.92, 0.52, 0.92)    # Gold aurora
+		_with_alpha(_tc("shared.colors.accent_secondary", "accent"), 0.92),
+		_with_alpha(_tc("shared.colors.accent_primary", "accent"), 0.92),
+		_with_alpha(_tc("colors.accent", "accent"), 0.92),
+		_with_alpha(_tc("shared.colors.accent_gold", "gold"), 0.92)
 	])
 	grad.offsets = PackedFloat32Array([0.0, 0.35, 0.7, 1.0])
 	
@@ -516,36 +544,35 @@ func _apply_theme() -> void:
 	fill_style.texture_margin_bottom = 4
 	progress_bar.set("theme_override_styles/fill", fill_style)
 
-	# Label styling — elegant dark text on light opal background
-	_set_label_style(world_title, 25, Color(0.22, 0.20, 0.38))
-	world_title.add_theme_color_override("font_outline_color", Color(0.72, 0.62, 0.92, 0.35))
+	_set_label_style(world_title, _ti("shared.font.title", 24), _tc("gameplay.text.title", "dark_blur"))
+	world_title.add_theme_color_override("font_outline_color", _with_alpha(_tc("shared.colors.accent_primary", "accent"), 0.35))
 	world_title.add_theme_constant_override("outline_size", 4)
-	_set_label_style(level_subtitle, 15, Color(0.38, 0.35, 0.52))
-	_set_label_style($HUD/TopBar/Layout/MissionPanel/Content/Title, 15, Color(0.32, 0.30, 0.48))
-	_set_label_style($HUD/TopBar/Layout/StatsColumn/MovesPanel/Content/Caption, 14, Color(0.40, 0.38, 0.55))
-	_set_label_style($HUD/TopBar/Layout/StatsColumn/ScorePanel/Content/Caption, 14, Color(0.40, 0.38, 0.55))
-	_set_label_style(moves_value, 27, Color(0.28, 0.25, 0.42))
-	_set_label_style(score_value, 24, Color(0.28, 0.25, 0.42))
-	_set_label_style(status_label, 16, Color(0.32, 0.30, 0.46))
+	_set_label_style(level_subtitle, _ti("shared.font.caption", 13), _tc("gameplay.text.subtitle", "dark_blur"))
+	_set_label_style($HUD/TopBar/Layout/MissionPanel/Content/Title, _ti("shared.font.caption", 13), _tc("gameplay.text.caption", "dark_blur"))
+	_set_label_style($HUD/TopBar/Layout/StatsColumn/MovesPanel/Content/Caption, _ti("shared.font.caption", 13), _tc("gameplay.text.caption", "dark_blur"))
+	_set_label_style($HUD/TopBar/Layout/StatsColumn/ScorePanel/Content/Caption, _ti("shared.font.caption", 13), _tc("gameplay.text.caption", "dark_blur"))
+	_set_label_style(moves_value, 30, _tc("gameplay.text.metric_primary", "dark_blur"))
+	_set_label_style(score_value, 24, _tc("gameplay.text.metric_secondary", "dark_blur"))
+	_set_label_style(status_label, _ti("shared.font.body", 16), _tc("gameplay.text.status", "dark_blur"))
 
 	for star in star_labels:
 		star.text = "★"
 		star.add_theme_font_size_override("font_size", 28)
 
 	if pause_button != null:
-		_style_booster_button(pause_button, Color(1.0, 0.9, 0.76), false)
+		_style_booster_button(pause_button, _tc("shared.colors.accent_gold", "gold"), false)
 		pause_button.add_theme_font_size_override("font_size", 18)
 
 	if overlay_card != null:
 		overlay_card.set("theme_override_styles/panel", glass_style)
-		_set_label_style(overlay_title, 28, Color(0.26, 0.27, 0.45))
-		_set_label_style(overlay_body, 17, Color(0.34, 0.32, 0.48))
-		_style_booster_button(overlay_primary_button, Color(0.72, 0.92, 1.0), false)
-		_style_booster_button(overlay_secondary_button, Color(0.84, 1.0, 0.74), false)
-		_style_booster_button(overlay_tertiary_button, Color(1.0, 0.9, 0.76), false)
-		_style_booster_button(overlay_quality_button, Color(0.96, 0.85, 0.50), false)
-		_style_booster_button(overlay_export_button, Color(0.50, 0.85, 0.70), false)
-		_style_booster_button(overlay_feedback_button, Color(0.78, 0.76, 1.0), false)
+		_set_label_style(overlay_title, 28, _tc("gameplay.text.title", "dark_blur"))
+		_set_label_style(overlay_body, 17, _tc("gameplay.text.subtitle", "dark_blur"))
+		_style_booster_button(overlay_primary_button, _tc("shared.colors.accent_primary", "accent"), false)
+		_style_booster_button(overlay_secondary_button, _tc("shared.colors.accent_secondary", "accent"), false)
+		_style_booster_button(overlay_tertiary_button, _tc("shared.colors.accent_gold", "gold"), false)
+		_style_booster_button(overlay_quality_button, _tc("shared.colors.accent_gold", "gold"), false)
+		_style_booster_button(overlay_export_button, _tc("shared.colors.accent_secondary", "accent"), false)
+		_style_booster_button(overlay_feedback_button, _tc("colors.accent", "accent"), false)
 
 	_refresh_booster_styles()
 
@@ -558,9 +585,9 @@ func _refresh_booster_styles() -> void:
 	hammer_button.text = "⚒ Hammer (%d)" % hammers if hammers > 0 else "⚒ Hammer\n(250 🪙)"
 	undo_button.text = "↺ Undo (%d)" % undos if undos > 0 else "↺ Undo\n(200 🪙)"
 
-	_style_booster_button(shuffle_button, Color(0.62, 0.88, 1.0), false)
-	_style_booster_button(hammer_button, Color(0.68, 0.98, 0.82), hammer_mode)
-	_style_booster_button(undo_button, Color(0.82, 0.72, 1.0), false)
+	_style_booster_button(shuffle_button, _tc("shared.colors.accent_primary", "accent"), false)
+	_style_booster_button(hammer_button, _tc("shared.colors.accent_secondary", "accent"), hammer_mode)
+	_style_booster_button(undo_button, _tc("colors.accent", "accent"), false)
 
 func _refresh_undo_button() -> void:
 	var available := level_session != null and level_session.has_undo_available() and not session_finished
@@ -570,16 +597,17 @@ func _refresh_undo_button() -> void:
 		_refresh_booster_styles()
 
 func _style_booster_button(button: Button, accent: Color, active: bool) -> void:
-	# Opal glass capsule button style with chromatic edge glow
-	var normal: StyleBoxFlat = _make_opal_panel(
-		Color(1.0, 1.0, 1.0, 0.55) if active else Color(1.0, 1.0, 1.0, 0.38),
-		accent.lightened(0.15) if active else Color(0.90, 0.88, 1.0, 0.52),
-		28,
-		3 if active else 2
-	)
-	var hover: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.62), accent.lightened(0.08), 28, 3)
-	var pressed: StyleBoxFlat = _make_opal_panel(Color(1.0, 1.0, 1.0, 0.68), accent, 28, 3)
-	var disabled: StyleBoxFlat = _make_opal_panel(Color(0.96, 0.96, 1.0, 0.22), Color(0.86, 0.84, 0.92, 0.28), 28, 1)
+	var normal := _style("gameplay.button.normal").duplicate() as StyleBoxFlat
+	var hover := _style("gameplay.button.hover").duplicate() as StyleBoxFlat
+	var pressed := _style("gameplay.button.pressed").duplicate() as StyleBoxFlat
+	var disabled := _style("gameplay.button.disabled").duplicate() as StyleBoxFlat
+
+	normal.border_color = accent.lightened(0.12 if active else 0.0)
+	hover.border_color = accent.lightened(0.2)
+	pressed.border_color = accent
+	disabled.border_color = _with_alpha(_tc("shared.colors.text_muted", "dark_blur"), 0.35)
+	if active:
+		normal.bg_color = _with_alpha(normal.bg_color, min(normal.bg_color.a + 0.12, 1.0))
 
 	button.set("theme_override_styles/normal", normal)
 	button.set("theme_override_styles/hover", hover)
@@ -587,9 +615,9 @@ func _style_booster_button(button: Button, accent: Color, active: bool) -> void:
 	button.set("theme_override_styles/disabled", disabled)
 	button.set("theme_override_styles/focus", pressed)
 	button.add_theme_font_size_override("font_size", 21)
-	button.add_theme_color_override("font_color", Color(0.58, 0.55, 0.72) if button.disabled else Color(0.32, 0.30, 0.48))
-	button.add_theme_color_override("font_hover_color", Color(0.25, 0.22, 0.42))
-	button.add_theme_color_override("font_pressed_color", Color(0.22, 0.20, 0.40))
+	button.add_theme_color_override("font_color", _with_alpha(_tc("shared.colors.text_muted", "dark_blur"), 0.8) if button.disabled else _tc("shared.colors.text_primary", "dark_blur"))
+	button.add_theme_color_override("font_hover_color", _tc("shared.colors.text_primary", "dark_blur"))
+	button.add_theme_color_override("font_pressed_color", _tc("shared.colors.text_primary", "dark_blur"))
 
 # Legacy panel style (for overlays and backward compatibility)
 func _make_panel_style(bg_color: Color, border_color: Color, radius: int, border_width: int) -> StyleBoxFlat:
@@ -604,7 +632,7 @@ func _make_panel_style(bg_color: Color, border_color: Color, radius: int, border
 	style.corner_radius_top_right = radius
 	style.corner_radius_bottom_right = radius
 	style.corner_radius_bottom_left = radius
-	style.shadow_color = Color(0.84, 0.75, 1.0, 0.32)
+	style.shadow_color = _with_alpha(_tc("shared.colors.shadow", "dark_blur"), 0.8)
 	style.shadow_size = 24
 	style.shadow_offset = Vector2(0, 4)
 	style.content_margin_left = 22
@@ -627,8 +655,7 @@ func _make_opal_panel(bg_color: Color, border_color: Color, radius: int, border_
 	style.corner_radius_bottom_right = radius
 	style.corner_radius_bottom_left = radius
 	
-	# Pearlescent iridescent shadow — chromatic violet-to-pink glow
-	style.shadow_color = Color(0.78, 0.68, 1.0, 0.22)
+	style.shadow_color = _tc("shared.colors.shadow", "dark_blur")
 	style.shadow_size = 28
 	style.shadow_offset = Vector2(0, 6)
 	
@@ -685,19 +712,19 @@ func _goal_progress_text(goal: Dictionary) -> String:
 func _goal_color(goal: Dictionary) -> Color:
 	match int(goal.get("gem_type", -1)):
 		0:
-			return Color(0.98, 0.78, 0.92)
+			return _tc("colors.accent", "accent")
 		1:
-			return Color(0.86, 0.86, 1.0)
+			return _with_alpha(_tc("shared.colors.accent_primary", "accent"), 0.75)
 		2:
-			return Color(0.58, 0.9, 1.0)
+			return _tc("shared.colors.accent_primary", "accent")
 		3:
-			return Color(0.78, 0.62, 1.0)
+			return _tc("colors.accent", "accent")
 		4:
-			return Color(0.68, 1.0, 0.88)
+			return _tc("shared.colors.accent_secondary", "accent")
 		5:
-			return Color(0.9, 0.98, 1.0)
+			return _with_alpha(_tc("shared.colors.accent_secondary", "accent"), 0.7)
 		_:
-			return Color(0.98, 0.82, 0.44)
+			return _tc("shared.colors.accent_gold", "gold")
 
 func _gem_name(gem_type: int) -> String:
 	match gem_type:
@@ -880,7 +907,7 @@ func _on_overlay_primary_pressed() -> void:
 		"win":
 			if LevelLoader.level_exists(level_session.level_number + 1):
 				UserData.set_active_level(level_session.level_number + 1)
-				get_tree().change_scene_to_file("res://scenes/gameplay/gameplay_soft_frost.tscn")
+				get_tree().change_scene_to_file("res://scenes/gameplay/gameplay.tscn")
 			else:
 				_go_to_level_select()
 		"lose":
@@ -904,7 +931,7 @@ func _retry_level() -> void:
 	EventBus.analytics_event_requested.emit("level_retry_requested", {
 		"level_id": level_session.level_number,
 	})
-	get_tree().change_scene_to_file("res://scenes/gameplay/gameplay_soft_frost.tscn")
+	get_tree().change_scene_to_file("res://scenes/gameplay/gameplay.tscn")
 
 func _go_to_level_select() -> void:
 	EventBus.analytics_event_requested.emit("return_to_level_select", {
@@ -970,7 +997,14 @@ func _initialize_cfe_ui() -> void:
 		
 	# Создаем кольцо комбо
 	combo_ring = ComboWindowRing.new()
-	$BoardContainer.add_child(combo_ring)
+	var parent_node: Node = null
+	if has_node("BoardContainer"):
+		parent_node = get_node("BoardContainer")
+	else:
+		parent_node = board_visual
+		
+	if parent_node:
+		parent_node.add_child(combo_ring)
 	combo_ring.size = board_visual.size # синхронизируем размер
 	
 	# Создаем полноэкранный Fever Overlay
