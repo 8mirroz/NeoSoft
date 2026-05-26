@@ -3,19 +3,19 @@ extends "res://addons/gut/test.gd"
 # Юнит-тесты для BoardView и GemView Sync
 
 func test_board_view_setup() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(6, 6, 1)
 	
 	var view := BoardView.new()
 	add_child_autofree(view)
 	view.setup(board)
 	
-	assert_eq(view.board_model, board, "BoardView должен сохранять ссылку на BoardStateEngine")
+	assert_eq(view.board_model, board, "BoardView должен сохранять ссылку на BoardLogic")
 	assert_eq(view.match_pop_fx.size(), 0, "Спец-эффекты матчей должны быть пустыми при инициализации")
 	assert_eq(view.visual_queue.size(), 0, "Очередь событий должна быть пустой при инициализации")
 
 func test_animations_finished_signal_after_swap() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(6, 6, 1)
 	
 	var view := BoardView.new()
@@ -47,7 +47,7 @@ func test_animations_finished_signal_after_swap() -> void:
 	assert_signal_emitted(view, "animations_finished", "Сигнал animations_finished должен отправиться при прекращении анимации")
 
 func test_play_effects_queueing() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(6, 6, 1)
 	
 	var view := BoardView.new()

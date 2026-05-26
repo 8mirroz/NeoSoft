@@ -15,10 +15,10 @@ enum State {
 	FAILED_RECOVERY
 }
 
-var board: BoardStateEngine
+var board: BoardLogic
 var combo_controller: ComboFeverController
 var input_buffer: InputBufferController
-var shape_detector: MatchShapeDetector
+var shape_detector: ShapeDetector
 var sphere_factory: SpecialSphereFactory
 var target_priority: TargetPrioritySystem
 
@@ -33,7 +33,7 @@ var pending_specials: Array[Dictionary] = []
 var is_special_swap: bool = false
 
 
-func _init(p_board: BoardStateEngine, p_combo: ComboFeverController, p_input: InputBufferController, p_shape: MatchShapeDetector, p_sphere: SpecialSphereFactory, p_target: TargetPrioritySystem) -> void:
+func _init(p_board: BoardLogic, p_combo: ComboFeverController, p_input: InputBufferController, p_shape: ShapeDetector, p_sphere: SpecialSphereFactory, p_target: TargetPrioritySystem) -> void:
 	board = p_board
 	combo_controller = p_combo
 	input_buffer = p_input

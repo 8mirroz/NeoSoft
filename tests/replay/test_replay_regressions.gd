@@ -7,7 +7,7 @@ extends "res://addons/gut/test.gd"
 var player: ReplayPlayer
 var board: BoardLogic
 
-func setup() -> void:
+func before_each() -> void:
 	player = ReplayPlayer.new()
 	board = BoardLogic.new()
 	board.configure(8, 8)

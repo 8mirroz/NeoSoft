@@ -4,8 +4,8 @@ class_name ShapeDetector
 
 ## Сканирует игровое поле для поиска геометрических совпадений 11 продвинутых форм.
 
-func detect_shapes(board: BoardLogic, origin: Vector2i = Vector2i(-1, -1)) -> Array:
-	var results: Array = []
+func detect_shapes(board: BoardLogic, origin: Vector2i = Vector2i(-1, -1)) -> Array[MatchShapeResult]:
+	var results: Array[MatchShapeResult] = []
 	
 	# Находим базовые горизонтальные и вертикальные линии
 	var h_lines = _find_linear_matches(board, Vector2i.RIGHT)

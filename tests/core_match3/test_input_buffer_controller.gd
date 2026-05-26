@@ -3,7 +3,7 @@ extends "res://addons/gut/test.gd"
 # Юнит-тесты для InputBufferController
 
 func test_enqueue_on_unstable_cells() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Имитируем падение ячеек
@@ -23,7 +23,7 @@ func test_enqueue_on_unstable_cells() -> void:
 	assert_eq(board.get_cell_state(Vector2i(1, 0)), CellState.State.RESERVED, "Состояние должно измениться на RESERVED")
 
 func test_expiration() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	board.set_cell_state(Vector2i(0, 0), CellState.State.FALLING)
@@ -39,7 +39,7 @@ func test_expiration() -> void:
 	assert_eq(board.get_cell_state(Vector2i(1, 0)), CellState.State.STABLE, "Ячейка должна вернуться в STABLE")
 
 func test_validation_success() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1) # Фишки заполнены единицами (1)
 	
 	board.set_cell_state(Vector2i(0, 0), CellState.State.FALLING)
@@ -55,7 +55,7 @@ func test_validation_success() -> void:
 	assert_eq(board.get_cell_state(Vector2i(1, 0)), CellState.State.RESOLVING, "Ячейка должна перейти в RESOLVING")
 
 func test_validation_gem_desync() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	board.set_cell_state(Vector2i(0, 0), CellState.State.FALLING)
@@ -72,7 +72,7 @@ func test_validation_gem_desync() -> void:
 	assert_eq(board.get_cell_state(Vector2i(0, 0)), CellState.State.STABLE, "Ячейка должна сброситься в STABLE")
 
 func test_queue_limit_and_multiple_enqueues() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(6, 6, 1)
 	
 	# Имитируем падение во всем поле

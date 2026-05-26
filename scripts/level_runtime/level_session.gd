@@ -4,6 +4,9 @@
 extends Node
 class_name LevelSession
 
+const BoardLogicScript := preload("res://scripts/core_match3/board_logic.gd")
+const ShapeDetectorScript := preload("res://scripts/core_match3/shape_detector.gd")
+
 @export var level_number: int = 1
 @export var fever_mode_enabled: bool = true
 
@@ -11,10 +14,10 @@ class_name LevelSession
 var board_controller: BoardController
 
 # CFE Core Components
-var board_state_engine: BoardStateEngine
+var board_state_engine: RefCounted
 var combo_controller: ComboFeverController
 var input_buffer: InputBufferController
-var shape_detector: MatchShapeDetector
+var shape_detector: RefCounted
 var sphere_factory: SpecialSphereFactory
 var target_priority: TargetPrioritySystem
 var telemetry: BalanceTelemetryLayer
@@ -66,7 +69,7 @@ func _ready() -> void:
 		var profile: Dictionary = profiles_data.get(level_key, {})
 
 		# Создаем core-объекты CFE
-		board_state_engine = BoardStateEngine.new()
+		board_state_engine = BoardLogicScript.new()
 		board_state_engine.configure(board_cfg.get("width", 8), board_cfg.get("height", 8), board_cfg.get("gem_kinds", 6))
 		_cfe_initial_fill_without_matches(board_cfg.get("gem_kinds", 6))
 
@@ -83,7 +86,7 @@ func _ready() -> void:
 			combo_controller.combo_window_max = combo_controller.base_duration_normal
 
 		input_buffer = InputBufferController.new()
-		shape_detector = MatchShapeDetector.new()
+		shape_detector = ShapeDetectorScript.new()
 		sphere_factory = SpecialSphereFactory.new()
 		target_priority = TargetPrioritySystem.new()
 		telemetry = BalanceTelemetryLayer.new()

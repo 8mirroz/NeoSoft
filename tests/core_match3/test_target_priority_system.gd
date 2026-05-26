@@ -3,7 +3,7 @@ extends "res://addons/gut/test.gd"
 # Юнит-тесты для TargetPrioritySystem
 
 func test_priority_objective_target_first() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Ячейка (0,0) - это цель уровня (TARGET)
@@ -15,7 +15,7 @@ func test_priority_objective_target_first() -> void:
 	assert_eq(best, Vector2i(0, 0), "Цель уровня должна быть выбрана в первую очередь")
 
 func test_priority_locked_objective() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Ячейка (1,1) - обычная цель уровня
@@ -32,7 +32,7 @@ func test_priority_locked_objective() -> void:
 	assert_eq(best, Vector2i(2, 2), "Заблокированная цель должна иметь более высокий приоритет")
 
 func test_priority_corner_target() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Ячейка (2,1) - цель в центре поля
@@ -47,7 +47,7 @@ func test_priority_corner_target() -> void:
 	assert_eq(best, Vector2i(3, 3), "Угловая цель должна иметь преимущество над центральной")
 
 func test_deterministic_tie_breaker() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Создаем две одинаковые цели в строках 1 и 2

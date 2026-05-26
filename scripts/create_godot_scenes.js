@@ -13,12 +13,66 @@ const blendModeMap = {
 };
 
 function createScene(sphereName, config) {
-  const blendMode = blendModeMap[config.blend_mode] || '0';
   const texturePath = `res://assets/spheres/${sphereName}/${sphereName}_base.png`;
-  
-  let sceneContent = `[gd_scene load_steps=2 format=3 uid="uid://${sphereName.toLowerCase()}"]
+  const sceneUid = `uid://${sphereName.toLowerCase()}`;
+  const textureUid = `uid://${sphereName.toLowerCase()}_tex`;
+  const shaderPath = {
+    '02_clear_glass': 'res://shaders/sphere_refraction.gdshader',
+    '03_aqua_wave': 'res://shaders/sphere_wave.gdshader',
+    '04_violet_pulse': 'res://shaders/sphere_pulse.gdshader',
+  }[sphereName];
 
-[ext_resource type="Texture2D" uid="uid://${sphereName.toLowerCase()}_tex" path="${texturePath}" id="1_${sphereName.toLowerCase()}"]
+  if (sphereName === '08_warm_glow' || sphereName === 'P2_cross_wave') {
+    const isWarmGlow = sphereName === '08_warm_glow';
+    const nodeName = isWarmGlow ? '08_warm_glow' : 'P2_cross_wave';
+    const amount = isWarmGlow ? 24 : 36;
+    const lifetime = isWarmGlow ? 1.1 : 0.95;
+    const modulate = isWarmGlow ? '0.95' : '0.92';
+    const particleParams = isWarmGlow
+      ? `direction = Vector3(0, -1, 0)\nspread = 36.0\ninitial_velocity_min = 3.0\ninitial_velocity_max = 10.0\ngravity = Vector3(0, -1, 0)\nscale_min = 0.2\nscale_max = 0.48\ncolor = Color(1.0, 0.76, 0.58, 0.66)`
+      : `direction = Vector3(0, -1, 0)\nspread = 72.0\ninitial_velocity_min = 8.0\ninitial_velocity_max = 22.0\ngravity = Vector3(0, 0, 0)\nscale_min = 0.18\nscale_max = 0.42\ncolor = Color(0.86, 0.94, 1.0, 0.74)`;
+
+    return `[gd_scene load_steps=2 format=3 uid="${sceneUid}"]
+
+[ext_resource type="Texture2D" path="${texturePath}" id="1_${sphereName.toLowerCase()}"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleMaterial_${sphereName}"]
+${particleParams}
+
+[node name="${nodeName}" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_${sphereName.toLowerCase()}")
+centered = true
+modulate = Color(1, 1, 1, ${modulate})
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, 0)
+amount = ${amount}
+lifetime = ${lifetime}
+emitting = true
+local_coords = true
+process_material = SubResource("ParticleMaterial_${sphereName}")
+texture = ExtResource("1_${sphereName.toLowerCase()}")
+`;
+  }
+
+  if (shaderPath) {
+    const shaderParams = {
+      '02_clear_glass': 'shader_parameter/tint_color = Color(0.84, 0.94, 1.0, 0.16)\nshader_parameter/refraction_strength = 0.018\nshader_parameter/edge_glow = 0.38',
+      '03_aqua_wave': 'shader_parameter/tint_color = Color(0.48, 0.9, 0.98, 0.2)\nshader_parameter/wave_strength = 0.04\nshader_parameter/wave_speed = 2.6\nshader_parameter/wave_density = 16.0',
+      '04_violet_pulse': 'shader_parameter/tint_color = Color(0.74, 0.56, 0.96, 0.24)\nshader_parameter/pulse_speed = 2.9\nshader_parameter/pulse_amplitude = 0.18',
+    }[sphereName];
+
+    return `[gd_scene load_steps=3 format=3 uid="${sceneUid}"]
+
+[ext_resource type="Texture2D" path="${texturePath}" id="1_${sphereName.toLowerCase()}"]
+[ext_resource type="Shader" path="${shaderPath}" id="2_${sphereName.toLowerCase()}_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_${sphereName}"]
+shader = ExtResource("2_${sphereName.toLowerCase()}_shader")
+${shaderParams}
 
 [node name="${sphereName}" type="Node2D"]
 
@@ -26,40 +80,28 @@ function createScene(sphereName, config) {
 texture_filter = 1
 texture = ExtResource("1_${sphereName.toLowerCase()}")
 centered = true
-offset = Vector2(-64, -64)
-modulate = Color(1, 1, 1, 1)
-`;
-
-  // Добавляем специфичные настройки в зависимости от типа
-  if (config.usage.includes('AnimatedSprite2D')) {
-    sceneContent += `hframes = 4
-vframes = 1
-frame = 0
-playing = false
-`;
-  }
-  
-  // Добавляем material если нужен шейдер
-  if (config.usage.includes('ShaderMaterial')) {
-    sceneContent += `
-[node name="Sprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_${sphereName}")
 `;
   }
-  
-  // Добавляем particles если нужно
-  if (config.usage.includes('GPUParticles2D')) {
-    sceneContent += `
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-position = Vector2(0, 0)
-amount = 32
-lifetime = 1.0
-process_material = SubResource("ParticleMaterial_${sphereName}")
+
+  const tint = sphereName === '01_iridescent_frost'
+    ? 'Color(1, 1, 1, 0.98)'
+    : sphereName === '09_blue_ribbon'
+      ? 'Color(0.95, 0.98, 1.0, 0.96)'
+      : 'Color(0.98, 0.92, 1.0, 0.96)';
+
+  return `[gd_scene load_steps=2 format=3 uid="${sceneUid}"]
+
+[ext_resource type="Texture2D" path="${texturePath}" id="1_${sphereName.toLowerCase()}"]
+
+[node name="${sphereName}" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 texture = ExtResource("1_${sphereName.toLowerCase()}")
+centered = true
+modulate = ${tint}
 `;
-  }
-  
-  return sceneContent;
 }
 
 function createSphereScript(sphereName, config) {

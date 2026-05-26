@@ -1,85 +1,445 @@
 Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
 
-SCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.
-          at: GDScript::reload (res://addons/gut/warnings_manager.gd:79)
+---  GUT  ---
+[1m[INFO]:  [0musing [/Users/user/Library/Application Support/Godot/app_userdata/Neo Soft Frost] for temporary output.
+Godot version:  4.5.1
+GUT version:  9.6.0
+SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
+          at: GDScript::reload (res://tests/core_match3/test_combo_fever_controller.gd:57)
           GDScript backtrace (most recent call first):
-              [0] _static_init (res://addons/gut/gut_loader.gd:32)
-              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
-              [2] _init (res://addons/gut/gut_cmdln.gd:24)
-SCRIPT ERROR: Parse Error: Too many arguments for "get()" call. Expected at most 1 but received 2.
-          at: GDScript::reload (res://addons/gut/warnings_manager.gd:86)
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "power_low" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://tests/core_match3/test_combo_fever_controller.gd:62)
           GDScript backtrace (most recent call first):
-              [0] _static_init (res://addons/gut/gut_loader.gd:32)
-              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
-              [2] _init (res://addons/gut/gut_cmdln.gd:24)
-ERROR: Failed to load script "res://addons/gut/warnings_manager.gd" with error "Parse error".
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_combo_fever_controller.gd" with error "Parse error".
    at: load (modules/gdscript/gdscript.cpp:3041)
    GDScript backtrace (most recent call first):
-       [0] _static_init (res://addons/gut/gut_loader.gd:32)
-       [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
-       [2] _init (res://addons/gut/gut_cmdln.gd:24)
-SCRIPT ERROR: Invalid access to property or key 'disabled' on a base object of type 'GDScript'.
-          at: _static_init (res://addons/gut/gut_loader.gd:33)
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+[33m[WARNING]:  [0mIgnoring script res://tests/core_match3/test_combo_fever_controller.gd because it does not extend GutTest
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:6)
           GDScript backtrace (most recent call first):
-              [0] _static_init (res://addons/gut/gut_loader.gd:33)
-              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
-              [2] _init (res://addons/gut/gut_cmdln.gd:24)
-SCRIPT ERROR: Parse Error: Could not parse global class "BoardStateEngine" from "res://scripts/core_match3/board_state_engine.gd".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:14)
-SCRIPT ERROR: Parse Error: Could not parse global class "MatchShapeDetector" from "res://scripts/core_match3/match_shape_detector.gd".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:17)
-SCRIPT ERROR: Parse Error: Could not find script for class "BoardStateEngine".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:69)
-SCRIPT ERROR: Parse Error: Could not find script for class "MatchShapeDetector".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:86)
-SCRIPT ERROR: Parse Error: Could not resolve external class member "_init".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:91)
-SCRIPT ERROR: Parse Error: Could not resolve external class member "enqueue_move".
-          at: GDScript::reload (res://scripts/level_runtime/level_session.gd:187)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-          at: GDScript::reload (res://scripts/validation/validate_soft_launch_smoke.gd:0)
-ERROR: Failed to load script "res://scripts/validation/validate_soft_launch_smoke.gd" with error "Compilation failed".
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:6)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:22)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:22)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:38)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:55)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:55)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:76)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:76)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Could not find type "FeedbackOrchestrator" in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:93)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Identifier "FeedbackOrchestrator" not declared in the current scope.
+          at: GDScript::reload (res://tests/core_match3/test_feedback_orchestrator.gd:93)
+          GDScript backtrace (most recent call first):
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/core_match3/test_feedback_orchestrator.gd" with error "Parse error".
    at: load (modules/gdscript/gdscript.cpp:3041)
-SCRIPT ERROR: Invalid call. Nonexistent function 'load_script_ignoring_all_warnings' in base 'GDScript'.
-          at: get_loaded (res://addons/gut/lazy_loader.gd:34)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+[33m[WARNING]:  [0mIgnoring script res://tests/core_match3/test_feedback_orchestrator.gd because it does not extend GutTest
+[33m[WARNING]:  [0mIgnoring script res://tests/e2e/test_ccpe_e2e.gd because it does not extend GutTest
+SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
+          at: GDScript::reload (res://tests/e2e/test_combo_fever_e2e.gd:105)
           GDScript backtrace (most recent call first):
-              [0] get_loaded (res://addons/gut/lazy_loader.gd:34)
-              [1] @GutFonts_getter (res://addons/gut/utils.gd:118)
-              [2] @static_initializer (res://addons/gut/utils.gd:203)
-              [3] _init (res://addons/gut/gut_cmdln.gd:36)
-SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'Nil'.
-          at: @static_initializer (res://addons/gut/utils.gd:203)
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+SCRIPT ERROR: Parse Error: Too many arguments for "on_match_detected()" call. Expected at most 2 but received 4.
+          at: GDScript::reload (res://tests/e2e/test_combo_fever_e2e.gd:116)
           GDScript backtrace (most recent call first):
-              [0] @static_initializer (res://addons/gut/utils.gd:203)
-              [1] _init (res://addons/gut/gut_cmdln.gd:36)
-SCRIPT ERROR: Invalid call. Nonexistent function 'get_font_names' in base 'Nil'.
-          at: @implicit_new (res://addons/gut/gut_config.gd:13)
-          GDScript backtrace (most recent call first):
-              [0] @implicit_new (res://addons/gut/gut_config.gd:13)
-              [1] @implicit_new (res://addons/gut/cli/gut_cli.gd:79)
-              [2] _init (res://addons/gut/gut_cmdln.gd:36)
-SCRIPT ERROR: Unable to iterate on object of type 'Nil'.
-          at: OptionResolver._null_copy (res://addons/gut/cli/gut_cli.gd:35)
-          GDScript backtrace (most recent call first):
-              [0] _null_copy (res://addons/gut/cli/gut_cli.gd:35)
-              [1] set_base_opts (res://addons/gut/cli/gut_cli.gd:29)
-              [2] main (res://addons/gut/cli/gut_cli.gd:254)
-              [3] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Unable to iterate on object of type 'Nil'.
-          at: OptionResolver._null_copy (res://addons/gut/cli/gut_cli.gd:35)
-          GDScript backtrace (most recent call first):
-              [0] _null_copy (res://addons/gut/cli/gut_cli.gd:35)
-              [1] set_base_opts (res://addons/gut/cli/gut_cli.gd:30)
-              [2] main (res://addons/gut/cli/gut_cli.gd:254)
-              [3] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Invalid access to property or key 'dirs' on a base object of type 'Nil'.
-          at: setup_options (res://addons/gut/cli/gut_cli.gd:114)
-          GDScript backtrace (most recent call first):
-              [0] setup_options (res://addons/gut/cli/gut_cli.gd:114)
-              [1] main (res://addons/gut/cli/gut_cli.gd:256)
-              [2] _init (res://addons/gut/gut_cmdln.gd:39)
-SCRIPT ERROR: Invalid call. Nonexistent function 'parse' in base 'Nil'.
-          at: main (res://addons/gut/cli/gut_cli.gd:258)
-          GDScript backtrace (most recent call first):
-              [0] main (res://addons/gut/cli/gut_cli.gd:258)
-              [1] _init (res://addons/gut/gut_cmdln.gd:39)
+              [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+              [1] _parse_script (res://addons/gut/test_collector.gd:76)
+              [2] add_script (res://addons/gut/test_collector.gd:127)
+              [3] add_script (res://addons/gut/gut.gd:1070)
+              [4] add_directory (res://addons/gut/gut.gd:1093)
+              [5] _apply_options (res://addons/gut/gut_config.gd:136)
+              [6] apply_options (res://addons/gut/gut_config.gd:207)
+              [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+              [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+              [9] main (res://addons/gut/cli/gut_cli.gd:297)
+              [10] _init (res://addons/gut/gut_cmdln.gd:39)
+ERROR: Failed to load script "res://tests/e2e/test_combo_fever_e2e.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:3041)
+   GDScript backtrace (most recent call first):
+       [0] load_script_using_custom_warnings (res://addons/gut/warnings_manager.gd:177)
+       [1] _parse_script (res://addons/gut/test_collector.gd:76)
+       [2] add_script (res://addons/gut/test_collector.gd:127)
+       [3] add_script (res://addons/gut/gut.gd:1070)
+       [4] add_directory (res://addons/gut/gut.gd:1093)
+       [5] _apply_options (res://addons/gut/gut_config.gd:136)
+       [6] apply_options (res://addons/gut/gut_config.gd:207)
+       [7] run_tests (res://addons/gut/gui/GutRunner.gd:192)
+       [8] _run_tests (res://addons/gut/cli/gut_cli.gd:239)
+       [9] main (res://addons/gut/cli/gut_cli.gd:297)
+       [10] _init (res://addons/gut/gut_cmdln.gd:39)
+[33m[WARNING]:  [0mIgnoring script res://tests/e2e/test_combo_fever_e2e.gd because it does not extend GutTest
+[4m
+
+res://tests/core_match3/test_board_state_engine.gd
+[0m* test_configure
+* test_valid_state_transitions
+* test_invalid_state_transitions
+* test_force_stabilize
+* test_stabilization_signal
+[1m5/5 passed.
+[0m[4m
+
+res://tests/core_match3/test_board_visual_sync.gd
+[0m* test_board_view_setup
+* test_animations_finished_signal_after_swap
+* test_play_effects_queueing
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core_match3/test_input_buffer_controller.gd
+[0m* test_enqueue_on_unstable_cells
+[31m    [Failed]:  [0mХод должен успешно добавиться в буфер, так как ячейка нестабильна
+      at line 21
+[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
+      at line 22
+[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
+      at line 23
+* test_expiration
+* test_validation_success
+[31m    [Failed]:  [0mExpected [<null>] to be anything but NULL:  Ход должен быть валидным
+      at line 53
+[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
+      at line 54
+[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
+      at line 55
+* test_validation_gem_desync
+* test_queue_limit_and_multiple_enqueues
+[31m    [Failed]:  [0mПервый ход должен добавиться
+      at line 87
+[31m    [Failed]:  [0m[0] expected to equal [1]:  
+      at line 88
+[31m    [Failed]:  [0mВторой ход должен добавиться
+      at line 96
+[31m    [Failed]:  [0m[0] expected to equal [2]:  
+      at line 97
+[31m    [Failed]:  [0mТретий ход должен добавиться
+      at line 101
+[31m    [Failed]:  [0m[0] expected to equal [3]:  
+      at line 102
+[31m    [Failed]:  [0m[0] expected to equal [3]:  
+      at line 107
+[1m2/5 passed.
+[0m[4m
+
+res://tests/core_match3/test_match_shape_detector.gd
+[0m* test_line_3
+* test_line_4
+* test_square_2x2
+* test_l_shape
+* test_t_shape
+* test_cross_shape
+* test_line_5
+[1m7/7 passed.
+[0m[4m
+
+res://tests/core_match3/test_resolve_pipeline.gd
+[0m* test_swap_validation_success
+* test_swap_validation_failure
+* test_cascade_and_special_sphere_generation
+ResolvePipeline: FSM timeout! Forcing stabilization.
+* test_special_sphere_explosion_beam
+* test_special_sphere_explosion_blast
+* test_special_sphere_explosion_homing
+* test_cascade_safety_limit
+[31m    [Failed]:  [0mExpected object <RefCounted#-9223371925084960631>(resolve_pipeline.gd) to have emitted signal [recovery_triggered]:   (Signals emitted: ["state_changed"])
+      at line 152
+[1m6/7 passed.
+[0m[4m
+
+res://tests/core_match3/test_special_sphere_factory.gd
+[0m* test_load_matrix_and_mapping
+* test_create_special_sphere
+[1m2/2 passed.
+[0m[4m
+
+res://tests/core_match3/test_target_priority_system.gd
+[0m* test_priority_objective_target_first
+* test_priority_locked_objective
+* test_priority_corner_target
+* test_deterministic_tie_breaker
+[1m4/4 passed.
+[0m[4m
+
+res://tests/performance/test_vfx_budget.gd
+[0m* test_particle_cap_enforcement_high_profile
+* test_particle_cap_enforcement_safe_profile
+[1m2/2 passed.
+[0m[4m
+
+res://tests/presentation/test_sphere_factory.gd
+[0m* test_piece_mapping_covers_menu_variants
+* test_create_known_sphere_returns_node2d
+* test_gem_view_can_switch_to_sphere_mode
+[1m3/3 passed.
+[0m[4m
+
+res://tests/replay/test_replay_regressions.gd
+[0m* test_replay_desync_prevention
+[1m1/1 passed.
+[0m
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m[4m
+res://tests/core_match3/test_input_buffer_controller.gd
+[0m- test_enqueue_on_unstable_cells
+[31m    [Failed]:  [0mХод должен успешно добавиться в буфер, так как ячейка нестабильна
+          at line 21
+[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
+          at line 22
+[31m    [Failed]:  [0m[0] expected to equal [5]:  Состояние должно измениться на RESERVED
+          at line 23
+- test_validation_success
+[31m    [Failed]:  [0mExpected [<null>] to be anything but NULL:  Ход должен быть валидным
+          at line 53
+[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
+          at line 54
+[31m    [Failed]:  [0m[0] expected to equal [4]:  Ячейка должна перейти в RESOLVING
+          at line 55
+- test_queue_limit_and_multiple_enqueues
+[31m    [Failed]:  [0mПервый ход должен добавиться
+          at line 87
+[31m    [Failed]:  [0m[0] expected to equal [1]:  
+          at line 88
+[31m    [Failed]:  [0mВторой ход должен добавиться
+          at line 96
+[31m    [Failed]:  [0m[0] expected to equal [2]:  
+          at line 97
+[31m    [Failed]:  [0mТретий ход должен добавиться
+          at line 101
+[31m    [Failed]:  [0m[0] expected to equal [3]:  
+          at line 102
+[31m    [Failed]:  [0m[0] expected to equal [3]:  
+          at line 107
+[4m
+res://tests/core_match3/test_resolve_pipeline.gd
+[0m- test_cascade_safety_limit
+[31m    [Failed]:  [0mExpected object <RefCounted#-9223371925084960631>(resolve_pipeline.gd) to have emitted signal [recovery_triggered]:   (Signals emitted: ["state_changed"])
+          at line 152
+
+Totals
+------
+Warnings              4
+
+Scripts              10
+Tests                39
+Passing Tests        35
+Failing Tests         4
+Asserts           105/119
+Time              0.412s
+
+
+[31m---- 4 failing tests ----
+[0mThis version of GUT may not be compatible with Godot 4.5.1.  Consider changing to GUT 9.5.0:  https://github.com/bitwes/Gut/releases/tag/v9.5.0
+
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)

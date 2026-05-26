@@ -11,7 +11,7 @@ func before_each() -> void:
 	add_child_autofree(session)
 	_fill_board_no_matches(session.board_state_engine)
 
-func _fill_board_no_matches(board: BoardStateEngine) -> void:
+func _fill_board_no_matches(board: BoardLogic) -> void:
 	for y in range(board.height):
 		for x in range(board.width):
 			board.set_piece(Vector2i(x, y), (x + y) % 3 + 1)
@@ -102,7 +102,7 @@ func test_line_5_creates_prism() -> void:
 func test_combo_window_extends() -> void:
 	# Имитируем успешный матч и проверяем увеличение Combo Window
 	assert_eq(session.combo_controller.chain_index, 0)
-	session.combo_controller.on_match_detected("LINE_3", 0.0, false, false)
+	session.combo_controller.on_match_detected("LINE_3", false)
 	assert_eq(session.combo_controller.chain_index, 1, "Цепочка комбо должна вырасти")
 	assert_gt(session.combo_controller.combo_window_remaining, 0.0, "Таймер комбо должен увеличиться")
 
@@ -113,7 +113,7 @@ func test_fever_activates() -> void:
 	var threshold := session.combo_controller.fever_combo_threshold
 	
 	for i in range(threshold):
-		session.combo_controller.on_match_detected("LINE_3", 0.0, false, false)
+		session.combo_controller.on_match_detected("LINE_3", false)
 		
 	assert_true(session.combo_controller.is_fever_active, "Fever должен активироваться при достижении порога комбо")
 	assert_gt(session.combo_controller.fever_remaining, 0.0, "Время Fever должно быть заполнено")

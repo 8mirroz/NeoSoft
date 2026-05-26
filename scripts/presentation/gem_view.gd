@@ -10,6 +10,8 @@ class_name GemView
 var size: float = 70.0
 var time_elapsed: float = 0.0
 var select_pulse_time: float = 0.0
+var sphere_type: int = CellState.SphereType.NONE
+var sphere_node: Node2D = null
 
 # Opal pearlescent palette v3 (soft translucent tones with iridescent luminosity)
 const PALETTES = {
@@ -26,6 +28,7 @@ const PALETTES = {
 func _ready() -> void:
 	# Randomize starting offset so idle animations are desynchronized across gems
 	time_elapsed = randf_range(0.0, 10.0)
+	_sync_sphere_visual()
 	queue_redraw()
 
 func _process(delta: float) -> void:
@@ -37,20 +40,71 @@ func _process(delta: float) -> void:
 	# Frequency: 0.3Hz (approx 3.3s cycle)
 	var breath := 1.0 + sin(time_elapsed * 1.8) * 0.035
 	scale = Vector2(breath, breath)
-	
-	queue_redraw()
+	if is_instance_valid(sphere_node):
+		var sphere_wobble := 1.0 + sin(time_elapsed * 1.1 + float(piece_id) * 0.25) * 0.02
+		sphere_node.rotation = sin(time_elapsed * 0.55 + float(piece_id)) * 0.04
+		sphere_node.scale = _get_sphere_scene_scale() * sphere_wobble
+	else:
+		queue_redraw()
 
 func set_piece(p_id: int) -> void:
 	piece_id = p_id
-	queue_redraw()
+	if sphere_type == CellState.SphereType.NONE:
+		queue_redraw()
 
 func set_selected(selected: bool) -> void:
 	is_selected = selected
 	if not is_selected:
 		select_pulse_time = 0.0
+	if sphere_type == CellState.SphereType.NONE:
+		queue_redraw()
+
+func set_sphere_type(type: int) -> void:
+	if sphere_type == type:
+		return
+	sphere_type = type
+	_sync_sphere_visual()
 	queue_redraw()
 
+func clear_sphere_type() -> void:
+	if sphere_type == CellState.SphereType.NONE and not is_instance_valid(sphere_node):
+		return
+	sphere_type = CellState.SphereType.NONE
+	_clear_sphere_visual()
+	queue_redraw()
+
+func _sync_sphere_visual() -> void:
+	if sphere_type == CellState.SphereType.NONE:
+		_clear_sphere_visual()
+		return
+
+	_clear_sphere_visual()
+	var sphere := SphereFactory.create(sphere_type)
+	if sphere == null:
+		sphere_type = CellState.SphereType.NONE
+		return
+
+	sphere_node = sphere
+	sphere_node.name = "SphereVisual"
+	sphere_node.position = Vector2.ZERO
+	sphere_node.scale = _get_sphere_scene_scale()
+	add_child(sphere_node)
+
+func _clear_sphere_visual() -> void:
+	if is_instance_valid(sphere_node):
+		sphere_node.queue_free()
+	sphere_node = null
+
+func _get_sphere_scene_scale() -> Vector2:
+	var logical_size: float = max(size, 1.0)
+	var texture_size: float = 1254.0
+	var base_scale: float = logical_size / texture_size
+	return Vector2.ONE * base_scale
+
 func _draw() -> void:
+	if sphere_type != CellState.SphereType.NONE and is_instance_valid(sphere_node):
+		return
+
 	var color: Color = PALETTES.get(piece_id, Color.WHITE)
 	var radius := size * 0.4
 	

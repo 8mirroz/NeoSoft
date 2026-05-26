@@ -2,22 +2,22 @@ extends "res://addons/gut/test.gd"
 
 # Юнит-тесты для ResolvePipeline FSM
 
-var board: BoardStateEngine
+var board: BoardLogic
 var combo: ComboFeverController
 var input: InputBufferController
-var shape_detector: MatchShapeDetector
+var shape_detector: ShapeDetector
 var factory: SpecialSphereFactory
 var target_priority: TargetPrioritySystem
 var context: ResolveContext
 var pipeline: ResolvePipeline
 
 func before_each() -> void:
-	board = BoardStateEngine.new()
+	board = BoardLogic.new()
 	board.configure(6, 6, -1)
 	
 	combo = ComboFeverController.new()
 	input = InputBufferController.new()
-	shape_detector = MatchShapeDetector.new()
+	shape_detector = ShapeDetector.new()
 	factory = SpecialSphereFactory.new()
 	target_priority = TargetPrioritySystem.new()
 	

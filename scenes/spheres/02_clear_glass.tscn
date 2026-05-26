@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://02_clear_glass"]
+[gd_scene load_steps=3 format=3 uid="uid://02_clear_glass"]
 
-[ext_resource type="Texture2D" uid="uid://02_clear_glass_tex" path="res://assets/spheres/02_clear_glass/02_clear_glass_base.png" id="1_02_clear_glass"]
+[ext_resource type="Texture2D" path="res://assets/spheres/02_clear_glass/02_clear_glass_base.png" id="1_02_clear_glass"]
+[ext_resource type="Shader" path="res://shaders/sphere_refraction.gdshader" id="2_sphere_refraction"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_02_clear_glass"]
+shader = ExtResource("2_sphere_refraction")
+shader_parameter/tint_color = Color(0.84, 0.94, 1.0, 0.16)
+shader_parameter/refraction_strength = 0.018
+shader_parameter/edge_glow = 0.38
 
 [node name="02_clear_glass" type="Node2D"]
 
@@ -8,8 +15,4 @@
 texture_filter = 1
 texture = ExtResource("1_02_clear_glass")
 centered = true
-offset = Vector2(-64, -64)
-modulate = Color(1, 1, 1, 1)
-
-[node name="Sprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_02_clear_glass")

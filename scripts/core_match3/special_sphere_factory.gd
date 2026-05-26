@@ -43,25 +43,29 @@ func _load_fallback() -> void:
 	}
 
 func get_special_type_str(shape_type: String) -> String:
-	return shape_mappings.get(shape_type.to_lower(), "none")
+	var s_lower = shape_type.to_lower()
+	if s_lower == "l_shape":
+		s_lower = "l_5"
+	elif s_lower == "t_shape":
+		s_lower = "t_5"
+	elif s_lower == "cross":
+		s_lower = "cross_5"
+	return shape_mappings.get(s_lower, "none")
+
+func get_special_sphere_type(shape_type: String) -> int:
+	var type_str = get_special_type_str(shape_type)
+	match type_str:
+		"beam": return SpecialSphereType.Type.BEAM_SPHERE
+		"homing": return SpecialSphereType.Type.HOMING_SPHERE
+		"blast": return SpecialSphereType.Type.BLAST_SPHERE
+		"pulse", "cross": return SpecialSphereType.Type.BLAST_SPHERE_PLUS
+		"prism": return SpecialSphereType.Type.PRISM_SPHERE
+		"gravity", "lightning", "field", "dynamo": return SpecialSphereType.Type.DYNAMO_SPHERE
+		"singularity": return SpecialSphereType.Type.SINGULARITY_CORE
+	return SpecialSphereType.Type.NONE
 
 func create_special_sphere(shape_result: MatchShapeResult) -> Dictionary:
-	var type_str = get_special_type_str(shape_result.shape_type)
-	var special_id = 0
-	
-	match type_str:
-		"beam": special_id = 1
-		"homing": special_id = 2
-		"blast": special_id = 3
-		"pulse": special_id = 4
-		"prism": special_id = 5
-		"cross": special_id = 6
-		"gravity": special_id = 7
-		"lightning": special_id = 8
-		"field": special_id = 9
-		"dynamo": special_id = 10
-		"singularity": special_id = 11
-		
+	var special_id = get_special_sphere_type(shape_result.shape_type)
 	return {
 		"cell": shape_result.center_cell,
 		"special_type": special_id,

@@ -1,9 +1,9 @@
 extends "res://addons/gut/test.gd"
 
-# Юнит-тесты для BoardStateEngine
+# Юнит-тесты для BoardLogic
 
 func test_configure() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(8, 8, 5)
 	
 	assert_eq(board.width, 8, "Ширина должна быть 8")
@@ -12,7 +12,7 @@ func test_configure() -> void:
 	assert_eq(board.get_cell_state(Vector2i(0, 0)), CellState.State.STABLE, "Начальное состояние должно быть STABLE")
 
 func test_valid_state_transitions() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	var cell := Vector2i(0, 0)
 	
@@ -30,7 +30,7 @@ func test_valid_state_transitions() -> void:
 	assert_true(board.set_cell_state(cell, CellState.State.STABLE), "FALLING -> STABLE должно быть валидно")
 
 func test_invalid_state_transitions() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	var cell := Vector2i(0, 0)
 	
@@ -45,7 +45,7 @@ func test_invalid_state_transitions() -> void:
 	assert_false(board.set_cell_state(cell, CellState.State.LOCKED), "RESERVED -> LOCKED должно быть заблокировано")
 
 func test_force_stabilize() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Переводим несколько ячеек в нестабильные состояния в обход проверок (или через валидные)
@@ -59,7 +59,7 @@ func test_force_stabilize() -> void:
 	assert_eq(board.get_cell_state(Vector2i(1, 1)), CellState.State.STABLE, "Должно сброситься в STABLE")
 
 func test_stabilization_signal() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(4, 4, 1)
 	
 	# Переводим ячейку в RESOLVING

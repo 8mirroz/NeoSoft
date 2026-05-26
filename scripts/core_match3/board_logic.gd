@@ -14,7 +14,7 @@ var height: int = 8
 var cells: Array = [] # Двумерный массив String цветов гемов
 var states: Array = [] # Двумерный массив int состояний CellState.State
 
-func configure(p_width: int, p_height: int, default_color: String = "red") -> void:
+func configure(p_width: int, p_height: int, default_color: Variant = "red") -> void:
 	width = p_width
 	height = p_height
 	cells.clear()
@@ -22,13 +22,27 @@ func configure(p_width: int, p_height: int, default_color: String = "red") -> vo
 	cells.resize(height)
 	states.resize(height)
 	
+	var default_str := "red"
+	if typeof(default_color) == TYPE_INT:
+		match default_color:
+			-1: default_str = ""
+			0: default_str = "red"
+			1: default_str = "blue"
+			2: default_str = "green"
+			3: default_str = "yellow"
+			4: default_str = "purple"
+			5: default_str = "white"
+			_: default_str = str(default_color)
+	elif typeof(default_color) == TYPE_STRING:
+		default_str = default_color
+		
 	for y in range(height):
 		cells[y] = []
 		states[y] = []
 		cells[y].resize(width)
 		states[y].resize(width)
 		for x in range(width):
-			cells[y][x] = default_color
+			cells[y][x] = default_str
 			states[y][x] = CellState.State.STABLE
 
 func is_in_bounds(cell: Vector2i) -> bool:
@@ -58,6 +72,8 @@ func set_cell_state(cell: Vector2i, new_state: int) -> bool:
 		return false
 	var old_state = states[cell.y][cell.x]
 	if old_state != new_state:
+		if not _is_valid_transition(old_state, new_state):
+			return false
 		states[cell.y][cell.x] = new_state
 		emit_signal("cell_state_changed", cell, old_state, new_state)
 		if new_state == CellState.State.STABLE:
@@ -120,3 +136,51 @@ func _check_stabilization() -> void:
 			if s != CellState.State.STABLE and s != CellState.State.BLOCKED and s != CellState.State.TARGET:
 				return
 	emit_signal("board_stabilized")
+
+func _is_valid_transition(from_state: int, to_state: int) -> bool:
+	if from_state == to_state:
+		return true
+	if to_state == CellState.State.RESERVED or to_state == CellState.State.RESOLVING:
+		return true
+	match from_state:
+		CellState.State.STABLE:
+			return to_state != CellState.State.SPAWNING and to_state != CellState.State.FALLING
+		CellState.State.RESERVED:
+			return to_state == CellState.State.STABLE or to_state == CellState.State.RESOLVING
+		CellState.State.RESOLVING:
+			return to_state == CellState.State.LOCKED or to_state == CellState.State.STABLE
+		CellState.State.LOCKED:
+			return to_state == CellState.State.FALLING or to_state == CellState.State.STABLE or to_state == CellState.State.SPAWNING
+		CellState.State.FALLING:
+			return to_state == CellState.State.STABLE
+		CellState.State.SPAWNING:
+			return to_state == CellState.State.STABLE
+	return true
+
+func get_piece(cell: Vector2i) -> int:
+	var gem := get_gem(cell)
+	match gem:
+		"red": return 0
+		"blue": return 1
+		"green": return 2
+		"yellow": return 3
+		"purple": return 4
+		"white": return 5
+		"": return -1
+		_:
+			if gem.is_valid_int():
+				return gem.to_int()
+			return 0
+
+func set_piece(cell: Vector2i, piece_id: int) -> bool:
+	var color := ""
+	match piece_id:
+		-1: color = ""
+		0: color = "red"
+		1: color = "blue"
+		2: color = "green"
+		3: color = "yellow"
+		4: color = "purple"
+		5: color = "white"
+		_: color = str(piece_id)
+	return set_gem(cell, color)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://09_blue_ribbon"]
 
-[ext_resource type="Texture2D" uid="uid://09_blue_ribbon_tex" path="res://assets/spheres/09_blue_ribbon/09_blue_ribbon_base.png" id="1_09_blue_ribbon"]
+[ext_resource type="Texture2D" path="res://assets/spheres/09_blue_ribbon/09_blue_ribbon_base.png" id="1_09_blue_ribbon"]
 
 [node name="09_blue_ribbon" type="Node2D"]
 
@@ -8,9 +8,4 @@
 texture_filter = 1
 texture = ExtResource("1_09_blue_ribbon")
 centered = true
-offset = Vector2(-64, -64)
-modulate = Color(1, 1, 1, 1)
-hframes = 4
-vframes = 1
-frame = 0
-playing = false
+modulate = Color(0.95, 0.98, 1.0, 0.96)

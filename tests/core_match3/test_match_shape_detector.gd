@@ -1,9 +1,9 @@
 extends "res://addons/gut/test.gd"
 
-# Юнит-тесты для MatchShapeDetector
+# Юнит-тесты для ShapeDetector
 
 func test_line_3() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем горизонтальный Line-3
@@ -11,7 +11,7 @@ func test_line_3() -> void:
 	board.set_piece(Vector2i(1, 0), 1)
 	board.set_piece(Vector2i(2, 0), 1)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1, "Должна быть найдена одна фигура")
@@ -19,7 +19,7 @@ func test_line_3() -> void:
 	assert_eq(results[0].weight, 1.0, "Вес должен быть 1.0")
 
 func test_line_4() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем вертикальный Line-4
@@ -28,7 +28,7 @@ func test_line_4() -> void:
 	board.set_piece(Vector2i(0, 2), 2)
 	board.set_piece(Vector2i(0, 3), 2)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)
@@ -36,7 +36,7 @@ func test_line_4() -> void:
 	assert_eq(results[0].weight, 2.0)
 
 func test_square_2x2() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем квадрат 2x2
@@ -45,7 +45,7 @@ func test_square_2x2() -> void:
 	board.set_piece(Vector2i(1, 2), 3)
 	board.set_piece(Vector2i(2, 2), 3)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)
@@ -53,7 +53,7 @@ func test_square_2x2() -> void:
 	assert_eq(results[0].weight, 2.5)
 
 func test_l_shape() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем L-shape из 5 сфер (пересечение на краях)
@@ -65,7 +65,7 @@ func test_l_shape() -> void:
 	board.set_piece(Vector2i(0, 1), 4)
 	board.set_piece(Vector2i(0, 2), 4)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)
@@ -74,7 +74,7 @@ func test_l_shape() -> void:
 	assert_eq(results[0].center_cell, Vector2i(0, 0), "Точка пересечения L-shape должна быть центром")
 
 func test_t_shape() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем T-shape из 5 сфер
@@ -86,7 +86,7 @@ func test_t_shape() -> void:
 	board.set_piece(Vector2i(1, 2), 1)
 	board.set_piece(Vector2i(1, 3), 1)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)
@@ -95,7 +95,7 @@ func test_t_shape() -> void:
 	assert_eq(results[0].center_cell, Vector2i(1, 1))
 
 func test_cross_shape() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем Cross (+) пересечение посередине обеих линий
@@ -107,7 +107,7 @@ func test_cross_shape() -> void:
 	board.set_piece(Vector2i(2, 1), 2)
 	board.set_piece(Vector2i(2, 3), 2)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)
@@ -115,7 +115,7 @@ func test_cross_shape() -> void:
 	assert_eq(results[0].weight, 4.0)
 
 func test_line_5() -> void:
-	var board := BoardStateEngine.new()
+	var board := BoardLogic.new()
 	board.configure(5, 5, -1)
 	
 	# Создаем Line-5
@@ -125,7 +125,7 @@ func test_line_5() -> void:
 	board.set_piece(Vector2i(3, 0), 3)
 	board.set_piece(Vector2i(4, 0), 3)
 	
-	var detector := MatchShapeDetector.new()
+	var detector := ShapeDetector.new()
 	var results := detector.detect_shapes(board)
 	
 	assert_eq(results.size(), 1)

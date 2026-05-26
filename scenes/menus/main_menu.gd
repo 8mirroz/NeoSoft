@@ -559,15 +559,16 @@ func _spawn_ambient_gems() -> void:
 		
 	floating_gems.clear()
 	
-	# 7 gems total for luxurious multi-layered parallax depth
+	# 8 spheres total for luxurious multi-layered parallax depth
 	var gem_configs := [
-		{"type": 0, "depth": 0.35, "pos": Vector2(0.12, 0.22)}, # Back: Pink Pearl
-		{"type": 1, "depth": 0.45, "pos": Vector2(0.88, 0.18)}, # Back: Blue Flow
-		{"type": 3, "depth": 0.38, "pos": Vector2(0.15, 0.72)}, # Back: Frost Pearl
-		{"type": 6, "depth": 0.50, "pos": Vector2(0.82, 0.85)}, # Back: Amethyst Haze
-		{"type": 2, "depth": 0.80, "pos": Vector2(0.10, 0.46)}, # Front: Ice Spark
-		{"type": 4, "depth": 0.85, "pos": Vector2(0.90, 0.52)}, # Front: Mint Shiver
-		{"type": 5, "depth": 1.05, "pos": Vector2(0.30, 0.90)}, # Deep Front: Gold Aurora
+		{"type": 0, "depth": 0.35, "pos": Vector2(0.12, 0.22)}, # Frost
+		{"type": 1, "depth": 0.45, "pos": Vector2(0.88, 0.18)}, # Glass
+		{"type": 2, "depth": 0.38, "pos": Vector2(0.15, 0.72)}, # Aqua
+		{"type": 3, "depth": 0.50, "pos": Vector2(0.82, 0.85)}, # Violet
+		{"type": 4, "depth": 0.80, "pos": Vector2(0.10, 0.46)}, # Warm
+		{"type": 5, "depth": 0.85, "pos": Vector2(0.90, 0.52)}, # Blue ribbon
+		{"type": 6, "depth": 1.00, "pos": Vector2(0.30, 0.90)}, # Purple ribbon
+		{"type": 7, "depth": 1.08, "pos": Vector2(0.54, 0.16)}, # Cross wave
 	]
 	
 	for cfg in gem_configs:
@@ -578,6 +579,7 @@ func _spawn_ambient_gems() -> void:
 		var base_size: float = 55.0 if depth < 0.7 else 70.0
 		gem.size = base_size * depth
 		gem.set_piece(cfg["type"])
+		gem.set_sphere_type(SphereFactory.get_sphere_type_for_piece(cfg["type"]))
 		
 		# Place in background/foreground containers based on depth
 		if depth < 0.7:

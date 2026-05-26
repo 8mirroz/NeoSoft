@@ -76,14 +76,14 @@ static func exclude_gut(should=true):
 	var val = DIRECTORY_INCLUDE
 	if(should):
 		val = DIRECTORY_EXCLUDE
-	var dir_rules = ProjectSettings.get(DIRECTORY_RULES, {})
+	var dir_rules = ProjectSettings.get_setting(DIRECTORY_RULES, {})
 	if typeof(dir_rules) != TYPE_DICTIONARY:
 		dir_rules = {}
 	dir_rules[GUT_PATH] = val
 	ProjectSettings.set(DIRECTORY_RULES, dir_rules)
 
 static func exclude_dynamic_files():
-	var dir_rules = ProjectSettings.get(DIRECTORY_RULES, {})
+	var dir_rules = ProjectSettings.get_setting(DIRECTORY_RULES, {})
 	if typeof(dir_rules) != TYPE_DICTIONARY:
 		dir_rules = {}
 	dir_rules[DYNAMIC_FILES_PATH] = DIRECTORY_EXCLUDE

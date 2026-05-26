@@ -20,6 +20,7 @@ run/main_scene="res://scenes/boot/boot.tscn"
 [autoload]
 
 EventBus="*res://scripts/event_bus.gd"
+GameEventBus="*res://scripts/system/game_event_bus.gd"
 UserData="*res://scripts/level_runtime/user_data.gd"
 AnalyticsTracker="*res://scripts/analytics_tracker.gd"
 SoftLaunchSmokeRunner="*res://scripts/validation/validate_soft_launch_smoke.gd"

@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://03_aqua_wave"]
+[gd_scene load_steps=3 format=3 uid="uid://03_aqua_wave"]
 
-[ext_resource type="Texture2D" uid="uid://03_aqua_wave_tex" path="res://assets/spheres/03_aqua_wave/03_aqua_wave_base.png" id="1_03_aqua_wave"]
+[ext_resource type="Texture2D" path="res://assets/spheres/03_aqua_wave/03_aqua_wave_base.png" id="1_03_aqua_wave"]
+[ext_resource type="Shader" path="res://shaders/sphere_wave.gdshader" id="2_sphere_wave"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_03_aqua_wave"]
+shader = ExtResource("2_sphere_wave")
+shader_parameter/tint_color = Color(0.48, 0.9, 0.98, 0.2)
+shader_parameter/wave_strength = 0.04
+shader_parameter/wave_speed = 2.6
+shader_parameter/wave_density = 16.0
 
 [node name="03_aqua_wave" type="Node2D"]
 
@@ -8,8 +16,4 @@
 texture_filter = 1
 texture = ExtResource("1_03_aqua_wave")
 centered = true
-offset = Vector2(-64, -64)
-modulate = Color(1, 1, 1, 1)
-
-[node name="Sprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_03_aqua_wave")

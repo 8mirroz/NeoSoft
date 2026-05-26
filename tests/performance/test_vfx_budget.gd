@@ -6,7 +6,7 @@ extends "res://addons/gut/test.gd"
 
 var director: FeedbackDirector
 
-func setup() -> void:
+func before_each() -> void:
 	director = FeedbackDirector.new()
 
 func test_particle_cap_enforcement_high_profile() -> void:

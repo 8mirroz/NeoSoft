@@ -35,7 +35,7 @@ fi
 
 # Запускаем тесты GUT в headless режиме
 echo "🚀 Running tests..."
-$GODOT_BIN --headless --path . -s "$GUT_ENTRYPOINT" -gdir=res://tests > artifacts/testing/last_test_run.log 2>&1
+$GODOT_BIN --headless --path . -s "$GUT_ENTRYPOINT" -gdir=res://tests -ginclude_subdirs > artifacts/testing/last_test_run.log 2>&1
 TEST_RESULT=$?
 
 # Выводим логи в консоль
@@ -43,7 +43,7 @@ cat artifacts/testing/last_test_run.log
 
 # Защита от ложноположительного успеха:
 # иногда Godot завершает процесс кодом 0, даже если скрипт не загрузился.
-if grep -Eq "(Failed loading resource|Failed to load script|Can't load script|SCRIPT ERROR:|Parse Error:|Compile Error:)" artifacts/testing/last_test_run.log; then
+if grep -Eq "(Failed loading resource|Failed to load script|Can't load script|SCRIPT ERROR:|Parse Error:|Parse error|Compile Error:|Compilation failed|ERROR: Failed to load)" artifacts/testing/last_test_run.log; then
     echo "==============================================="
     echo "❌ Error: Runtime/compile/script loading errors detected in logs."
     echo "Check full logs in 'artifacts/testing/last_test_run.log'"

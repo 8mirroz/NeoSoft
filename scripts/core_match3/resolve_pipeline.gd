@@ -7,6 +7,9 @@ class_name ResolvePipeline
 
 signal state_changed(old_state: int, new_state: int)
 signal pipeline_stabilized()
+signal recovery_triggered()
+signal swap_started(from: Vector2i, to: Vector2i)
+signal swap_completed(from: Vector2i, to: Vector2i, success: bool)
 
 var context: ResolveContext
 var active_specials: Dictionary = {} # Vector2i -> int
@@ -74,6 +77,7 @@ func advance() -> void:
 			set_special_sphere(context.active_swap_from, spec_to)
 			set_special_sphere(context.active_swap_to, spec_from)
 			
+			emit_signal("swap_started", context.active_swap_from, context.active_swap_to)
 			context.board.swap_gems(context.active_swap_from, context.active_swap_to)
 			_transition_to(ResolveContext.State.SWAP_VALIDATING)
 			
@@ -84,6 +88,7 @@ func advance() -> void:
 			
 			if not shapes.is_empty() or is_special_act:
 				context.pending_matches = shapes
+				emit_signal("swap_completed", context.active_swap_from, context.active_swap_to, true)
 				_transition_to(ResolveContext.State.MATCH_SCANNING)
 			else:
 				# Возвращаем на место при невалидном свайпе
@@ -96,6 +101,7 @@ func advance() -> void:
 				context.board.set_cell_state(context.active_swap_from, CellState.State.STABLE)
 				context.board.set_cell_state(context.active_swap_to, CellState.State.STABLE)
 				
+				emit_signal("swap_completed", context.active_swap_from, context.active_swap_to, false)
 				_transition_to(ResolveContext.State.IDLE)
 				
 		ResolveContext.State.MATCH_SCANNING:
@@ -272,6 +278,7 @@ func advance() -> void:
 			_transition_to(ResolveContext.State.IDLE)
 			
 		ResolveContext.State.FAILED_RECOVERY:
+			emit_signal("recovery_triggered")
 			context.board.force_stabilize()
 			context.current_cascade_depth = 0
 			context.pending_matches.clear()
@@ -296,17 +303,25 @@ func _transition_to(new_state: int) -> void:
 	var old_state = context.state
 	context.state = new_state
 	emit_signal("state_changed", old_state, new_state)
+	if new_state == ResolveContext.State.FAILED_RECOVERY:
+		emit_signal("recovery_triggered")
 
 func _explode_special_sphere(cell: Vector2i, type: int) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
 	match type:
-		1: # BEAM
+		SpecialSphereType.Type.BEAM_SPHERE: # BEAM
 			for x in range(context.board.width):
 				result.append(Vector2i(x, cell.y))
 			for y in range(context.board.height):
 				result.append(Vector2i(cell.x, y))
-		2: # BLAST
+		SpecialSphereType.Type.BLAST_SPHERE, SpecialSphereType.Type.BLAST_SPHERE_PLUS: # BLAST
 			for dy in range(-1, 2):
 				for dx in range(-1, 2):
 					result.append(cell + Vector2i(dx, dy))
+		SpecialSphereType.Type.HOMING_SPHERE: # HOMING
+			result.append(cell)
+			if context.target_priority != null:
+				var target = context.target_priority.find_best_target(context.board)
+				if target != Vector2i(-1, -1) and target != cell:
+					result.append(target)
 	return result

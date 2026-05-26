@@ -1,6 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://08_warm_glow"]
 
-[ext_resource type="Texture2D" uid="uid://08_warm_glow_tex" path="res://assets/spheres/08_warm_glow/08_warm_glow_base.png" id="1_08_warm_glow"]
+[ext_resource type="Texture2D" path="res://assets/spheres/08_warm_glow/08_warm_glow_base.png" id="1_08_warm_glow"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleMaterial_08_warm_glow"]
+direction = Vector3(0, -1, 0)
+spread = 36.0
+initial_velocity_min = 3.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -1, 0)
+scale_min = 0.2
+scale_max = 0.48
+color = Color(1.0, 0.76, 0.58, 0.66)
 
 [node name="08_warm_glow" type="Node2D"]
 
@@ -8,12 +18,13 @@
 texture_filter = 1
 texture = ExtResource("1_08_warm_glow")
 centered = true
-offset = Vector2(-64, -64)
-modulate = Color(1, 1, 1, 1)
+modulate = Color(1, 1, 1, 0.95)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(0, 0)
-amount = 32
-lifetime = 1.0
+amount = 24
+lifetime = 1.1
+emitting = true
+local_coords = true
 process_material = SubResource("ParticleMaterial_08_warm_glow")
 texture = ExtResource("1_08_warm_glow")
