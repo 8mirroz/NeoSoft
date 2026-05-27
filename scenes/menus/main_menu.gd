@@ -492,12 +492,13 @@ func _apply_theme() -> void:
 	title_label.text = "Neo\nSoft Frost"
 
 	# Main Title
-	_set_label_style(title_label, _theme_int("shared.font.hero", 48) + 14, _theme_path("shared.colors.text_inverse"))
-	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.accent_primary", COLOR_TEXT_PRIMARY).lightened(0.35))
-	title_label.add_theme_constant_override("outline_size", 8)
-	title_label.add_theme_color_override("font_shadow_color", _theme_path("shared.colors.accent_secondary", COLOR_TEXT_PRIMARY).darkened(0.2))
+	_set_label_style(title_label, _theme_int("shared.font.hero", 48) + 16, _theme_path("shared.colors.text_inverse"))
+	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.accent_primary", COLOR_TEXT_PRIMARY).lightened(0.2))
+	title_label.add_theme_constant_override("outline_size", 10)
+	title_label.add_theme_color_override("font_shadow_color", _theme_path("shared.colors.accent_secondary", COLOR_TEXT_PRIMARY).darkened(0.4))
 	title_label.add_theme_constant_override("shadow_offset_x", 0)
-	title_label.add_theme_constant_override("shadow_offset_y", 4)
+	title_label.add_theme_constant_override("shadow_offset_y", 6)
+	title_label.add_theme_constant_override("shadow_outline_size", 4)
 	
 	# Main Play Button (Accent style with frosted glassmorphism)
 	var hero_radius := _theme_int("menu.surface.hero_button.radius", _theme_int("shared.radius.lg", 30))
@@ -584,16 +585,20 @@ func _make_glass_style(radius: int, bg_col: Color, border_col: Color) -> StyleBo
 	style.border_width_top = 2
 	style.border_width_right = 2
 	style.border_width_bottom = 2
+	style.border_blend = true # Softer, more premium glass border
 	style.corner_radius_top_left = radius
 	style.corner_radius_top_right = radius
 	style.corner_radius_bottom_left = radius
 	style.corner_radius_bottom_right = radius
 	style.shadow_color = COLOR_GLASS_SHADOW
-	style.shadow_size = 16
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	style.content_margin_top = 10
-	style.content_margin_bottom = 10
+	style.shadow_size = 20 # Increased for softer shadow
+	style.shadow_offset = Vector2(0, 8) # Drop shadow
+	style.anti_aliasing = true
+	style.anti_aliasing_size = 1.5
+	style.content_margin_left = 16
+	style.content_margin_right = 16
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
 	return style
 
 func _make_segment_style(bg_col: Color, border_col: Color, is_left: bool, is_right: bool, is_active: bool) -> StyleBoxFlat:
@@ -604,18 +609,22 @@ func _make_segment_style(bg_col: Color, border_col: Color, is_left: bool, is_rig
 	style.border_width_top = 2
 	style.border_width_right = 1
 	style.border_width_bottom = 2
-	var radius_l := 26 if is_left else 0
-	var radius_r := 26 if is_right else 0
+	style.border_blend = true
+	var radius_l := 28 if is_left else 0
+	var radius_r := 28 if is_right else 0
 	style.corner_radius_top_left = radius_l
 	style.corner_radius_bottom_left = radius_l
 	style.corner_radius_top_right = radius_r
 	style.corner_radius_bottom_right = radius_r
 	style.shadow_color = COLOR_GLASS_SHADOW
-	style.shadow_size = 16 if is_active else 10
-	style.content_margin_left = 8
-	style.content_margin_right = 8
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
+	style.shadow_size = 18 if is_active else 12
+	style.shadow_offset = Vector2(0, 4)
+	style.anti_aliasing = true
+	style.anti_aliasing_size = 1.2
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 10
+	style.content_margin_bottom = 10
 	return style
 
 # --- DRAW PROCESSES (Procedural Background & Hanging Diamonds) ---
