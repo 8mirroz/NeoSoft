@@ -15,7 +15,9 @@ var select_pulse_time: float = 0.0
 var selection_alpha: float = 0.0 # Selection fade transition (150-220ms)
 var sphere_type: int = CellState.SphereType.NONE
 var sphere_node: Node2D = null
-const USE_SCENE_SPHERES := true
+
+# Simple procedural mode — no 3D scene spheres
+const USE_SCENE_SPHERES := false
 
 # High-contrast premium vibrant color palette (Frost Gem Design System v1.0)
 const PALETTES = {
@@ -46,23 +48,12 @@ func _process(delta: float) -> void:
 		selection_alpha = max(selection_alpha - delta / 0.15, 0.0)
 		select_pulse_time = 0.0
 	
-	# Slowly pulse scale for idle breathing (Gem idle: 3–6s loop, sine, scale 1 ± .035)
+	# Slowly pulse scale for idle breathing (Gem idle: 3–6s loop, sine, scale 1 ± .025)
 	var breath := 1.0
 	if not reduced_motion:
-		# Period: 2*PI/1.8 = 3.49s (comfortable low-frequency breathing)
-		breath = 1.0 + sin(time_elapsed * 1.8) * 0.035
+		breath = 1.0 + sin(time_elapsed * 1.8) * 0.025
 	
 	scale = Vector2(breath, breath) * custom_scale
-	
-	if is_instance_valid(sphere_node):
-		var sphere_wobble := 1.0
-		if not reduced_motion:
-			sphere_wobble = 1.0 + sin(time_elapsed * 1.1 + float(piece_id) * 0.25) * 0.02
-			sphere_node.rotation = sin(time_elapsed * 0.55 + float(piece_id)) * 0.04
-		else:
-			sphere_node.rotation = 0.0
-		
-		sphere_node.scale = _get_sphere_scene_scale() * sphere_wobble
 	
 	# Queue redraw whenever animation is active or selected state is changing
 	if not reduced_motion or is_selected or selection_alpha > 0.0:
@@ -124,49 +115,47 @@ func _get_sphere_scene_scale() -> Vector2:
 	var base_scale: float = logical_size / texture_size
 	return Vector2.ONE * base_scale
 
-func _draw_prism_star(r: float, rotation_angle: float, col: Color) -> void:
-	var points: PackedVector2Array = []
-	var num_points := 5
-	for i in range(num_points * 2):
-		var angle := float(i) * (PI / float(num_points)) + rotation_angle
-		var curr_r := r if i % 2 == 0 else r * 0.4
-		points.append(Vector2(cos(angle), sin(angle)) * curr_r)
-	points.append(points[0]) # close polygon
-	draw_colored_polygon(points, col)
+# ─── DRAW ────────────────────────────────────────────────────────────────────
 
 func _draw() -> void:
 	var color: Color = PALETTES.get(piece_id, Color.WHITE)
 	var radius := size * 0.4
 	
-	# 1. UNDERLAYS (Always drawn, even for 3D sphere scenes)
-	
-	# Soft pastel drop-shadow (always light, never dark)
-	var shadow_offset := 3.0 + selection_alpha * 3.0
-	var shadow_radius := radius * (1.02 + selection_alpha * 0.08)
-	var shadow_alpha := 0.10 - selection_alpha * 0.03
-	# Use tinted lavender shadow, not dark navy
-	draw_circle(Vector2(0.0, shadow_offset), shadow_radius, Color(color.r * 0.85 + 0.12, color.g * 0.85 + 0.12, color.b * 0.85 + 0.15, shadow_alpha))
-	
-	# Frost Glow underlay (vibrant radial glow, increases on selection)
-	var glow_alpha := 0.16 + selection_alpha * 0.24
-	var glow_radius := radius * (1.1 + selection_alpha * 0.2)
-	var glow_color := Color(color.r, color.g, color.b, glow_alpha)
-	# Multilayer draw for smooth gradient-like soft edge glow
-	draw_circle(Vector2.ZERO, glow_radius, glow_color)
-	draw_circle(Vector2.ZERO, glow_radius * 0.7, Color(color.r, color.g, color.b, glow_alpha * 0.5))
-	
-	# 2. SPHERE 3D SCENE EXIT
-	# If 3D sphere scene is used and valid, it handles drawing the main body.
-	# We just draw the underlays and then overlay the selection focus rings.
+	# If using 3D scenes and one is loaded, only draw selection overlay
 	if USE_SCENE_SPHERES and sphere_type != CellState.SphereType.NONE and is_instance_valid(sphere_node):
 		_draw_selection_overlay(radius)
 		return
 	
-	# 3. 2D FALLBACK BODY DRAW (if 3D scene is not active)
-	_draw_2d_fallback_body(radius, color)
+	# ── Simple procedural sphere ──
+	_draw_procedural_sphere(radius, color)
 	
-	# 4. OVERLAYS (Focus rings)
+	# ── Selection focus ring ──
 	_draw_selection_overlay(radius)
+
+func _draw_procedural_sphere(radius: float, color: Color) -> void:
+	# 1. Soft shadow
+	var shadow_y := 2.0 + selection_alpha * 2.0
+	draw_circle(Vector2(0.0, shadow_y), radius * 1.02, Color(0.0, 0.0, 0.0, 0.08))
+	
+	# 2. White border ring (subtle)
+	draw_circle(Vector2.ZERO, radius, Color(1.0, 1.0, 1.0, 0.85))
+	
+	# 3. Main color body
+	var body_radius := radius * 0.92
+	draw_circle(Vector2.ZERO, body_radius, color)
+	
+	# 4. Lighter inner hemisphere (top-left gradient feel)
+	var lighter := Color(
+		min(color.r + 0.2, 1.0),
+		min(color.g + 0.2, 1.0),
+		min(color.b + 0.2, 1.0),
+		0.55
+	)
+	draw_circle(Vector2(-body_radius * 0.18, -body_radius * 0.18), body_radius * 0.7, lighter)
+	
+	# 5. Specular highlight (top-left)
+	draw_circle(Vector2(-body_radius * 0.3, -body_radius * 0.3), body_radius * 0.22, Color(1.0, 1.0, 1.0, 0.6))
+	draw_circle(Vector2(-body_radius * 0.36, -body_radius * 0.36), body_radius * 0.09, Color(1.0, 1.0, 1.0, 0.8))
 
 func _draw_selection_overlay(radius: float) -> void:
 	if selection_alpha <= 0.0:
@@ -175,7 +164,7 @@ func _draw_selection_overlay(radius: float) -> void:
 	# focus/ring: #00E6F2 (Frost Aqua)
 	var focus_color := Color("00E6F2")
 	
-	# Outer animated breathing/pulsing aura ring
+	# Outer animated pulsing ring
 	var pulse_scale := 1.0
 	if not reduced_motion:
 		pulse_scale = 1.0 + sin(select_pulse_time) * 0.06
@@ -185,82 +174,7 @@ func _draw_selection_overlay(radius: float) -> void:
 	outer_color.a = selection_alpha * 0.65
 	draw_arc(Vector2.ZERO, outer_radius, 0.0, TAU, 40, outer_color, 2.2)
 	
-	# Inner sharp premium high-contrast focus ring (3px target targets)
+	# Inner sharp focus ring
 	var inner_color := focus_color
 	inner_color.a = selection_alpha * 0.90
 	draw_arc(Vector2.ZERO, radius * 1.08, 0.0, TAU, 40, inner_color, 1.6)
-
-func _draw_2d_fallback_body(radius: float, color: Color) -> void:
-	# Check if it's a special sphere (BLUE_RIBBON, PURPLE_RIBBON, CROSS_WAVE)
-	if sphere_type == CellState.SphereType.BLUE_RIBBON or sphere_type == CellState.SphereType.PURPLE_RIBBON or sphere_type == CellState.SphereType.CROSS_WAVE:
-		# Draw main body
-		draw_circle(Vector2.ZERO, radius, Color.WHITE)
-		draw_circle(Vector2.ZERO, radius * 0.95, color)
-		
-		# Glass shine overlay
-		draw_arc(Vector2.ZERO, radius * 0.94, -0.15 * PI, 1.72 * PI, 30, Color(1.0, 1.0, 1.0, 0.45), 2.0)
-		draw_circle(Vector2(-radius * 0.34, -radius * 0.34), radius * 0.24, Color(1.0, 1.0, 1.0, 0.68))
-		draw_circle(Vector2(-radius * 0.42, -radius * 0.42), radius * 0.10, Color(1.0, 1.0, 1.0, 0.85))
-
-		match sphere_type:
-			CellState.SphereType.BLUE_RIBBON: # Beam / Line laser Ribbon
-				var line_color := Color.WHITE
-				draw_line(Vector2(-radius * 0.85, 0), Vector2(radius * 0.85, 0), line_color, 3.8)
-				draw_line(Vector2(0, -radius * 0.85), Vector2(0, radius * 0.85), line_color, 3.8)
-				# Double rotating outer ring
-				var ring_rot := time_elapsed * 2.8
-				draw_arc(Vector2.ZERO, radius * 1.15, ring_rot, ring_rot + PI * 0.6, 24, color.lightened(0.2), 3.0)
-				draw_arc(Vector2.ZERO, radius * 1.15, ring_rot + PI, ring_rot + PI * 1.6, 24, color.lightened(0.2), 3.0)
-				
-			CellState.SphereType.PURPLE_RIBBON: # Blast / Bomb area Sphere
-				var ring_rot := -time_elapsed * 2.4
-				for i in range(6):
-					var angle := ring_rot + float(i) * (TAU / 6.0)
-					draw_arc(Vector2.ZERO, radius * 1.22, angle, angle + (TAU / 12.0), 10, color.lightened(0.3), 3.8)
-				# Radiant spikes
-				for i in range(8):
-					var angle := float(i) * (TAU / 8.0) + time_elapsed * 0.5
-					var dir := Vector2(cos(angle), sin(angle))
-					draw_line(dir * radius * 0.4, dir * radius * 0.88, Color.WHITE, 2.5)
-				
-			CellState.SphereType.CROSS_WAVE: # Color Bomb / Rainbow Prism Star
-				var rot1 := time_elapsed * 1.6
-				var rot2 := -time_elapsed * 1.3
-				_draw_prism_star(radius * 0.88, rot1, Color(1.0, 0.2, 0.2, 0.8))
-				_draw_prism_star(radius * 0.72, rot2, Color(0.2, 1.0, 0.2, 0.8))
-				_draw_prism_star(radius * 0.56, rot1 + PI * 0.25, Color(0.2, 0.5, 1.0, 0.9))
-				# Central pulsing diamond core
-				var pulse := 0.22 + sin(time_elapsed * 4.0) * 0.05
-				draw_rect(Rect2(-radius * pulse, -radius * pulse, radius * pulse * 2.0, radius * pulse * 2.0), Color.WHITE)
-	else:
-		# Uniform round gems: cleaner board readability, no square artifacts.
-		draw_circle(Vector2.ZERO, radius, Color(1.0, 1.0, 1.0, 0.92))
-		draw_circle(Vector2.ZERO, radius * 0.9, color)
-		
-		# Glassmorphic inner gradient approximation
-		draw_circle(Vector2(-radius * 0.15, -radius * 0.15), radius * 0.75, Color(color.r + 0.15, color.g + 0.15, color.b + 0.15, 0.5))
-		
-		# Outer shine arcs
-		draw_arc(Vector2.ZERO, radius * 0.94, -0.15 * PI, 1.72 * PI, 30, Color(1.0, 1.0, 1.0, 0.45), 2.0)
-		draw_arc(Vector2(radius * 0.04, radius * 0.08), radius * 0.7, 0.18 * PI, 1.35 * PI, 24, Color(1.0, 1.0, 1.0, 0.32), 1.4)
-		
-		# Top-left hot highlights
-		draw_circle(Vector2(-radius * 0.34, -radius * 0.34), radius * 0.24, Color(1.0, 1.0, 1.0, 0.65))
-		draw_circle(Vector2(-radius * 0.42, -radius * 0.42), radius * 0.10, Color(1.0, 1.0, 1.0, 0.82))
-
-		var rotate_angle := time_elapsed * 0.35
-		var accent_phase := rotate_angle + float(wrapi(piece_id, 0, 8)) * 0.6
-		var accent_alpha := 0.42
-		match wrapi(piece_id, 0, 8):
-			0:
-				draw_circle(Vector2(cos(accent_phase) * radius * 0.2, sin(accent_phase) * radius * 0.2), radius * 0.34, Color(1.0, 1.0, 1.0, accent_alpha))
-			1:
-				draw_arc(Vector2.ZERO, radius * 0.48, accent_phase, accent_phase + PI * 0.86, 18, Color(1.0, 1.0, 1.0, accent_alpha), 2.4)
-			2:
-				draw_line(Vector2(-radius * 0.54, sin(accent_phase) * radius * 0.08), Vector2(radius * 0.54, -sin(accent_phase) * radius * 0.08), Color(1.0, 1.0, 1.0, accent_alpha), 2.0)
-			3:
-				draw_arc(Vector2.ZERO, radius * 0.34, 0.0, TAU, 20, Color(1.0, 1.0, 1.0, accent_alpha), 1.8)
-			4:
-				draw_arc(Vector2.ZERO, radius * 0.48, PI * 0.2 + accent_phase * 0.3, PI * 1.05 + accent_phase * 0.3, 18, Color(1.0, 1.0, 1.0, accent_alpha), 2.0)
-			5, 6, 7:
-				draw_circle(Vector2.ZERO, radius * (0.24 + sin(time_elapsed * 2.2) * 0.05), Color(1.0, 1.0, 1.0, accent_alpha))

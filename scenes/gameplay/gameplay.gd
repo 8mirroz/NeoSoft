@@ -274,14 +274,12 @@ func _on_hint_requested(cells: Array[Vector2i]) -> void:
 
 func _on_board_collapsed(movements: Array[Dictionary]) -> void:
 	board_visual.play_collapse_fx(movements)
-	board_visual.refresh()
 	_refresh_undo_button()
 	if not movements.is_empty():
 		SoundManager.play("drop", -8.0, 1.1)
 
 func _on_pieces_generated(spawns: Array[Dictionary]) -> void:
 	board_visual.play_spawn_fx(spawns)
-	board_visual.refresh()
 	_refresh_undo_button()
 
 func _on_booster_activated(booster_type: int, _cell: Vector2i) -> void:

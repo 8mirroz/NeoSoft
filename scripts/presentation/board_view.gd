@@ -55,6 +55,13 @@ var _gems: Dictionary = {} # cell (Vector2i) -> GemView
 var _visual_generation: int = 0
 var _cascade_input_mode: StringName = &"blocking"
 
+# Visual snapshot buffer — decouples rendering from board_model
+# GemPool reads from this snapshot instead of board_model directly.
+# This prevents premature recoloring during match resolution animations.
+var _visual_snapshot: Dictionary = {} # Vector2i -> int (cell -> piece_id)
+var _pending_removals: Dictionary = {} # Vector2i -> true (cells being cleared)
+var _visual_snapshot_ready: bool = false
+
 # Subsystems using preload to bypass Godot 4 headless compilation indexing delay
 const BoardThemeAdapterScript = preload("res://scripts/presentation/board_theme_adapter.gd")
 const BoardPowerProfileScript = preload("res://scripts/presentation/board_power_profile.gd")
@@ -130,11 +137,86 @@ func setup(model: RefCounted) -> void:
 	is_processing_queue = false
 
 	_clear_visual_transients()
+	snapshot_take_from_model()
 	set_process(true)
 	queue_redraw()
 
 func refresh() -> void:
+	snapshot_take_from_model()
 	queue_redraw()
+
+# ─── VISUAL SNAPSHOT BUFFER ──────────────────────────────────────────────────
+# These methods manage the visual snapshot that decouples rendering from logic.
+# The board_model is the source of truth; the snapshot is what gets rendered.
+
+func snapshot_take_from_model() -> void:
+	"""Capture a full snapshot from board_model — used at setup, refresh, undo, shuffle."""
+	_visual_snapshot.clear()
+	_pending_removals.clear()
+	if board_model == null:
+		_visual_snapshot_ready = false
+		return
+	var height: int = board_model.call("get_height") if board_model.has_method("get_height") else board_model.get("height")
+	var width: int = board_model.call("get_width") if board_model.has_method("get_width") else board_model.get("width")
+	for y in range(height):
+		for x in range(width):
+			var cell := Vector2i(x, y)
+			var piece_id: int = board_model.call("get_piece", cell)
+			_visual_snapshot[cell] = piece_id
+	_visual_snapshot_ready = true
+
+func apply_visual_clear(cells: Array) -> void:
+	"""Mark cells as pending removal (gem still visible during dissolve animation)."""
+	for cell_variant in cells:
+		var cell: Vector2i = cell_variant
+		_pending_removals[cell] = true
+
+func commit_visual_removal() -> void:
+	"""Actually remove pending cells from snapshot (after clear animation finishes)."""
+	for cell in _pending_removals.keys():
+		_visual_snapshot[cell] = -1
+	_pending_removals.clear()
+
+func apply_visual_collapse(movements: Array) -> void:
+	"""Move gems in visual snapshot from old to new positions."""
+	for movement in movements:
+		var from: Vector2i = movement.get("from", Vector2i.ZERO)
+		var to_cell: Vector2i = movement.get("to", Vector2i.ZERO)
+		var piece_id: int = _visual_snapshot.get(from, -1)
+		if movement.has("piece_id"):
+			piece_id = int(movement["piece_id"])
+		_visual_snapshot[to_cell] = piece_id
+		_visual_snapshot[from] = -1
+
+func apply_visual_spawn(spawns: Array) -> void:
+	"""Add newly spawned gems to visual snapshot."""
+	for spawn in spawns:
+		var cell: Vector2i = spawn.get("to", spawn.get("position", Vector2i.ZERO))
+		var piece_id: int = -1
+		if spawn.has("piece_id"):
+			piece_id = int(spawn["piece_id"])
+		elif spawn.has("gem_type"):
+			var gem_str = spawn["gem_type"]
+			match gem_str:
+				"red": piece_id = 0
+				"blue": piece_id = 1
+				"green": piece_id = 2
+				"yellow": piece_id = 3
+				"purple": piece_id = 4
+				"white": piece_id = 5
+				_:
+					if gem_str.is_valid_int():
+						piece_id = gem_str.to_int()
+		_visual_snapshot[cell] = piece_id
+
+func get_visual_piece(cell: Vector2i) -> int:
+	"""Get piece_id from visual snapshot (used by GemPool instead of board_model)."""
+	if _visual_snapshot_ready:
+		return _visual_snapshot.get(cell, -1)
+	# Fallback to board_model if snapshot not initialized
+	if board_model != null:
+		return board_model.call("get_piece", cell)
+	return -1
 
 func set_selected_cell(cell: Vector2i) -> void:
 	selected_cell = cell
@@ -184,6 +266,12 @@ func play_swap_fx(from: Vector2i, to: Vector2i) -> void:
 		return
 	var pos_from := _get_cell_center(from)
 	var pos_to := _get_cell_center(to)
+	
+	# Update visual snapshot to match the model's swap
+	var piece_from: int = _visual_snapshot.get(from, -1)
+	var piece_to: int = _visual_snapshot.get(to, -1)
+	_visual_snapshot[from] = piece_to
+	_visual_snapshot[to] = piece_from
 	
 	# Compensate for model's instant swap by applying opposite visual offsets
 	gem_offsets[from] = pos_to - pos_from

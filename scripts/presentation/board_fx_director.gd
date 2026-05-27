@@ -51,6 +51,9 @@ func process_next_visual_event() -> void:
 			var match_pop_fx: Array = _board_view.get("match_pop_fx")
 			var active_connection_threads: Array = _board_view.get("active_connection_threads")
 			
+			# Collect all matched cells to mark in visual snapshot BEFORE animation
+			var all_matched_cells: Array = []
+			
 			for match_data in matches:
 				var piece_id: int = int(match_data.get("piece_id", 0))
 				var cells: Array = match_data.get("cells", [])
@@ -70,6 +73,8 @@ func process_next_visual_event() -> void:
 					var cell: Vector2i = cell_variant
 					if board_model != null and not board_model.call("is_in_bounds", cell):
 						continue
+					
+					all_matched_cells.append(cell)
 					
 					match_pop_fx.append({
 						"cell": cell,
@@ -97,34 +102,26 @@ func process_next_visual_event() -> void:
 					# Spawn procedural stylized VFX particles for this gem type
 					_spawn_unique_vfx(_board_view.call("_get_cell_center", cell), piece_id)
 			
+			# Mark matched cells in visual snapshot — hides pool gems, temp gems handle dissolve
+			_board_view.call("apply_visual_clear", all_matched_cells)
+			
 			_board_view.queue_redraw()
 			# Wait for match pop duration (0.38s) + cascade pause phase (0.25s)
 			if _board_view.is_inside_tree():
 				await _board_view.get_tree().create_timer(_board_view.get("MATCH_POP_DURATION") + 0.25).timeout
 			
+			# After clear animation finishes, commit removal to visual snapshot
+			_board_view.call("commit_visual_removal")
+			
 		"collapse":
 			var movements: Array = event.get("data", [])
 			var collapse_fx: Array = _board_view.get("collapse_fx")
 			var gem_offsets: Dictionary = _board_view.get("gem_offsets")
-			var board_model: RefCounted = _board_view.get("board_model")
 			
-			# Скрываем будущие спавны, которые лежат в очереди visual_queue,
-			# чтобы новые гемы не появлялись статично на доске во время падения остальных гемов
-			var future_queue: Array = _board_view.get("visual_queue")
-			for next_event in future_queue:
-				if next_event.get("type", "") == "spawn":
-					var spawns_data: Array = next_event.get("data", [])
-					var gem_scales: Dictionary = _board_view.get("gem_scales")
-					var gem_alphas: Dictionary = _board_view.get("gem_alphas")
-					var gem_scale_velocities: Dictionary = _board_view.get("gem_scale_velocities")
-					for spawn in spawns_data:
-						var cell: Vector2i = spawn.get("to", spawn.get("position", Vector2i.ZERO))
-						if not gem_alphas.has(cell):
-							gem_alphas[cell] = 0.0
-						if not gem_scales.has(cell):
-							gem_scales[cell] = Vector2.ZERO
-							gem_scale_velocities[cell] = Vector2.ZERO
-					break
+			# Update visual snapshot: move gems from old to new positions
+			# This updates GemPool so it shows gems at their new logical positions,
+			# while gem_offsets create the visual "falling from above" effect.
+			_board_view.call("apply_visual_collapse", movements)
 			
 			for movement in movements:
 				var from: Vector2i = movement.get("from", Vector2i.ZERO)
@@ -138,8 +135,11 @@ func process_next_visual_event() -> void:
 				var piece_id: int = 0
 				if movement.has("piece_id"):
 					piece_id = int(movement["piece_id"])
-				elif board_model != null:
-					piece_id = board_model.call("get_piece", to_cell) if board_model.has_method("get_piece") else board_model.get_piece(to_cell)
+				else:
+					# Read from visual snapshot (already updated by apply_visual_collapse)
+					piece_id = _board_view.call("get_visual_piece", to_cell)
+					if piece_id < 0:
+						piece_id = 0
 				
 				collapse_fx.append({
 					"piece_id": piece_id,
@@ -163,6 +163,10 @@ func process_next_visual_event() -> void:
 			var gem_alphas: Dictionary = _board_view.get("gem_alphas")
 			var gem_offsets: Dictionary = _board_view.get("gem_offsets")
 			var spawn_fx: Array = _board_view.get("spawn_fx")
+			
+			# Update visual snapshot with new spawned gems
+			# Gems will appear in GemPool but start with alpha=0 and scale=0 for smooth reveal
+			_board_view.call("apply_visual_spawn", spawns)
 			
 			for spawn in spawns:
 				var cell: Vector2i = spawn.get("to", spawn.get("position", Vector2i.ZERO))

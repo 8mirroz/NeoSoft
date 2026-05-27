@@ -23,12 +23,16 @@ func update_gems_visibility() -> void:
 	var cell_size: float = metrics["cell_size"]
 	var board_rect: Rect2 = metrics["board_rect"]
 	
+	# Read from visual snapshot instead of board_model to prevent color flashing
+	var pending_removals: Dictionary = _board_view.get("_pending_removals")
+	
 	var active_cells := {}
 
 	for y in range(model.call("get_height") if model.has_method("get_height") else model.get("height")):
 		for x in range(model.call("get_width") if model.has_method("get_width") else model.get("width")):
 			var cell := Vector2i(x, y)
-			var piece_id: int = model.call("get_piece", cell)
+			# Use visual snapshot instead of board_model — this is the core fix
+			var piece_id: int = _board_view.call("get_visual_piece", cell)
 			
 			if piece_id >= 0:
 				active_cells[cell] = true
@@ -65,6 +69,10 @@ func update_gems_visibility() -> void:
 				
 				var gem_alphas: Dictionary = _board_view.get("gem_alphas")
 				var alpha: float = gem_alphas.get(cell, 1.0)
+				
+				# Hide gems that are pending removal (dissolve animation handles their visual)
+				if pending_removals.has(cell):
+					alpha = 0.0
 				
 				var cell_rect := Rect2(
 					board_rect.position + Vector2(cell.x * cell_size, cell.y * cell_size),
