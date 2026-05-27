@@ -53,15 +53,15 @@ func _ready() -> void:
 	
 	# Dynamic floating background bubbles with refraction shader
 	var bubble_data := [
-		{"pos_ratio": Vector2(0.18, 0.28), "scale": 0.32, "alpha": 0.32, "sway_speed": 0.7, "sway_amount": 22.0},
-		{"pos_ratio": Vector2(0.82, 0.64), "scale": 0.28, "alpha": 0.26, "sway_speed": 0.9, "sway_amount": 16.0},
-		{"pos_ratio": Vector2(0.12, 0.76), "scale": 0.16, "alpha": 0.20, "sway_speed": 1.3, "sway_amount": 10.0},
-		{"pos_ratio": Vector2(0.78, 0.22), "scale": 0.22, "alpha": 0.22, "sway_speed": 0.8, "sway_amount": 14.0},
-		{"pos_ratio": Vector2(0.88, 0.42), "scale": 0.14, "alpha": 0.18, "sway_speed": 1.1, "sway_amount": 12.0},
+		{"pos_ratio": Vector2(0.18, 0.28), "scale": 0.32, "alpha": 0.60, "sway_speed": 0.7, "sway_amount": 22.0},
+		{"pos_ratio": Vector2(0.82, 0.64), "scale": 0.28, "alpha": 0.52, "sway_speed": 0.9, "sway_amount": 16.0},
+		{"pos_ratio": Vector2(0.12, 0.76), "scale": 0.16, "alpha": 0.45, "sway_speed": 1.3, "sway_amount": 10.0},
+		{"pos_ratio": Vector2(0.78, 0.22), "scale": 0.22, "alpha": 0.50, "sway_speed": 0.8, "sway_amount": 14.0},
+		{"pos_ratio": Vector2(0.88, 0.42), "scale": 0.14, "alpha": 0.40, "sway_speed": 1.1, "sway_amount": 12.0},
 	]
 	
 	var bubble_texture = load("res://assets/spheres/02_clear_glass/02_clear_glass_base.png")
-	var bubble_shader = load("res://shaders/sphere_refraction.gdshader")
+	var bubble_shader = load("res://shaders/black_cutout.gdshader")
 	
 	for b in bubble_data:
 		var sprite := Sprite2D.new()
@@ -69,12 +69,13 @@ func _ready() -> void:
 		sprite.scale = Vector2(b["scale"], b["scale"])
 		sprite.modulate = Color(1, 1, 1, b["alpha"])
 		
-		# Add refraction material
+		# Black removal + rim glow material
 		var s_mat := ShaderMaterial.new()
 		s_mat.shader = bubble_shader
-		s_mat.set_shader_parameter("tint_color", Color(1, 1, 1, 0.05))
-		s_mat.set_shader_parameter("refraction_strength", 0.015)
-		s_mat.set_shader_parameter("edge_glow", 0.24)
+		s_mat.set_shader_parameter("tint_color", Color(0.95, 0.98, 1.0, 0.0))
+		s_mat.set_shader_parameter("brightness_threshold", 0.04)
+		s_mat.set_shader_parameter("transition_softness", 0.28)
+		s_mat.set_shader_parameter("rim_boost", 1.6)
 		sprite.material = s_mat
 		
 		atmosphere.add_child(sprite)
@@ -154,12 +155,13 @@ func _ready() -> void:
 	_orb_rect.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_orb_rect.grow_vertical = Control.GROW_DIRECTION_BOTH
 	
-	# Apply premium glass refraction shader to cut out black background
+	# Apply black_cutout shader with HIGH rim_boost — removes black, keeps chromatic glass ring
 	var orb_material := ShaderMaterial.new()
-	orb_material.shader = load("res://shaders/sphere_refraction.gdshader")
-	orb_material.set_shader_parameter("tint_color", Color("#FAF5FF2E")) # soft magenta/white tint
-	orb_material.set_shader_parameter("refraction_strength", 0.040)
-	orb_material.set_shader_parameter("edge_glow", 0.72)
+	orb_material.shader = load("res://shaders/black_cutout.gdshader")
+	orb_material.set_shader_parameter("tint_color", Color(0.96, 0.92, 1.0, 0.0)) # no forced tint
+	orb_material.set_shader_parameter("brightness_threshold", 0.03)
+	orb_material.set_shader_parameter("transition_softness", 0.28)
+	orb_material.set_shader_parameter("rim_boost", 1.8) # Boost the chromatic iridescent rim
 	_orb_rect.material = orb_material
 	orb_container.add_child(_orb_rect)
 

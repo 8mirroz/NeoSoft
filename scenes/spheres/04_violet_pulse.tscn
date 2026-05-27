@@ -5,9 +5,11 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_04_violet_pulse"]
 shader = ExtResource("2_sphere_pulse")
-shader_parameter/tint_color = Color(0.74, 0.56, 0.96, 0.24)
+shader_parameter/tint_color = Color(0.88, 0.76, 1.0, 0.26)
 shader_parameter/pulse_speed = 2.9
 shader_parameter/pulse_amplitude = 0.18
+shader_parameter/brightness_threshold = 0.05
+shader_parameter/transition_softness = 0.24
 
 [node name="04_violet_pulse" type="Node2D"]
 

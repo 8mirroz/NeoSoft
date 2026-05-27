@@ -140,11 +140,12 @@ func _draw() -> void:
 	
 	# 1. UNDERLAYS (Always drawn, even for 3D sphere scenes)
 	
-	# Premium dynamic drop-shadow (grows and softens when selected)
-	var shadow_offset := 4.0 + selection_alpha * 3.5
+	# Soft pastel drop-shadow (always light, never dark)
+	var shadow_offset := 3.0 + selection_alpha * 3.0
 	var shadow_radius := radius * (1.02 + selection_alpha * 0.08)
-	var shadow_alpha := 0.12 - selection_alpha * 0.04
-	draw_circle(Vector2(0.0, shadow_offset), shadow_radius, Color(0.04, 0.06, 0.12, shadow_alpha))
+	var shadow_alpha := 0.10 - selection_alpha * 0.03
+	# Use tinted lavender shadow, not dark navy
+	draw_circle(Vector2(0.0, shadow_offset), shadow_radius, Color(color.r * 0.85 + 0.12, color.g * 0.85 + 0.12, color.b * 0.85 + 0.15, shadow_alpha))
 	
 	# Frost Glow underlay (vibrant radial glow, increases on selection)
 	var glow_alpha := 0.16 + selection_alpha * 0.24
@@ -192,9 +193,6 @@ func _draw_selection_overlay(radius: float) -> void:
 func _draw_2d_fallback_body(radius: float, color: Color) -> void:
 	# Check if it's a special sphere (BLUE_RIBBON, PURPLE_RIBBON, CROSS_WAVE)
 	if sphere_type == CellState.SphereType.BLUE_RIBBON or sphere_type == CellState.SphereType.PURPLE_RIBBON or sphere_type == CellState.SphereType.CROSS_WAVE:
-		# Draw a glowing dark backing to make special spheres stand out
-		draw_circle(Vector2.ZERO, radius * 1.15, Color(0, 0, 0, 0.35))
-		
 		# Draw main body
 		draw_circle(Vector2.ZERO, radius, Color.WHITE)
 		draw_circle(Vector2.ZERO, radius * 0.95, color)

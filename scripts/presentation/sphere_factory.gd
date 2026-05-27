@@ -50,7 +50,16 @@ static func _create_fallback() -> Node2D:
 	sprite.name = "Sprite2D"
 	sprite.texture = BASE_TEXTURE
 	sprite.centered = true
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+
+	# Apply black cutout shader to remove black studio background
+	var mat := ShaderMaterial.new()
+	mat.shader = preload("res://shaders/black_cutout.gdshader")
+	mat.set_shader_parameter("brightness_threshold", 0.04)
+	mat.set_shader_parameter("transition_softness", 0.24)
+	mat.set_shader_parameter("rim_boost", 1.4)
+	sprite.material = mat
+
 	root.add_child(sprite)
 
 	return root

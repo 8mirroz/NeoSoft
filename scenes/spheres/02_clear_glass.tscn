@@ -5,9 +5,11 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_02_clear_glass"]
 shader = ExtResource("2_sphere_refraction")
-shader_parameter/tint_color = Color(0.84, 0.94, 1.0, 0.16)
+shader_parameter/tint_color = Color(0.96, 0.98, 1.0, 0.08)
 shader_parameter/refraction_strength = 0.018
-shader_parameter/edge_glow = 0.38
+shader_parameter/edge_glow = 0.55
+shader_parameter/brightness_threshold = 0.04
+shader_parameter/transition_softness = 0.26
 
 [node name="02_clear_glass" type="Node2D"]
 
@@ -16,3 +18,4 @@ texture_filter = 1
 texture = ExtResource("1_02_clear_glass")
 centered = true
 material = SubResource("ShaderMaterial_02_clear_glass")
+

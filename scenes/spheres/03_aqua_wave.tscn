@@ -5,10 +5,12 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_03_aqua_wave"]
 shader = ExtResource("2_sphere_wave")
-shader_parameter/tint_color = Color(0.48, 0.9, 0.98, 0.2)
+shader_parameter/tint_color = Color(0.72, 0.96, 1.0, 0.22)
 shader_parameter/wave_strength = 0.04
 shader_parameter/wave_speed = 2.6
 shader_parameter/wave_density = 16.0
+shader_parameter/brightness_threshold = 0.05
+shader_parameter/transition_softness = 0.24
 
 [node name="03_aqua_wave" type="Node2D"]
 
