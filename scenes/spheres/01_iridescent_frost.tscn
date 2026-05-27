@@ -5,9 +5,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_01_iridescent_frost"]
 shader = ExtResource("2_black_cutout")
-shader_parameter/tint_color = Color(1, 1, 1, 0)
+shader_parameter/tint_color = Color(0.98, 0.96, 1.0, 0.0)
 shader_parameter/brightness_threshold = 0.04
-shader_parameter/transition_softness = 0.12
+shader_parameter/transition_softness = 0.22
+shader_parameter/rim_boost = 1.4
 
 [node name="01_iridescent_frost" type="Node2D"]
 
@@ -17,3 +18,4 @@ texture = ExtResource("1_01_iridescent_frost")
 centered = true
 material = SubResource("ShaderMaterial_01_iridescent_frost")
 modulate = Color(1, 1, 1, 0.98)
+

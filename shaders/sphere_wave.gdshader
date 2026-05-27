@@ -4,6 +4,8 @@ uniform vec4 tint_color : source_color = vec4(0.54, 0.91, 0.98, 0.24);
 uniform float wave_strength : hint_range(0.0, 0.12) = 0.04;
 uniform float wave_speed : hint_range(0.0, 8.0) = 2.2;
 uniform float wave_density : hint_range(0.0, 40.0) = 18.0;
+uniform float brightness_threshold : hint_range(0.0, 0.3) = 0.06;
+uniform float transition_softness : hint_range(0.01, 0.4) = 0.22;
 
 void fragment() {
 	vec2 centered_uv = UV - vec2(0.5);
@@ -13,12 +15,16 @@ void fragment() {
 	vec2 offset = normal * wave_strength * wave * (1.0 - smoothstep(0.0, 0.7, dist));
 
 	vec4 base = texture(TEXTURE, UV + offset);
-	
-	// Precise geometric circular cutout of black background (restores soft inner refractions)
-	float circular_mask = 1.0 - smoothstep(0.44, 0.48, dist);
-	
+
+	// Circular boundary mask
+	float circular_mask = 1.0 - smoothstep(0.44, 0.50, dist);
+
+	// Luminance-based black removal (Screen blend)
+	float luma = dot(base.rgb, vec3(0.299, 0.587, 0.114));
+	float luma_alpha = smoothstep(brightness_threshold, brightness_threshold + transition_softness, luma);
+
 	float foam = smoothstep(0.45, 0.08, dist);
 	vec3 color = mix(base.rgb, tint_color.rgb, tint_color.a);
 	color += vec3(0.06, 0.12, 0.14) * foam;
-	COLOR = vec4(color, base.a * circular_mask);
+	COLOR = vec4(color, luma_alpha * circular_mask);
 }
