@@ -99,7 +99,7 @@ func color(key: String, fallback: Color = Color.WHITE) -> Color:
 	return fallback
 
 func color_path(path: String, fallback: Color = Color.WHITE) -> Color:
-	var value := _value_at_path(path)
+	var value: Variant = _value_at_path(path)
 	if value == null:
 		_warn_missing(path)
 		return fallback
@@ -110,14 +110,14 @@ func color_path(path: String, fallback: Color = Color.WHITE) -> Color:
 	return fallback
 
 func number(path: String, fallback: float = 0.0) -> float:
-	var value := _value_at_path(path)
+	var value: Variant = _value_at_path(path)
 	if value == null:
 		_warn_missing(path)
 		return fallback
 	return float(value)
 
 func int_value(path: String, fallback: int = 0) -> int:
-	var value := _value_at_path(path)
+	var value: Variant = _value_at_path(path)
 	if value == null:
 		_warn_missing(path)
 		return fallback

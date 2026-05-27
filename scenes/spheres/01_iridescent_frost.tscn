@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://01_iridescent_frost"]
+[gd_scene load_steps=4 format=3 uid="uid://01_iridescent_frost"]
 
 [ext_resource type="Texture2D" path="res://assets/spheres/01_iridescent_frost/01_iridescent_frost_base.png" id="1_01_iridescent_frost"]
+[ext_resource type="Shader" path="res://shaders/black_cutout.gdshader" id="2_black_cutout"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_01_iridescent_frost"]
+shader = ExtResource("2_black_cutout")
+shader_parameter/tint_color = Color(1, 1, 1, 0)
+shader_parameter/brightness_threshold = 0.04
+shader_parameter/transition_softness = 0.12
 
 [node name="01_iridescent_frost" type="Node2D"]
 
@@ -8,4 +15,5 @@
 texture_filter = 1
 texture = ExtResource("1_01_iridescent_frost")
 centered = true
+material = SubResource("ShaderMaterial_01_iridescent_frost")
 modulate = Color(1, 1, 1, 0.98)

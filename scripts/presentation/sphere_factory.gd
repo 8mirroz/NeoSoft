@@ -50,7 +50,7 @@ static func _create_fallback() -> Node2D:
 	sprite.name = "Sprite2D"
 	sprite.texture = BASE_TEXTURE
 	sprite.centered = true
-	sprite.texture_filter = 1
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	root.add_child(sprite)
 
 	return root

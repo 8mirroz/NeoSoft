@@ -1,0 +1,22 @@
+{
+  "extra_moves_cost": 900,
+  "daily_rewards": [
+    { "day": 1, "coins": 250, "label": "Welcome Glow" },
+    { "day": 2, "coins": 300, "booster": "shuffle", "quantity": 1, "label": "Shuffle Spark" },
+    { "day": 3, "coins": 350, "label": "Crystal Cache" },
+    { "day": 4, "coins": 400, "booster": "hammer", "quantity": 1, "label": "Hammer Light" },
+    { "day": 5, "coins": 500, "label": "Aurora Chest" },
+    { "day": 6, "coins": 550, "booster": "undo", "quantity": 1, "label": "Time Pearl" },
+    { "day": 7, "coins": 900, "booster": "hammer", "quantity": 2, "label": "Frost Crown" }
+  ],
+  "shop_items": [
+    { "id": "shuffle", "title": "Shuffle", "cost": 150, "description": "Reshuffle a difficult board." },
+    { "id": "undo", "title": "Undo", "cost": 200, "description": "Restore the previous turn." },
+    { "id": "hammer", "title": "Hammer", "cost": 250, "description": "Remove one selected sphere." }
+  ],
+  "coin_packs": [
+    { "title": "Moon Pouch", "coins": 1200 },
+    { "title": "Aurora Vault", "coins": 5000 },
+    { "title": "Celestial Reserve", "coins": 12000 }
+  ]
+}

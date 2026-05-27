@@ -15,16 +15,16 @@ signal swap_resolved(from_cell: Vector2i, to_cell: Vector2i)
 # ──────────────────────────────────────────────
 # Матчи и Спец-сферы
 # ──────────────────────────────────────────────
-signal match_detected(match_data: MatchEvent)
-signal shape_classified(shape_data: MatchShapeResult)
-signal special_spawned(pos: Vector2i, type: String)
-signal special_activated(pos: Vector2i, type: String)
+signal match_detected(match_data)
+signal shape_classified(shape_data)
+signal special_spawned(pos: Vector2i, type: int)
+signal special_activated(event)
 
 # ──────────────────────────────────────────────
 # Каскады и Гравитация
 # ──────────────────────────────────────────────
 signal cascade_started()
-signal cascade_step_resolved(step_data: CascadeStep)
+signal cascade_step_resolved(step_data)
 signal cascade_governed(reason: String)
 signal board_collapsed(movements: Array)
 signal pieces_generated(spawns: Array)

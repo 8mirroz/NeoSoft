@@ -1,5 +1,7 @@
 extends Control
 
+const ActionRegistry := preload("res://scripts/ui/ui_action_registry.gd")
+
 # Core UI Nodes
 @onready var play_button: Button = $PlayButton
 @onready var title_label: Label = $TitleLabel
@@ -17,6 +19,9 @@ extends Control
 @onready var close_button: Button = $SettingsOverlay/GlassPanel/VBoxContainer/CloseButton
 var quality_button: Button
 var export_button: Button
+var haptics_button: Button
+var sound_slider: HSlider
+var music_slider: HSlider
 
 # Dynamic Progress Labels & Pills
 var coin_label: Label
@@ -33,6 +38,7 @@ var COLOR_GLASS_SHADOW: Color = Color.WHITE
 var COLOR_ACCENT_COIN: Color = Color.WHITE
 var COLOR_ACCENT_STAR: Color = Color.WHITE
 var COLOR_ACCENT_PLAY: Color = Color.WHITE
+const ENABLE_AMBIENT_GEMS := true
 
 # Floating Gems properties
 class FloatingGem:
@@ -54,10 +60,10 @@ func _ready() -> void:
 	randomize()
 	
 	# Connect main actions
-	play_button.pressed.connect(_on_play_pressed)
-	close_button.pressed.connect(_on_close_pressed)
-	sound_button.pressed.connect(_on_sound_toggled)
-	music_button.pressed.connect(_on_music_toggled)
+	ActionRegistry.bind(play_button, &"menu.play", _on_play_pressed)
+	ActionRegistry.bind(close_button, &"settings.close", _on_close_pressed)
+	ActionRegistry.bind(sound_button, &"settings.sound", _on_sound_toggled)
+	ActionRegistry.bind(music_button, &"settings.music", _on_music_toggled)
 	
 	# Dynamic settings configuration
 	var settings_box := $SettingsOverlay/GlassPanel/VBoxContainer
@@ -66,19 +72,33 @@ func _ready() -> void:
 	quality_button.custom_minimum_size = Vector2(0, 56)
 	settings_box.add_child(quality_button)
 	settings_box.move_child(quality_button, close_button.get_index())
-	quality_button.pressed.connect(_on_quality_toggled)
+	ActionRegistry.bind(quality_button, &"settings.quality", _on_quality_toggled)
 	
 	export_button = Button.new()
 	export_button.name = "ExportButton"
 	export_button.custom_minimum_size = Vector2(0, 56)
 	settings_box.add_child(export_button)
 	settings_box.move_child(export_button, close_button.get_index())
-	export_button.pressed.connect(_on_export_pressed)
+	ActionRegistry.bind(export_button, &"settings.export", _on_export_pressed)
+
+	sound_slider = _create_volume_slider("Sound Volume", UserData.sound_volume, &"settings.sound_volume", _on_sound_volume_changed)
+	settings_box.add_child(sound_slider)
+	settings_box.move_child(sound_slider, close_button.get_index())
+	music_slider = _create_volume_slider("Music Volume", UserData.music_volume, &"settings.music_volume", _on_music_volume_changed)
+	settings_box.add_child(music_slider)
+	settings_box.move_child(music_slider, close_button.get_index())
+
+	haptics_button = Button.new()
+	haptics_button.name = "HapticsButton"
+	haptics_button.custom_minimum_size = Vector2(0, 54)
+	settings_box.add_child(haptics_button)
+	settings_box.move_child(haptics_button, close_button.get_index())
+	ActionRegistry.bind(haptics_button, &"settings.haptics", _on_haptics_toggled)
 	
 	# Expand settings panel vertical layout sizes
-	$SettingsOverlay/GlassPanel.offset_top = -275.0
-	$SettingsOverlay/GlassPanel.offset_bottom = 275.0
-	$SettingsOverlay/GlassPanel.pivot_offset = Vector2(220, 275)
+	$SettingsOverlay/GlassPanel.offset_top = -362.0
+	$SettingsOverlay/GlassPanel.offset_bottom = 362.0
+	$SettingsOverlay/GlassPanel.pivot_offset = Vector2(220, 362)
 	
 	# Initialize hanging diamonds configurations
 	# {x_ratio, length, size, phase, speed}
@@ -89,6 +109,9 @@ func _ready() -> void:
 		{"x_ratio": 0.92, "length": 280.0, "size": 20.0, "phase": 2.2, "speed": 1.0}
 	]
 	
+	# Prime theme palette before dynamic UI construction.
+	_refresh_theme_palette()
+
 	# Setup custom components
 	_setup_top_bar()
 	_setup_subtitle_label()
@@ -105,6 +128,11 @@ func _ready() -> void:
 	_spawn_ambient_gems()
 	_setup_button_animations()
 	_animate_menu_entry()
+	
+	# Safe hide any GUT test runner logo overlay to prevent overlapping bottom-left navigation bar
+	var gut_logo = get_tree().root.find_child("GutLogo", true, false)
+	if gut_logo:
+		gut_logo.visible = false
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
@@ -176,6 +204,9 @@ func _setup_top_bar() -> void:
 	coin_plus_btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
 	coin_plus_btn.add_theme_font_size_override("font_size", 16)
 	coin_plus_btn.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
+	ActionRegistry.bind(coin_plus_btn, &"menu.coins_add", func() -> void:
+		UIScreenManager.navigate(&"shop", {"shop_tab": "Coins"})
+	)
 	coin_hb.add_child(coin_plus_btn)
 	
 	coin_pill.add_child(coin_hb)
@@ -212,6 +243,9 @@ func _setup_top_bar() -> void:
 	star_plus_btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
 	star_plus_btn.add_theme_font_size_override("font_size", 16)
 	star_plus_btn.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
+	ActionRegistry.bind(star_plus_btn, &"menu.stars_add", func() -> void:
+		UIScreenManager.navigate(&"daily_rewards")
+	)
 	star_hb.add_child(star_plus_btn)
 	
 	star_pill.add_child(star_hb)
@@ -242,9 +276,9 @@ func _setup_top_bar() -> void:
 	inbox_lbl.grow_vertical = Control.GROW_DIRECTION_BOTH
 	inbox_btn.add_child(inbox_lbl)
 	
-	inbox_btn.pressed.connect(func():
+	ActionRegistry.bind(inbox_btn, &"nav.inbox", func() -> void:
 		SoundManager.play("tap")
-		_spawn_toast("Inbox: No new messages")
+		UIScreenManager.navigate(&"inbox")
 	)
 
 	var inbox_badge = Panel.new()
@@ -252,7 +286,7 @@ func _setup_top_bar() -> void:
 	inbox_badge.position = Vector2(34, 2)
 	inbox_badge.size = Vector2(10, 10)
 	inbox_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	inbox_badge.set("theme_override_styles/panel", _make_glass_style(5, Color(0.98, 0.50, 0.72, 1.0), Color(1.0, 0.88, 0.95, 1.0)))
+	inbox_badge.set("theme_override_styles/panel", _make_glass_style(5, COLOR_ACCENT_COIN, COLOR_ACCENT_STAR.lightened(0.18)))
 	inbox_btn.add_child(inbox_badge)
 	top_bar.add_child(inbox_btn)
 
@@ -288,6 +322,17 @@ func _setup_orb_container() -> void:
 	# Create custom drawing Control for Sphere
 	var orb_draw = OrbDrawScript.new()
 	orb_draw.name = "OrbDraw"
+	orb_draw.palette = {
+		"pedestal": _theme_path("menu.visual.orb_pedestal"),
+		"orbit": _theme_path("menu.visual.orb_orbit"),
+		"base": _theme_path("menu.visual.orb_base"),
+		"pink": _theme_path("menu.visual.orb_pink"),
+		"blue": _theme_path("menu.visual.orb_blue"),
+		"mint": _theme_path("menu.visual.orb_mint"),
+		"gold": _theme_path("menu.visual.orb_gold"),
+		"gloss": _theme_path("menu.visual.orb_gloss"),
+		"arc": _theme_path("menu.visual.orb_arc"),
+	}
 	orb_draw.anchors_preset = Control.PRESET_FULL_RECT
 	orb_draw.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	orb_draw.grow_vertical = Control.GROW_DIRECTION_BOTH
@@ -299,55 +344,68 @@ func _setup_quick_actions() -> void:
 		child.queue_free()
 		
 	var actions = [
-		{"name": "Levels", "icon_type": "levels"},
-		{"name": "Events", "icon_type": "events"},
-		{"name": "Shop", "icon_type": "shop"},
-		{"name": "Settings", "icon_type": "settings"}
+		{"name": "Levels", "icon": "◉"},
+		{"name": "Events", "icon": "✦"},
+		{"name": "Shop", "icon": "🛍"},
+		{"name": "Settings", "icon": "⚙"}
 	]
 	
 	for action in actions:
 		var btn = Button.new()
 		btn.name = action["name"] + "Button"
-		btn.custom_minimum_size = Vector2(86, 104)
+		btn.custom_minimum_size = Vector2(92, 116)
 		btn.set("theme_override_styles/normal", _make_glass_style(20, COLOR_GLASS_BG, COLOR_GLASS_BORDER))
 		btn.set("theme_override_styles/hover", _make_glass_style(20, COLOR_GLASS_BG.lightened(0.15), COLOR_ACCENT_PLAY))
 		btn.set("theme_override_styles/pressed", _make_glass_style(20, COLOR_GLASS_BG.darkened(0.1), COLOR_ACCENT_PLAY))
 		btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
+		btn.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
 		
-		# Prototyping procedural icon drawer
+		var vb := VBoxContainer.new()
+		vb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		vb.alignment = BoxContainer.ALIGNMENT_CENTER
+		vb.add_theme_constant_override("separation", 8)
+		btn.add_child(vb)
+
+		var icon_container = Control.new()
+		icon_container.custom_minimum_size = Vector2(40, 40)
+		icon_container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		vb.add_child(icon_container)
+
 		var icon_drawer = IconDrawerScript.new()
-		icon_drawer.name = "IconDrawer"
-		icon_drawer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		icon_drawer.name = "Icon"
+		icon_drawer.icon_type = action["name"].to_lower()
+		icon_drawer.color = COLOR_TEXT_PRIMARY
 		icon_drawer.anchors_preset = Control.PRESET_FULL_RECT
 		icon_drawer.grow_horizontal = Control.GROW_DIRECTION_BOTH
 		icon_drawer.grow_vertical = Control.GROW_DIRECTION_BOTH
-		icon_drawer.icon_type = action["icon_type"]
-		icon_drawer.color = COLOR_TEXT_PRIMARY
-		btn.add_child(icon_drawer)
-		
-		# Label for tooltip/description
+		icon_container.add_child(icon_drawer)
+
 		var lbl = Label.new()
 		lbl.text = action["name"]
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		lbl.add_theme_color_override("font_color", COLOR_TEXT_MUTED)
-		lbl.add_theme_font_size_override("font_size", 12)
-		lbl.position = Vector2(0, 68)
-		lbl.size = Vector2(86, 20)
-		btn.add_child(lbl)
+		lbl.add_theme_font_size_override("font_size", 14)
+		vb.add_child(lbl)
 		
 		# Setup button connection
-		if action["name"] == "Levels":
-			btn.pressed.connect(func():
-				SoundManager.play("tap")
-				get_tree().change_scene_to_file("res://scenes/menus/level_select.tscn")
-			)
-		elif action["name"] == "Settings":
-			btn.pressed.connect(_on_settings_pressed)
-		else:
-			btn.pressed.connect(func():
-				SoundManager.play("tap")
-				_spawn_toast("%s Coming Soon!" % action["name"])
-			)
+		match String(action["name"]):
+			"Levels":
+				ActionRegistry.bind(btn, &"menu.levels", func() -> void:
+					SoundManager.play("tap")
+					UIScreenManager.navigate(&"world_map")
+				)
+			"Events":
+				ActionRegistry.bind(btn, &"menu.events", func() -> void:
+					SoundManager.play("tap")
+					UIScreenManager.navigate(&"daily_rewards")
+				)
+			"Shop":
+				ActionRegistry.bind(btn, &"menu.shop", func() -> void:
+					SoundManager.play("tap")
+					UIScreenManager.navigate(&"shop", {"shop_tab": "Coins"})
+				)
+			"Settings":
+				ActionRegistry.bind(btn, &"menu.settings", _on_settings_pressed)
 			
 		quick_actions.add_child(btn)
 
@@ -355,6 +413,7 @@ func _setup_bottom_nav() -> void:
 	# Clean bottom nav
 	for child in bottom_nav.get_children():
 		child.queue_free()
+	bottom_nav.add_theme_constant_override("separation", 0)
 		
 	var tabs = [
 		{"name": "Home", "icon": "🏠", "active": true},
@@ -365,17 +424,20 @@ func _setup_bottom_nav() -> void:
 	]
 	
 	for tab in tabs:
+		var tab_index := tabs.find(tab)
+		var is_first := tab_index == 0
+		var is_last := tab_index == tabs.size() - 1
+
 		var tab_btn = Button.new()
 		tab_btn.name = tab["name"] + "Tab"
-		tab_btn.custom_minimum_size = Vector2(72, 84)
+		tab_btn.custom_minimum_size = Vector2(88, 104)
 		tab_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		
-		var active_color = COLOR_ACCENT_PLAY if tab["active"] else COLOR_GLASS_BG
-		var border_color = COLOR_ACCENT_PLAY.lightened(0.2) if tab["active"] else COLOR_GLASS_BORDER
-		
-		tab_btn.set("theme_override_styles/normal", _make_glass_style(16, active_color, border_color))
-		tab_btn.set("theme_override_styles/hover", _make_glass_style(16, COLOR_GLASS_BG.lightened(0.2), COLOR_ACCENT_PLAY))
-		tab_btn.set("theme_override_styles/pressed", _make_glass_style(16, COLOR_GLASS_BG.darkened(0.1), COLOR_ACCENT_PLAY))
+		var active_color = Color(COLOR_ACCENT_PLAY, 0.28) if tab["active"] else COLOR_GLASS_BG
+		var border_color = COLOR_ACCENT_PLAY.lightened(0.12) if tab["active"] else COLOR_GLASS_BORDER
+		tab_btn.set("theme_override_styles/normal", _make_segment_style(active_color, border_color, is_first, is_last, tab["active"]))
+		tab_btn.set("theme_override_styles/hover", _make_segment_style(COLOR_GLASS_BG.lightened(0.2), COLOR_ACCENT_PLAY, is_first, is_last, tab["active"]))
+		tab_btn.set("theme_override_styles/pressed", _make_segment_style(COLOR_GLASS_BG.darkened(0.06), COLOR_ACCENT_PLAY, is_first, is_last, tab["active"]))
 		tab_btn.set("theme_override_styles/focus", StyleBoxEmpty.new())
 		
 		var vbox = VBoxContainer.new()
@@ -383,72 +445,85 @@ func _setup_bottom_nav() -> void:
 		vbox.alignment = BoxContainer.ALIGNMENT_CENTER
 		vbox.add_theme_constant_override("separation", 2)
 		
-		var icon_lbl = Label.new()
-		icon_lbl.text = tab["icon"]
-		icon_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		icon_lbl.add_theme_font_size_override("font_size", 22)
-		icon_lbl.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY if tab["active"] else COLOR_TEXT_MUTED)
-		vbox.add_child(icon_lbl)
+		var icon_container = Control.new()
+		icon_container.custom_minimum_size = Vector2(36, 36)
+		icon_container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		vbox.add_child(icon_container)
+
+		var icon_color = COLOR_ACCENT_PLAY.lightened(0.15) if tab["active"] else COLOR_TEXT_MUTED
+		var icon_drawer = IconDrawerScript.new()
+		icon_drawer.name = "Icon"
+		icon_drawer.icon_type = tab["name"].to_lower()
+		icon_drawer.color = icon_color
+		icon_drawer.anchors_preset = Control.PRESET_FULL_RECT
+		icon_drawer.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		icon_drawer.grow_vertical = Control.GROW_DIRECTION_BOTH
+		icon_container.add_child(icon_drawer)
 		
 		var text_lbl = Label.new()
 		text_lbl.text = tab["name"]
 		text_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text_lbl.add_theme_font_size_override("font_size", 10)
-		text_lbl.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY if tab["active"] else COLOR_TEXT_MUTED)
+		text_lbl.add_theme_font_size_override("font_size", 11)
+		text_lbl.add_theme_color_override("font_color", COLOR_ACCENT_PLAY.lightened(0.15) if tab["active"] else COLOR_TEXT_MUTED)
 		vbox.add_child(text_lbl)
 		
 		tab_btn.add_child(vbox)
 		
 		# Connection logic
-		if tab["name"] == "Home":
-			tab_btn.pressed.connect(func():
-				SoundManager.play("tap")
-				_spawn_toast("You are already Home!")
-			)
-		else:
-			tab_btn.pressed.connect(func():
-				SoundManager.play("tap")
-				_spawn_toast("%s section is locked." % tab["name"])
-			)
+		var tab_route: StringName = {
+			"Home": &"main_menu",
+			"Rankings": &"rankings",
+			"Collection": &"collection",
+			"Friends": &"friends",
+			"Inbox": &"inbox",
+		}.get(String(tab["name"]), &"main_menu")
+		var action_id := StringName("nav." + String(tab["name"]).to_lower())
+		ActionRegistry.bind(tab_btn, action_id, func() -> void:
+			SoundManager.play("tap")
+			UIScreenManager.navigate(tab_route)
+		)
 			
 		bottom_nav.add_child(tab_btn)
 
 # --- THEME & STYLING ---
 
 func _apply_theme() -> void:
-	COLOR_BG_START = _theme_path("shared.colors.bg_top")
-	COLOR_BG_END = _theme_path("shared.colors.bg_bottom")
-	COLOR_TEXT_PRIMARY = _theme_path("menu.text.title")
-	COLOR_TEXT_MUTED = _theme_path("menu.text.muted")
-	COLOR_ACCENT_COIN = _theme_path("shared.colors.accent_gold")
-	COLOR_ACCENT_STAR = _theme_path("shared.colors.accent_primary")
-	COLOR_ACCENT_PLAY = _theme_path("colors.accent")
-	COLOR_GLASS_BG = _theme_path("shared.colors.glass_bg")
-	COLOR_GLASS_BORDER = _theme_path("shared.colors.glass_border")
-	COLOR_GLASS_SHADOW = _theme_path("shared.colors.shadow")
+	_refresh_theme_palette()
+	title_label.text = "Neo\nSoft Frost"
 
 	# Main Title
-	_set_label_style(title_label, _theme_int("shared.font.hero", 48), COLOR_TEXT_PRIMARY)
-	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.glass_border"))
-	title_label.add_theme_constant_override("outline_size", 10)
+	_set_label_style(title_label, _theme_int("shared.font.hero", 48) + 14, _theme_path("shared.colors.text_inverse"))
+	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.accent_primary", COLOR_TEXT_PRIMARY).lightened(0.35))
+	title_label.add_theme_constant_override("outline_size", 8)
+	title_label.add_theme_color_override("font_shadow_color", _theme_path("shared.colors.accent_secondary", COLOR_TEXT_PRIMARY).darkened(0.2))
+	title_label.add_theme_constant_override("shadow_offset_x", 0)
+	title_label.add_theme_constant_override("shadow_offset_y", 4)
 	
-	# Main Play Button (Accent style)
-	var play_normal = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.lightened(0.12), COLOR_GLASS_BORDER)
-	var play_hover = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.lightened(0.24), COLOR_ACCENT_PLAY)
-	var play_press = _make_glass_style(_theme_int("shared.radius.lg", 30), COLOR_ACCENT_PLAY.darkened(0.1), COLOR_ACCENT_PLAY)
+	# Main Play Button (Accent style with frosted glassmorphism)
+	var hero_radius := _theme_int("menu.surface.hero_button.radius", _theme_int("shared.radius.lg", 30))
+	var play_bg = COLOR_ACCENT_PLAY
+	play_bg.a = 0.72
+	var play_normal = _make_glass_style(hero_radius, play_bg, Color(1.0, 1.0, 1.0, 0.85))
+	var play_hover = _make_glass_style(hero_radius, play_bg.lightened(0.12), Color(1.0, 1.0, 1.0, 0.95))
+	var play_press = _make_glass_style(hero_radius, play_bg.darkened(0.08), Color(1.0, 1.0, 1.0, 0.75))
 	
 	play_button.set("theme_override_styles/normal", play_normal)
 	play_button.set("theme_override_styles/hover", play_hover)
 	play_button.set("theme_override_styles/pressed", play_press)
 	play_button.set("theme_override_styles/focus", StyleBoxEmpty.new())
-	play_button.add_theme_font_size_override("font_size", 26)
+	play_button.add_theme_font_size_override("font_size", 56)
 	play_button.add_theme_color_override("font_color", _theme_path("shared.colors.text_inverse"))
 	play_button.add_theme_color_override("font_hover_color", _theme_path("shared.colors.text_inverse"))
+	play_button.add_theme_color_override("font_shadow_color", _theme_path("shared.colors.shadow"))
+	play_button.add_theme_constant_override("shadow_offset_x", 0)
+	play_button.add_theme_constant_override("shadow_offset_y", 3)
 	
 	# Settings Overlay Custom Glass styling
 	var settings_glass = _make_glass_style(_theme_int("shared.radius.xl", 40), COLOR_GLASS_BG.lightened(0.18), COLOR_GLASS_BORDER)
 	$SettingsOverlay/GlassPanel.set("theme_override_styles/panel", settings_glass)
-	$SettingsOverlay.color = COLOR_BG_START
+	var overlay_color := COLOR_BG_START
+	overlay_color.a = 0.72
+	$SettingsOverlay.color = overlay_color
 	
 	_set_label_style($SettingsOverlay/GlassPanel/TitleLabel, 30, COLOR_TEXT_PRIMARY)
 	
@@ -457,7 +532,7 @@ func _apply_theme() -> void:
 	var btn_hover = _make_glass_style(22, COLOR_GLASS_BG.lightened(0.15), COLOR_ACCENT_PLAY)
 	var btn_press = _make_glass_style(22, COLOR_GLASS_BG.darkened(0.1), COLOR_ACCENT_PLAY)
 	
-	var settings_buttons = [sound_button, music_button, close_button]
+	var settings_buttons = [sound_button, music_button, close_button, haptics_button]
 	for btn in settings_buttons:
 		btn.set("theme_override_styles/normal", btn_normal)
 		btn.set("theme_override_styles/hover", btn_hover)
@@ -485,6 +560,18 @@ func _apply_theme() -> void:
 		export_button.add_theme_color_override("font_color", COLOR_TEXT_PRIMARY)
 		export_button.add_theme_color_override("font_hover_color", COLOR_TEXT_PRIMARY)
 
+func _refresh_theme_palette() -> void:
+	COLOR_BG_START = _theme_path("shared.colors.bg_top")
+	COLOR_BG_END = _theme_path("shared.colors.bg_bottom")
+	COLOR_TEXT_PRIMARY = _theme_path("menu.text.title")
+	COLOR_TEXT_MUTED = _theme_path("menu.text.muted")
+	COLOR_ACCENT_COIN = _theme_path("shared.colors.accent_gold")
+	COLOR_ACCENT_STAR = _theme_path("shared.colors.accent_primary")
+	COLOR_ACCENT_PLAY = _theme_path("colors.accent")
+	COLOR_GLASS_BG = _theme_path("shared.colors.glass_bg")
+	COLOR_GLASS_BORDER = _theme_path("shared.colors.glass_border")
+	COLOR_GLASS_SHADOW = _theme_path("shared.colors.shadow")
+
 func _set_label_style(label: Label, font_size: int, font_color: Color) -> void:
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", font_color)
@@ -509,42 +596,78 @@ func _make_glass_style(radius: int, bg_col: Color, border_col: Color) -> StyleBo
 	style.content_margin_bottom = 10
 	return style
 
+func _make_segment_style(bg_col: Color, border_col: Color, is_left: bool, is_right: bool, is_active: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg_col
+	style.border_color = border_col
+	style.border_width_left = 1
+	style.border_width_top = 2
+	style.border_width_right = 1
+	style.border_width_bottom = 2
+	var radius_l := 26 if is_left else 0
+	var radius_r := 26 if is_right else 0
+	style.corner_radius_top_left = radius_l
+	style.corner_radius_bottom_left = radius_l
+	style.corner_radius_top_right = radius_r
+	style.corner_radius_bottom_right = radius_r
+	style.shadow_color = COLOR_GLASS_SHADOW
+	style.shadow_size = 16 if is_active else 10
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	return style
+
 # --- DRAW PROCESSES (Procedural Background & Hanging Diamonds) ---
 
 func _draw() -> void:
-	# Layer 0: Pastel lavendar background gradient
-	draw_rect(Rect2(Vector2.ZERO, size), COLOR_BG_START, true)
-	
-	# Subtle color variation gradient bottom
-	var rect_bottom = Rect2(0, size.y * 0.5, size.x, size.y * 0.5)
-	draw_rect(rect_bottom, Color(COLOR_BG_END.r, COLOR_BG_END.g, COLOR_BG_END.b, 0.45), true)
-	
-	# Layer 1: Ambient glowing pastel glass orbs (bubbles)
+	# Layer 0: tuned vertical gradient
+	var steps := 24
+	var stripe_h := size.y / float(steps)
+	for i in range(steps):
+		var t := float(i) / float(steps - 1)
+		var col := COLOR_BG_START.lerp(COLOR_BG_END, t)
+		draw_rect(Rect2(0, i * stripe_h, size.x, stripe_h + 1.0), col, true)
+
+	# Layer 1: atmospheric highlights
 	var time_val = bg_time * 0.25
 	var bubble_offset = cursor_offset * 0.35
 	
-	# Violet Bubble
 	var v_pos = Vector2(
 		size.x * 0.2 + sin(time_val) * 40.0,
 		size.y * 0.3 + cos(time_val) * 45.0
 	) + bubble_offset
-	draw_circle(v_pos, size.x * 0.38, Color(0.85, 0.78, 0.95, 0.22))
+	draw_circle(v_pos, size.x * 0.38, _theme_path("shared.colors.accent_primary", COLOR_ACCENT_STAR).lightened(0.25))
 	
-	# Rose Pink Bubble
 	var r_pos = Vector2(
 		size.x * 0.8 + cos(time_val * 1.2) * 50.0,
 		size.y * 0.45 + sin(time_val * 0.8) * 35.0
 	) + bubble_offset
-	draw_circle(r_pos, size.x * 0.35, Color(0.96, 0.76, 0.88, 0.18))
+	draw_circle(r_pos, size.x * 0.35, COLOR_ACCENT_PLAY.lightened(0.28))
 	
-	# Soft Blue Bubble
 	var b_pos = Vector2(
 		size.x * 0.35 + sin(time_val * 0.9 + 1.0) * 35.0,
 		size.y * 0.8 + cos(time_val * 1.1) * 60.0
 	) + bubble_offset
-	draw_circle(b_pos, size.x * 0.3, Color(0.78, 0.88, 0.96, 0.15))
+	draw_circle(b_pos, size.x * 0.3, _theme_path("shared.colors.accent_secondary", COLOR_ACCENT_STAR).lightened(0.2))
+
+	# Layer 1.5: hero glow + title separator + arch frame
+	var hero_center := Vector2(size.x * 0.5, size.y * 0.47)
+	draw_circle(hero_center, size.x * 0.28, _theme_path("shared.colors.accent_primary", COLOR_ACCENT_PLAY).lightened(0.35))
+	draw_circle(hero_center + Vector2(0, size.y * 0.02), size.x * 0.2, _theme_path("shared.colors.accent_secondary", COLOR_ACCENT_STAR).lightened(0.42))
+
+	var sep_y := size.y * 0.33
+	draw_line(Vector2(size.x * 0.26, sep_y), Vector2(size.x * 0.74, sep_y), _theme_path("shared.colors.glass_border", COLOR_GLASS_BORDER), 2.0)
+	draw_circle(Vector2(size.x * 0.5, sep_y), 7.0, _theme_path("shared.colors.accent_primary", COLOR_ACCENT_PLAY))
+	draw_circle(Vector2(size.x * 0.34, sep_y), 3.0, _theme_path("shared.colors.text_inverse", COLOR_TEXT_PRIMARY))
+	draw_circle(Vector2(size.x * 0.66, sep_y), 3.0, _theme_path("shared.colors.text_inverse", COLOR_TEXT_PRIMARY))
+
+	var arch_col := _theme_path("shared.colors.glass_border", COLOR_GLASS_BORDER)
+	arch_col.a = 0.62
+	draw_arc(hero_center + Vector2(0, size.y * 0.08), size.x * 0.27, PI * 1.08, PI * 1.92, 56, arch_col, 2.2, true)
+	draw_arc(hero_center + Vector2(0, size.y * 0.08), size.x * 0.24, PI * 1.1, PI * 1.9, 56, _theme_path("shared.colors.text_inverse", Color.WHITE), 1.0, true)
 	
-	# Layer 2: Hanging decorative diamonds on thin threads (REQ-MENU-012)
+	# Layer 2: hanging accents
 	for dia in hanging_diamonds:
 		var x_pos = dia["x_ratio"] * size.x + cursor_offset.x * 0.6
 		var length = dia["length"]
@@ -630,6 +753,8 @@ func _spawn_ambient_gems() -> void:
 		child.queue_free()
 		
 	floating_gems.clear()
+	if not ENABLE_AMBIENT_GEMS:
+		return
 	
 	# 8 spheres total for luxurious multi-layered parallax depth
 	var gem_configs := [
@@ -729,7 +854,7 @@ func _on_button_up(btn: Button) -> void:
 
 func _on_play_pressed() -> void:
 	SoundManager.play("play")
-	get_tree().change_scene_to_file("res://scenes/menus/level_select.tscn")
+	UIScreenManager.navigate(&"world_map")
 
 func _on_settings_pressed() -> void:
 	SoundManager.play("open")
@@ -747,6 +872,23 @@ func _on_sound_toggled() -> void:
 
 func _on_music_toggled() -> void:
 	UserData.music_enabled = not UserData.music_enabled
+	UserData.save_data()
+	_update_settings_labels()
+
+func _on_sound_volume_changed(value: float) -> void:
+	UserData.sound_volume = value
+	UserData.sound_enabled = value > 0.0
+	UserData.save_data()
+	_update_settings_labels()
+
+func _on_music_volume_changed(value: float) -> void:
+	UserData.music_volume = value
+	UserData.music_enabled = value > 0.0
+	UserData.save_data()
+	_update_settings_labels()
+
+func _on_haptics_toggled() -> void:
+	UserData.haptics_enabled = not UserData.haptics_enabled
 	UserData.save_data()
 	_update_settings_labels()
 
@@ -773,6 +915,19 @@ func _spawn_toast(msg: String) -> void:
 		if toast.has_method("show_message"):
 			toast.show_message(msg)
 
+func _create_volume_slider(label_text: String, initial_value: float, action_id: StringName, handler: Callable) -> HSlider:
+	var slider := HSlider.new()
+	slider.name = label_text.replace(" ", "")
+	slider.custom_minimum_size = Vector2(0, 42)
+	slider.min_value = 0.0
+	slider.max_value = 1.0
+	slider.step = 0.05
+	slider.value = initial_value
+	slider.tooltip_text = label_text
+	slider.set_meta(&"ui_action_id", String(action_id))
+	slider.value_changed.connect(handler)
+	return slider
+
 func _update_settings_labels() -> void:
 	sound_button.text = "Sound: ON" if UserData.sound_enabled else "Sound: OFF"
 	music_button.text = "Music: ON" if UserData.music_enabled else "Music: OFF"
@@ -780,6 +935,8 @@ func _update_settings_labels() -> void:
 		quality_button.text = "Quality: High (Glow)" if UserData.quality_profile == "web_default" else "Quality: Mobile (72% Glow)"
 	if export_button:
 		export_button.text = "Export Test Logs"
+	if haptics_button:
+		haptics_button.text = "Haptics: ON" if UserData.haptics_enabled else "Haptics: OFF"
 	play_button.text = "Play"
 
 func _refresh_progress_summary() -> void:
@@ -792,13 +949,8 @@ func _refresh_progress_summary() -> void:
 		star_label.text = str(completed * 3) # 3 stars per completed level
 		
 	# Update Subtitle labels under main title
-	var summary := UserData.get_retention_summary()
 	if subtitle_label:
-		subtitle_label.text = "🔥 Streak: %d days • %d/%d Level Cleared" % [
-			int(summary.get("daily_streak", 0)),
-			int(summary.get("completed_levels", 0)),
-			maxi(LevelLoader.get_available_level_count(), 1)
-		]
+		subtitle_label.text = "✧  Dreamy Crystal Journey  ✧"
 
 func _animate_menu_entry() -> void:
 	modulate.a = 0.0
@@ -826,6 +978,7 @@ func _animate_overlay(overlay: ColorRect) -> void:
 class OrbDrawScript extends Control:
 	var rot_angle: float = 0.0
 	var pulse_timer: float = 0.0
+	var palette: Dictionary = {}
 	
 	func _ready() -> void:
 		set_process(true)
@@ -838,17 +991,17 @@ class OrbDrawScript extends Control:
 	func _draw() -> void:
 		var center = size * 0.5
 		var pulse = 1.0 + sin(pulse_timer) * 0.024
-		var base_radius = 115.0 * pulse
+		var base_radius = 128.0 * pulse
 		
 		# 1. Shadow Pedestal under Sphere
-		var ped_center = center + Vector2(0, 115)
-		var ped_size = Vector2(140, 20)
+		var ped_center = center + Vector2(0, 130)
+		var ped_size = Vector2(158, 24)
 		var ped_pts = PackedVector2Array()
 		var steps = 36
 		for i in range(steps + 1):
 			var a = float(i) / steps * TAU
 			ped_pts.append(ped_center + Vector2(cos(a) * ped_size.x, sin(a) * ped_size.y))
-		draw_polygon(ped_pts, [Color(0.72, 0.65, 0.82, 0.28)])
+		draw_polygon(ped_pts, [palette.get("pedestal", Color.WHITE)])
 		
 		# 2. Glowing Elliptic Orbit (Arc)
 		var orbit_pts = PackedVector2Array()
@@ -865,23 +1018,23 @@ class OrbDrawScript extends Control:
 			orbit_pts.append(center + rot_pt)
 		
 		# Render orbit line with clean semi-transparent white
-		draw_polyline(orbit_pts, Color(1.0, 1.0, 1.0, 0.4), 1.6)
+		draw_polyline(orbit_pts, palette.get("orbit", Color.WHITE), 1.8)
 		
 		# Orbit Sparkle
 		var sp_pt = orbit_pts[int(steps * 0.28)]
-		draw_circle(sp_pt, 4.0, Color.WHITE)
+		draw_circle(sp_pt, 4.4, Color.WHITE)
 		draw_line(sp_pt - Vector2(8, 0), sp_pt + Vector2(8, 0), Color.WHITE, 1.0)
 		draw_line(sp_pt - Vector2(0, 8), sp_pt + Vector2(0, 8), Color.WHITE, 1.0)
 		
 		# 3. Orb Base sphere
-		draw_circle(center, base_radius, Color(0.96, 0.94, 1.0, 0.65))
+		draw_circle(center, base_radius, palette.get("base", Color.WHITE))
 		
 		# 4. Multi-layered moving Pastel aurora gradients
 		var aurora_layers = [
-			{"color": Color(1.0, 0.74, 0.84, 0.36), "speed": 1.0, "scale": 0.85, "phase": 0.0}, # Pink
-			{"color": Color(0.74, 0.84, 1.0, 0.34), "speed": -0.8, "scale": 0.80, "phase": 2.1}, # Blue
-			{"color": Color(0.80, 0.98, 0.85, 0.26), "speed": 1.2, "scale": 0.75, "phase": 1.2}, # Mint
-			{"color": Color(1.0, 0.92, 0.76, 0.28), "speed": -0.6, "scale": 0.90, "phase": 3.4} # Gold
+			{"color": palette.get("pink", Color.WHITE), "speed": 1.0, "scale": 0.85, "phase": 0.0},
+			{"color": palette.get("blue", Color.WHITE), "speed": -0.8, "scale": 0.80, "phase": 2.1},
+			{"color": palette.get("mint", Color.WHITE), "speed": 1.2, "scale": 0.75, "phase": 1.2},
+			{"color": palette.get("gold", Color.WHITE), "speed": -0.6, "scale": 0.90, "phase": 3.4}
 		]
 		
 		for layer in aurora_layers:
@@ -891,8 +1044,9 @@ class OrbDrawScript extends Control:
 			
 		# 5. Glossy 3D Highlight specular flare (top-left)
 		var specular_pos = center - Vector2(base_radius * 0.34, base_radius * 0.34)
-		draw_circle(specular_pos, base_radius * 0.26, Color(1.0, 1.0, 1.0, 0.75))
+		draw_circle(specular_pos, base_radius * 0.26, palette.get("gloss", Color.WHITE))
 		draw_circle(specular_pos - Vector2(base_radius * 0.05, base_radius * 0.05), base_radius * 0.12, Color.WHITE)
+		draw_arc(center, base_radius * 0.92, -PI * 0.18, PI * 1.7, 34, palette.get("arc", Color.WHITE), 2.1)
 
 class IconDrawerScript extends Control:
 	var icon_type: String = ""
@@ -917,42 +1071,116 @@ class IconDrawerScript extends Control:
 				draw_circle(Vector2(-line_w/2 - 7, 7.8), 2.5, color)
 				
 			"events":
-				# Draw beautiful golden cup (trophy)
+				# Sparkle 4-point star
+				var star_pts = PackedVector2Array([
+					Vector2(0, -15),
+					Vector2(4, -4),
+					Vector2(15, 0),
+					Vector2(4, 4),
+					Vector2(0, 15),
+					Vector2(-4, 4),
+					Vector2(-15, 0),
+					Vector2(-4, -4),
+					Vector2(0, -15)
+				])
+				draw_polyline(star_pts, color, 2.0)
+				draw_circle(Vector2.ZERO, 2.5, color)
+				
+			"shop":
+				# Shopping bag silhouette conforming to ref
+				var bag_pts = PackedVector2Array([
+					Vector2(-11, -6),
+					Vector2(11, -6),
+					Vector2(13, 12),
+					Vector2(-13, 12),
+					Vector2(-11, -6)
+				])
+				draw_polyline(bag_pts, color, 2.0)
+				draw_arc(Vector2(0, -6), 6.0, PI, TAU, 16, color, 2.0)
+				
+			"settings":
+				# Beautiful clean vector cogwheel
+				draw_arc(Vector2.ZERO, 7.5, 0, TAU, 32, color, 2.0)
+				draw_arc(Vector2.ZERO, 4.0, 0, TAU, 32, color, 1.2)
+				var teeth = 8
+				for i in range(teeth):
+					var a = float(i) / teeth * TAU
+					var p1 = Vector2(cos(a), sin(a)) * 7.5
+					var p2 = Vector2(cos(a), sin(a)) * 13.0
+					draw_line(p1, p2, color, 2.5)
+
+			"home":
+				# Outline house structure
+				var roof_pts = PackedVector2Array([
+					Vector2(0, -14),
+					Vector2(-16, 0),
+					Vector2(16, 0),
+					Vector2(0, -14)
+				])
+				draw_polyline(roof_pts, color, 2.0)
+				
+				var wall_pts = PackedVector2Array([
+					Vector2(-12, 0),
+					Vector2(-12, 14),
+					Vector2(12, 14),
+					Vector2(12, 0)
+				])
+				draw_polyline(wall_pts, color, 2.0)
+				draw_rect(Rect2(-3.5, 6, 7, 8), color, false, 1.8)
+
+			"rankings":
+				# Outline cup trophy
 				var cup_poly = PackedVector2Array([
 					Vector2(-12, -14), Vector2(12, -14),
-					Vector2(10, 0), Vector2(-10, 0)
+					Vector2(10, 0), Vector2(-10, 0),
+					Vector2(-12, -14)
 				])
-				draw_polygon(cup_poly, [color])
+				draw_polyline(cup_poly, color, 2.0)
 				
 				# Cup handles
 				draw_arc(Vector2(-10, -7), 5.0, -PI/2, PI/2, 16, color, 2.0)
 				draw_arc(Vector2(10, -7), 5.0, PI/2, 3*PI/2, 16, color, 2.0)
 				
-				# Cup stand
-				draw_rect(Rect2(-3, 0, 6, 10), color, true) # stem
-				draw_rect(Rect2(-12, 10, 24, 4), color, true) # base
+				# Stand
+				draw_line(Vector2(0, 0), Vector2(0, 10), color, 2.5)
+				draw_line(Vector2(-10, 10), Vector2(10, 10), color, 2.5)
+
+			"collection":
+				# Multi-faceted diamond outline
+				var top_left = Vector2(-14, -6)
+				var top_right = Vector2(14, -6)
+				var top_mid_left = Vector2(-7, -13)
+				var top_mid_right = Vector2(7, -13)
+				var bottom = Vector2(0, 13)
 				
-			"shop":
-				# Draw beautiful shopping cart
-				draw_line(Vector2(-15, -12), Vector2(-10, -12), color, 2.2) # bar handle
-				draw_line(Vector2(-10, -12), Vector2(-5, 6), color, 2.2) # back wall
-				draw_line(Vector2(-5, 6), Vector2(12, 6), color, 2.2) # bottom
-				draw_line(Vector2(12, 6), Vector2(16, -6), color, 2.2) # front wall
-				draw_line(Vector2(16, -6), Vector2(-7, -6), color, 2.2) # top front wall
+				var border_pts = PackedVector2Array([
+					top_mid_left, top_mid_right, top_right, bottom, top_left, top_mid_left
+				])
+				draw_polyline(border_pts, color, 2.0)
 				
-				# Wheels
-				draw_circle(Vector2(-2, 11), 3.2, color)
-				draw_circle(Vector2(9, 11), 3.2, color)
+				# Inner facets
+				draw_line(top_mid_left, bottom, color, 1.2)
+				draw_line(top_mid_right, bottom, color, 1.2)
+				draw_line(top_mid_left, top_left, color, 1.2)
+				draw_line(top_mid_right, top_right, color, 1.2)
+				draw_line(top_left, top_right, color, 1.2)
+				draw_line(top_mid_left, top_mid_right, color, 1.2)
+
+			"friends":
+				# Silhouettes of two people side-by-side (overlapping nicely)
+				var c_left = Vector2(-6, -4)
+				draw_arc(c_left, 4.5, 0, TAU, 24, color, 1.8)
+				draw_arc(Vector2(-6, 8), 7.5, PI, TAU, 16, color, 1.8)
+				draw_line(Vector2(-13.5, 8), Vector2(1.5, 8), color, 1.8)
 				
-			"settings":
-				# Draw beautiful cogwheel configuration
-				draw_circle(Vector2.ZERO, 7.5, color)
-				# Cog teeth
-				var teeth = 8
-				for i in range(teeth):
-					var a = float(i) / teeth * TAU
-					var p1 = Vector2(cos(a), sin(a)) * 7.0
-					var p2 = Vector2(cos(a), sin(a)) * 12.5
-					draw_line(p1, p2, color, 3.2)
-				# Inner clear circle hole
-				draw_circle(Vector2.ZERO, 3.8, Color(1.0, 1.0, 1.0, 0.0))
+				var c_right = Vector2(6, 0)
+				draw_arc(c_right, 5.0, 0, TAU, 24, color, 2.0)
+				draw_arc(Vector2(6, 13), 8.5, PI, TAU, 16, color, 2.0)
+				draw_line(Vector2(-2.5, 13), Vector2(14.5, 13), color, 2.0)
+
+			"inbox":
+				# Beautiful vector envelope outline
+				var mail_rect = Rect2(-14, -9, 28, 18)
+				draw_rect(mail_rect, color, false, 2.0)
+				draw_line(Vector2(-14, -9), Vector2(0, 1), color, 1.5)
+				draw_line(Vector2(14, -9), Vector2(0, 1), color, 1.5)

@@ -11,7 +11,11 @@ void fragment() {
 	float pulse_mask = smoothstep(0.6, 0.0, dist);
 
 	vec4 base = texture(TEXTURE, UV);
+	
+	// Precise geometric circular cutout of black background (restores soft inner refractions)
+	float circular_mask = 1.0 - smoothstep(0.44, 0.48, dist);
+	
 	vec3 color = mix(base.rgb, tint_color.rgb, tint_color.a * pulse_mask);
 	color += vec3(pulse_amplitude * pulse * pulse_mask);
-	COLOR = vec4(color, base.a);
+	COLOR = vec4(color, base.a * circular_mask);
 }

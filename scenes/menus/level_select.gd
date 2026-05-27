@@ -17,11 +17,37 @@ var next_world_title: Label
 var next_world_name: Label
 var next_world_progress: Label
 var world_map_cache: Array[Vector2] = []
+var theme_bg: Color = Color.WHITE
+var theme_bg_alt: Color = Color.WHITE
+var theme_text_primary: Color = Color.WHITE
+var theme_text_muted: Color = Color.WHITE
+var theme_accent_primary: Color = Color.WHITE
+var theme_accent_secondary: Color = Color.WHITE
+var theme_accent_gold: Color = Color.WHITE
+
+func _theme_path(path: String, fallback: Color = Color.WHITE) -> Color:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		var tokens = (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+		if tokens != null and tokens.has_method("color_path"):
+			return tokens.color_path(path, fallback)
+	return fallback
+
+func _theme_int(path: String, fallback: int) -> int:
+	var loop := Engine.get_main_loop()
+	if loop is SceneTree:
+		var tokens = (loop as SceneTree).root.get_node_or_null("ThemeTokensAutoload")
+		if tokens != null and tokens.has_method("int_value"):
+			return tokens.int_value(path, fallback)
+	return fallback
 
 func _ready() -> void:
+	# Legacy scene entrypoints are redirected to the canonical world map.
+	UIScreenManager.navigate(&"world_map", {}, &"none")
+	return
 	back_button.pressed.connect(_on_back_pressed)
-	_build_chrome()
 	_apply_theme()
+	_build_chrome()
 	_build_level_grid()
 	_animate_entry()
 
@@ -30,15 +56,15 @@ func _notification(what: int) -> void:
 		queue_redraw()
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")
+	UIScreenManager.navigate(&"main_menu")
 
 func _draw() -> void:
-	var bg := Color(0.95, 0.93, 0.99, 1.0)
+	var bg := theme_bg
 	draw_rect(Rect2(Vector2.ZERO, size), bg, true)
-	draw_circle(Vector2(size.x * 0.14, size.y * 0.12), size.x * 0.34, Color(1.0, 0.85, 0.92, 0.16))
-	draw_circle(Vector2(size.x * 0.82, size.y * 0.16), size.x * 0.30, Color(0.82, 0.86, 1.0, 0.18))
-	draw_circle(Vector2(size.x * 0.22, size.y * 0.84), size.x * 0.24, Color(0.78, 0.93, 1.0, 0.14))
-	draw_circle(Vector2(size.x * 0.88, size.y * 0.82), size.x * 0.18, Color(1.0, 0.90, 0.82, 0.10))
+	draw_circle(Vector2(size.x * 0.14, size.y * 0.12), size.x * 0.34, theme_accent_secondary.lightened(0.22))
+	draw_circle(Vector2(size.x * 0.82, size.y * 0.16), size.x * 0.30, theme_accent_primary.lightened(0.24))
+	draw_circle(Vector2(size.x * 0.22, size.y * 0.84), size.x * 0.24, theme_accent_secondary.lightened(0.14))
+	draw_circle(Vector2(size.x * 0.88, size.y * 0.82), size.x * 0.18, theme_accent_gold.lightened(0.18))
 
 	_draw_path()
 
@@ -73,18 +99,18 @@ func _build_chrome() -> void:
 	inbox_button.custom_minimum_size = Vector2(56, 56)
 	inbox_button.focus_mode = Control.FOCUS_NONE
 	inbox_button.text = "✉"
-	inbox_button.set("theme_override_styles/normal", _make_glass_style(22, Color(1, 1, 1, 0.34), Color(1, 1, 1, 0.66)))
-	inbox_button.set("theme_override_styles/hover", _make_glass_style(22, Color(1, 1, 1, 0.42), Color(0.82, 0.86, 1.0, 0.8)))
-	inbox_button.set("theme_override_styles/pressed", _make_glass_style(22, Color(1, 1, 1, 0.28), Color(0.82, 0.86, 1.0, 0.8)))
+	inbox_button.set("theme_override_styles/normal", _make_glass_style(_theme_int("shared.radius.md", 22), theme_bg_alt, _theme_path("shared.colors.glass_border")))
+	inbox_button.set("theme_override_styles/hover", _make_glass_style(_theme_int("shared.radius.md", 22), theme_bg_alt.lightened(0.08), theme_accent_primary))
+	inbox_button.set("theme_override_styles/pressed", _make_glass_style(_theme_int("shared.radius.md", 22), theme_bg_alt.darkened(0.06), theme_accent_primary))
 	inbox_button.set("theme_override_styles/focus", StyleBoxEmpty.new())
 	inbox_button.add_theme_font_size_override("font_size", 22)
-	inbox_button.add_theme_color_override("font_color", Color(0.34, 0.32, 0.48))
+	inbox_button.add_theme_color_override("font_color", theme_text_primary)
 	top_bar.add_child(inbox_button)
 
 	var badge := Panel.new()
 	badge.custom_minimum_size = Vector2(10, 10)
 	badge.position = Vector2(34, 2)
-	badge.set("theme_override_styles/panel", _make_glass_style(5, Color(0.98, 0.52, 0.72, 1.0), Color(1.0, 0.92, 0.96, 1.0)))
+	badge.set("theme_override_styles/panel", _make_glass_style(5, theme_accent_gold, theme_accent_primary))
 	inbox_button.add_child(badge)
 
 	title_label.text = "Neo Soft Frost"
@@ -94,7 +120,7 @@ func _build_chrome() -> void:
 	subtitle_label.name = "SubtitleLabel"
 	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	subtitle_label.text = "Dreamy map • choose your next crystal path"
-	subtitle_label.add_theme_color_override("font_color", Color(0.46, 0.42, 0.62))
+	subtitle_label.add_theme_color_override("font_color", theme_text_muted)
 	subtitle_label.add_theme_font_size_override("font_size", 15)
 	subtitle_label.anchors_preset = Control.PRESET_TOP_WIDE
 	subtitle_label.offset_left = 20.0
@@ -106,7 +132,7 @@ func _build_chrome() -> void:
 	map_hint_label = Label.new()
 	map_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	map_hint_label.text = "Tap an orb to preview the level"
-	map_hint_label.add_theme_color_override("font_color", Color(0.52, 0.48, 0.68))
+	map_hint_label.add_theme_color_override("font_color", theme_text_muted)
 	map_hint_label.add_theme_font_size_override("font_size", 13)
 	map_hint_label.anchors_preset = Control.PRESET_TOP_WIDE
 	map_hint_label.offset_left = 20.0
@@ -125,7 +151,7 @@ func _build_chrome() -> void:
 	next_world_card.offset_top = -352.0
 	next_world_card.offset_right = -24.0
 	next_world_card.offset_bottom = -132.0
-	next_world_card.set("theme_override_styles/panel", _make_panel_style(Color(1.0, 1.0, 1.0, 0.30), Color(1.0, 1.0, 1.0, 0.72), 30, 2))
+	next_world_card.set("theme_override_styles/panel", _make_panel_style(theme_bg_alt, _theme_path("shared.colors.glass_border"), _theme_int("shared.radius.lg", 30), 2))
 	add_child(next_world_card)
 
 	var next_margin := MarginContainer.new()
@@ -143,14 +169,14 @@ func _build_chrome() -> void:
 	next_world_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	next_world_title.text = "Next World"
 	next_world_title.add_theme_font_size_override("font_size", 14)
-	next_world_title.add_theme_color_override("font_color", Color(0.40, 0.36, 0.56))
+	next_world_title.add_theme_color_override("font_color", theme_text_muted)
 	next_vbox.add_child(next_world_title)
 
 	next_world_name = Label.new()
 	next_world_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	next_world_name.text = "Crystal Vale"
 	next_world_name.add_theme_font_size_override("font_size", 24)
-	next_world_name.add_theme_color_override("font_color", Color(0.28, 0.26, 0.42))
+	next_world_name.add_theme_color_override("font_color", theme_text_primary)
 	next_vbox.add_child(next_world_name)
 
 	var orb_preview := LevelOrb.new()
@@ -164,7 +190,7 @@ func _build_chrome() -> void:
 	next_world_progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	next_world_progress.text = "0/36"
 	next_world_progress.add_theme_font_size_override("font_size", 16)
-	next_world_progress.add_theme_color_override("font_color", Color(0.44, 0.40, 0.58))
+	next_world_progress.add_theme_color_override("font_color", theme_text_muted)
 	next_vbox.add_child(next_world_progress)
 
 func _build_level_grid() -> void:
@@ -218,7 +244,7 @@ func _build_level_grid() -> void:
 		num_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		num_label.add_theme_font_size_override("font_size", 28)
 		num_label.text = str(i) if level_exists else "Soon"
-		num_label.add_theme_color_override("font_color", Color(0.30, 0.28, 0.44) if unlocked else Color(0.56, 0.54, 0.68))
+		num_label.add_theme_color_override("font_color", theme_text_primary if unlocked else theme_text_muted)
 		vbox.add_child(num_label)
 
 		if unlocked:
@@ -231,7 +257,7 @@ func _build_level_grid() -> void:
 				var star_label := Label.new()
 				star_label.add_theme_font_size_override("font_size", 14)
 				star_label.text = "★" if s < stars else "☆"
-				star_label.add_theme_color_override("font_color", Color(0.98, 0.82, 0.44) if s < stars else Color(0.74, 0.72, 0.84, 0.60))
+				star_label.add_theme_color_override("font_color", theme_accent_gold if s < stars else theme_text_muted)
 				star_hbox.add_child(star_label)
 
 			btn.pressed.connect(_start_level.bind(i))
@@ -240,7 +266,7 @@ func _build_level_grid() -> void:
 			lock_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			lock_label.text = "🔒"
 			lock_label.add_theme_font_size_override("font_size", 18)
-			lock_label.add_theme_color_override("font_color", Color(0.58, 0.58, 0.72))
+			lock_label.add_theme_color_override("font_color", theme_text_muted)
 			vbox.add_child(lock_label)
 			btn.disabled = true
 
@@ -251,7 +277,7 @@ func _build_level_grid() -> void:
 
 func _start_level(level_num: int) -> void:
 	UserData.set_active_level(level_num)
-	get_tree().change_scene_to_file(GAMEPLAY_SCENE)
+	UIScreenManager.navigate(&"level_preview", {"level_id": level_num})
 
 func _animate_entry() -> void:
 	modulate.a = 0.0
@@ -259,35 +285,43 @@ func _animate_entry() -> void:
 	tween.tween_property(self, "modulate:a", 1.0, 0.42)
 
 func _apply_theme() -> void:
-	_set_label_style(title_label, 40, Color(0.28, 0.26, 0.42))
-	title_label.add_theme_color_override("font_outline_color", Color(1.0, 1.0, 1.0, 0.90))
+	theme_bg = _theme_path("shared.colors.bg_top")
+	theme_bg_alt = _theme_path("shared.colors.glass_bg")
+	theme_text_primary = _theme_path("menu.text.title")
+	theme_text_muted = _theme_path("menu.text.muted")
+	theme_accent_primary = _theme_path("shared.colors.accent_primary")
+	theme_accent_secondary = _theme_path("shared.colors.accent_secondary")
+	theme_accent_gold = _theme_path("shared.colors.accent_gold")
+
+	_set_label_style(title_label, 40, theme_text_primary)
+	title_label.add_theme_color_override("font_outline_color", _theme_path("shared.colors.glass_border"))
 	title_label.add_theme_constant_override("outline_size", 8)
 	_style_nav_button(back_button)
 
-	var scroll_style := _make_panel_style(Color(1.0, 1.0, 1.0, 0.25), Color(0.88, 0.86, 1.0, 0.82), 42, 2)
+	var scroll_style := _make_panel_style(theme_bg_alt, _theme_path("shared.colors.glass_border"), _theme_int("menu.surface.scroll.radius", 42), 2)
 	$ScrollContainer.set("theme_override_styles/panel", scroll_style)
-	$ScrollContainer.modulate = Color(1, 1, 1, 0.98)
+	$ScrollContainer.modulate = Color.WHITE
 	grid_container.add_theme_constant_override("h_separation", 20)
 	grid_container.add_theme_constant_override("v_separation", 20)
 
 func _style_level_button(button: Button, unlocked: bool, level_exists: bool) -> void:
-	var accent := Color(0.78, 0.92, 1.0) if unlocked else Color(0.86, 0.84, 0.95)
-	var bg := Color(1.0, 1.0, 1.0, 0.36) if unlocked else Color(1.0, 1.0, 1.0, 0.18)
-	button.set("theme_override_styles/normal", _make_panel_style(bg, accent if unlocked else Color(0.84, 0.84, 0.9, 0.36), 28, 2))
-	button.set("theme_override_styles/hover", _make_panel_style(Color(1.0, 1.0, 1.0, 0.48), accent.lightened(0.08), 28, 2))
-	button.set("theme_override_styles/pressed", _make_panel_style(Color(0.95, 0.96, 1.0, 0.54), accent, 28, 3))
-	button.set("theme_override_styles/focus", _make_panel_style(Color(0.95, 0.96, 1.0, 0.54), accent, 28, 3))
-	button.set("theme_override_styles/disabled", _make_panel_style(Color(0.96, 0.96, 0.99, 0.18), Color(0.82, 0.82, 0.88, 0.26), 28, 1))
-	button.add_theme_color_override("font_color", Color(0.62, 0.60, 0.74) if not level_exists else Color(0.35, 0.33, 0.5))
+	var accent := theme_accent_primary if unlocked else theme_text_muted
+	var bg := theme_bg_alt.lightened(0.08) if unlocked else theme_bg_alt
+	button.set("theme_override_styles/normal", _make_panel_style(bg, accent, 28, 2))
+	button.set("theme_override_styles/hover", _make_panel_style(bg.lightened(0.08), accent.lightened(0.08), 28, 2))
+	button.set("theme_override_styles/pressed", _make_panel_style(bg.darkened(0.06), accent, 28, 3))
+	button.set("theme_override_styles/focus", _make_panel_style(bg.darkened(0.06), accent, 28, 3))
+	button.set("theme_override_styles/disabled", _make_panel_style(theme_bg_alt, theme_text_muted, 28, 1))
+	button.add_theme_color_override("font_color", theme_text_muted if not level_exists else theme_text_primary)
 
 func _style_nav_button(button: Button) -> void:
-	var accent := Color(1.0, 0.9, 0.76)
-	button.set("theme_override_styles/normal", _make_panel_style(Color(1.0, 1.0, 1.0, 0.34), Color(1.0, 1.0, 1.0, 0.56), 28, 2))
-	button.set("theme_override_styles/hover", _make_panel_style(Color(1.0, 1.0, 1.0, 0.40), accent.lightened(0.08), 28, 2))
-	button.set("theme_override_styles/pressed", _make_panel_style(Color(0.95, 0.96, 1.0, 0.44), accent, 28, 3))
-	button.set("theme_override_styles/focus", _make_panel_style(Color(0.95, 0.96, 1.0, 0.44), accent, 28, 3))
+	var accent := theme_accent_gold
+	button.set("theme_override_styles/normal", _make_panel_style(theme_bg_alt, _theme_path("shared.colors.glass_border"), 28, 2))
+	button.set("theme_override_styles/hover", _make_panel_style(theme_bg_alt.lightened(0.08), accent.lightened(0.08), 28, 2))
+	button.set("theme_override_styles/pressed", _make_panel_style(theme_bg_alt.darkened(0.06), accent, 28, 3))
+	button.set("theme_override_styles/focus", _make_panel_style(theme_bg_alt.darkened(0.06), accent, 28, 3))
 	button.add_theme_font_size_override("font_size", 20)
-	button.add_theme_color_override("font_color", Color(0.35, 0.33, 0.5))
+	button.add_theme_color_override("font_color", theme_text_primary)
 
 func _set_label_style(label: Label, font_size: int, font_color: Color) -> void:
 	label.add_theme_font_size_override("font_size", font_size)
@@ -296,7 +330,7 @@ func _set_label_style(label: Label, font_size: int, font_color: Color) -> void:
 func _make_resource_pill(icon_text: String, value_text: String, include_plus: bool) -> PanelContainer:
 	var pill := PanelContainer.new()
 	pill.custom_minimum_size = Vector2(150, 54)
-	pill.set("theme_override_styles/panel", _make_panel_style(Color(1.0, 1.0, 1.0, 0.34), Color(1.0, 1.0, 1.0, 0.70), 24, 2))
+	pill.set("theme_override_styles/panel", _make_panel_style(theme_bg_alt, _theme_path("shared.colors.glass_border"), 24, 2))
 
 	var hb := HBoxContainer.new()
 	hb.name = "HBox"
@@ -307,14 +341,14 @@ func _make_resource_pill(icon_text: String, value_text: String, include_plus: bo
 	var icon := Label.new()
 	icon.text = icon_text
 	icon.add_theme_font_size_override("font_size", 18)
-	icon.add_theme_color_override("font_color", Color(0.36, 0.34, 0.50))
+	icon.add_theme_color_override("font_color", theme_text_primary)
 	hb.add_child(icon)
 
 	var value := Label.new()
 	value.name = "Value"
 	value.text = value_text
 	value.add_theme_font_size_override("font_size", 18)
-	value.add_theme_color_override("font_color", Color(0.28, 0.26, 0.42))
+	value.add_theme_color_override("font_color", theme_text_primary)
 	hb.add_child(value)
 
 	if include_plus:
@@ -322,12 +356,12 @@ func _make_resource_pill(icon_text: String, value_text: String, include_plus: bo
 		plus.text = "+"
 		plus.custom_minimum_size = Vector2(32, 32)
 		plus.focus_mode = Control.FOCUS_NONE
-		plus.set("theme_override_styles/normal", _make_panel_style(Color(1.0, 1.0, 1.0, 0.34), Color(1.0, 1.0, 1.0, 0.56), 16, 2))
-		plus.set("theme_override_styles/hover", _make_panel_style(Color(1.0, 1.0, 1.0, 0.44), Color(0.82, 0.86, 1.0, 0.80), 16, 2))
-		plus.set("theme_override_styles/pressed", _make_panel_style(Color(0.96, 0.96, 1.0, 0.44), Color(0.82, 0.86, 1.0, 0.80), 16, 2))
+		plus.set("theme_override_styles/normal", _make_panel_style(theme_bg_alt, _theme_path("shared.colors.glass_border"), 16, 2))
+		plus.set("theme_override_styles/hover", _make_panel_style(theme_bg_alt.lightened(0.08), theme_accent_primary, 16, 2))
+		plus.set("theme_override_styles/pressed", _make_panel_style(theme_bg_alt.darkened(0.04), theme_accent_primary, 16, 2))
 		plus.set("theme_override_styles/focus", StyleBoxEmpty.new())
 		plus.add_theme_font_size_override("font_size", 16)
-		plus.add_theme_color_override("font_color", Color(0.28, 0.26, 0.42))
+		plus.add_theme_color_override("font_color", theme_text_primary)
 		hb.add_child(plus)
 
 	return pill
@@ -347,7 +381,7 @@ func _make_panel_style(bg_color: Color, border_color: Color, radius: int, border
 	style.corner_radius_top_right = radius
 	style.corner_radius_bottom_left = radius
 	style.corner_radius_bottom_right = radius
-	style.shadow_color = Color(0.68, 0.58, 0.92, 0.16)
+	style.shadow_color = _theme_path("shared.colors.shadow")
 	style.shadow_size = 14
 	style.content_margin_left = 14
 	style.content_margin_top = 14

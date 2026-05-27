@@ -2,7 +2,9 @@ extends Node
 
 const BOOT_SCENE := "res://scenes/boot/boot.tscn"
 const MENU_SCENE := "res://scenes/menus/main_menu.tscn"
-const LEVEL_SELECT_SCENE := "res://scenes/menus/level_select.tscn"
+const LOADING_SCENE := "res://scenes/boot/loading_screen.tscn"
+const LEVEL_SELECT_SCENE := "res://scenes/menus/world_map.tscn"
+const LEVEL_PREVIEW_SCENE := "res://scenes/menus/level_preview.tscn"
 const GAMEPLAY_SCENE := "res://scenes/gameplay/gameplay.tscn"
 
 const SAVE_PATH := "user://save_data.cfg"
@@ -125,6 +127,10 @@ func _verify_boot_to_menu() -> Control:
 	var err := get_tree().change_scene_to_file(BOOT_SCENE)
 	if err != OK:
 		return null
+	var loading := await _await_scene(LOADING_SCENE, 2.5)
+	if loading == null or not loading.has_method("_on_start_pressed"):
+		return null
+	loading.call("_on_start_pressed")
 	return await _await_scene(MENU_SCENE, 4.5)
 
 func _verify_menu_to_level_select(menu_scene: Control) -> Control:
@@ -134,9 +140,13 @@ func _verify_menu_to_level_select(menu_scene: Control) -> Control:
 	return await _await_scene(LEVEL_SELECT_SCENE, 2.5)
 
 func _verify_level_select_to_gameplay(level_select: Control) -> Control:
-	if not level_select.has_method("_start_level"):
+	if not level_select.has_method("_open_level_preview"):
 		return null
-	level_select.call("_start_level", 1)
+	level_select.call("_open_level_preview", 1)
+	var preview := await _await_scene(LEVEL_PREVIEW_SCENE, 2.5)
+	if preview == null or not preview.has_method("_start_level"):
+		return null
+	preview.call("_start_level")
 	var gameplay := await _await_scene(GAMEPLAY_SCENE, 3.0)
 	if gameplay == null:
 		return null

@@ -1,0 +1,98 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3pausemenu"]
+
+[ext_resource type="Script" path="res://scenes/gameplay/pause_menu.gd" id="1_pause"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pause")
+
+[node name="Scrim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0980392, 0.0980392, 0.180392, 0.588235)
+
+[node name="GlassPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(420, 720)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -360.0
+offset_right = 210.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GlassPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="GlassPanel/VBoxContainer"]
+layout_mode = 2
+text = "✦ Paused ✦"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="GlassPanel/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "X"
+
+[node name="ResumeButton" type="Button" parent="GlassPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="GlassPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Restart"
+
+[node name="HomeButton" type="Button" parent="GlassPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+text = "Home"
+
+[node name="VolumeSection" type="VBoxContainer" parent="GlassPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SoundLabel" type="Label" parent="GlassPanel/VBoxContainer/VolumeSection"]
+layout_mode = 2
+text = "Sound Volume"
+horizontal_alignment = 1
+
+[node name="SoundSlider" type="HSlider" parent="GlassPanel/VBoxContainer/VolumeSection"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="MusicLabel" type="Label" parent="GlassPanel/VBoxContainer/VolumeSection"]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="GlassPanel/VBoxContainer/VolumeSection"]
+layout_mode = 2
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="HapticsButton" type="Button" parent="GlassPanel/VBoxContainer/VolumeSection"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+text = "Haptics: ON"

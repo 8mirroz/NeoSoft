@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://08_warm_glow"]
+[gd_scene load_steps=5 format=3 uid="uid://08_warm_glow"]
 
 [ext_resource type="Texture2D" path="res://assets/spheres/08_warm_glow/08_warm_glow_base.png" id="1_08_warm_glow"]
+[ext_resource type="Shader" path="res://shaders/black_cutout.gdshader" id="2_black_cutout"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_08_warm_glow"]
+shader = ExtResource("2_black_cutout")
+shader_parameter/tint_color = Color(1, 1, 1, 0)
+shader_parameter/brightness_threshold = 0.04
+shader_parameter/transition_softness = 0.12
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleMaterial_08_warm_glow"]
 direction = Vector3(0, -1, 0)
@@ -18,9 +25,11 @@ color = Color(1.0, 0.76, 0.58, 0.66)
 texture_filter = 1
 texture = ExtResource("1_08_warm_glow")
 centered = true
+material = SubResource("ShaderMaterial_08_warm_glow")
 modulate = Color(1, 1, 1, 0.95)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_08_warm_glow")
 position = Vector2(0, 0)
 amount = 24
 lifetime = 1.1

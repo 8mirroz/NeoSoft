@@ -6,23 +6,27 @@ class_name GemView
 # 4 = MINT_SHIVER, 5 = GOLD_AURORA, 6 = AMETHYST_HAZE, 7 = ROSE_GLOW
 @export var piece_id: int = 0
 @export var is_selected: bool = false
+@export var custom_scale: Vector2 = Vector2.ONE
+@export var reduced_motion: bool = false
 
 var size: float = 70.0
 var time_elapsed: float = 0.0
 var select_pulse_time: float = 0.0
+var selection_alpha: float = 0.0 # Selection fade transition (150-220ms)
 var sphere_type: int = CellState.SphereType.NONE
 var sphere_node: Node2D = null
+const USE_SCENE_SPHERES := true
 
-# Opal pearlescent palette v3 (soft translucent tones with iridescent luminosity)
+# High-contrast premium vibrant color palette (Frost Gem Design System v1.0)
 const PALETTES = {
-	0: Color(0.96, 0.72, 0.82), # Opal Rose (Pink Pearl)
-	1: Color(0.55, 0.78, 0.96), # Sapphire Opal (Blue Flow)
-	2: Color(0.48, 0.90, 0.94), # Aqua Pearl (Ice Spark)
-	3: Color(0.82, 0.72, 0.96), # Lavender Opal (Frost Pearl)
-	4: Color(0.48, 0.88, 0.76), # Seafoam Pearl (Mint Shiver)
-	5: Color(0.98, 0.85, 0.52), # Amber Opal (Gold Aurora)
-	6: Color(0.72, 0.55, 0.94), # Violet Pearl (Amethyst Haze)
-	7: Color(0.96, 0.55, 0.65), # Coral Opal (Rose Glow)
+	0: Color("FF389E"),  # Pink Pearl (Rare Accent)
+	1: Color("007AFF"),  # Sapphire Blue (Primary Action)
+	2: Color("00E6F2"),  # Frost Aqua (Secondary Focus/Glow)
+	3: Color("AD2EFF"),  # Frost Pearl (Premium Magic)
+	4: Color("00E07A"),  # Mint Shiver (Success)
+	5: Color("FFB300"),  # Gold Aurora (Reward)
+	6: Color("D900D9"),  # Amethyst Haze (Special Power)
+	7: Color("FF471A"),  # Rose Glow (Coral / Urgent)
 }
 
 func _ready() -> void:
@@ -33,37 +37,53 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time_elapsed += delta
+	
+	# Selection fade transition (150-220ms, fully aligned with motion system)
 	if is_selected:
 		select_pulse_time += delta * 6.0
-	
-	# Slowly pulse scale for idle breathing (RULE-003: idle cycle 3.0s to 6.0s)
-	# Frequency: 0.3Hz (approx 3.3s cycle)
-	var breath := 1.0 + sin(time_elapsed * 1.8) * 0.035
-	scale = Vector2(breath, breath)
-	if is_instance_valid(sphere_node):
-		var sphere_wobble := 1.0 + sin(time_elapsed * 1.1 + float(piece_id) * 0.25) * 0.02
-		sphere_node.rotation = sin(time_elapsed * 0.55 + float(piece_id)) * 0.04
-		sphere_node.scale = _get_sphere_scene_scale() * sphere_wobble
+		selection_alpha = min(selection_alpha + delta / 0.18, 1.0)
 	else:
+		selection_alpha = max(selection_alpha - delta / 0.15, 0.0)
+		select_pulse_time = 0.0
+	
+	# Slowly pulse scale for idle breathing (Gem idle: 3–6s loop, sine, scale 1 ± .035)
+	var breath := 1.0
+	if not reduced_motion:
+		# Period: 2*PI/1.8 = 3.49s (comfortable low-frequency breathing)
+		breath = 1.0 + sin(time_elapsed * 1.8) * 0.035
+	
+	scale = Vector2(breath, breath) * custom_scale
+	
+	if is_instance_valid(sphere_node):
+		var sphere_wobble := 1.0
+		if not reduced_motion:
+			sphere_wobble = 1.0 + sin(time_elapsed * 1.1 + float(piece_id) * 0.25) * 0.02
+			sphere_node.rotation = sin(time_elapsed * 0.55 + float(piece_id)) * 0.04
+		else:
+			sphere_node.rotation = 0.0
+		
+		sphere_node.scale = _get_sphere_scene_scale() * sphere_wobble
+	
+	# Queue redraw whenever animation is active or selected state is changing
+	if not reduced_motion or is_selected or selection_alpha > 0.0:
 		queue_redraw()
 
 func set_piece(p_id: int) -> void:
 	piece_id = p_id
-	if sphere_type == CellState.SphereType.NONE:
-		queue_redraw()
+	queue_redraw()
 
 func set_selected(selected: bool) -> void:
 	is_selected = selected
-	if not is_selected:
-		select_pulse_time = 0.0
-	if sphere_type == CellState.SphereType.NONE:
-		queue_redraw()
+	queue_redraw()
 
 func set_sphere_type(type: int) -> void:
 	if sphere_type == type:
 		return
 	sphere_type = type
-	_sync_sphere_visual()
+	if USE_SCENE_SPHERES:
+		_sync_sphere_visual()
+	else:
+		_clear_sphere_visual()
 	queue_redraw()
 
 func clear_sphere_type() -> void:
@@ -74,6 +94,9 @@ func clear_sphere_type() -> void:
 	queue_redraw()
 
 func _sync_sphere_visual() -> void:
+	if not USE_SCENE_SPHERES:
+		_clear_sphere_visual()
+		return
 	if sphere_type == CellState.SphereType.NONE:
 		_clear_sphere_visual()
 		return
@@ -97,150 +120,149 @@ func _clear_sphere_visual() -> void:
 
 func _get_sphere_scene_scale() -> Vector2:
 	var logical_size: float = max(size, 1.0)
-	var texture_size: float = 1254.0
+	var texture_size: float = 1024.0
 	var base_scale: float = logical_size / texture_size
 	return Vector2.ONE * base_scale
 
-func _draw() -> void:
-	if sphere_type != CellState.SphereType.NONE and is_instance_valid(sphere_node):
-		return
+func _draw_prism_star(r: float, rotation_angle: float, col: Color) -> void:
+	var points: PackedVector2Array = []
+	var num_points := 5
+	for i in range(num_points * 2):
+		var angle := float(i) * (PI / float(num_points)) + rotation_angle
+		var curr_r := r if i % 2 == 0 else r * 0.4
+		points.append(Vector2(cos(angle), sin(angle)) * curr_r)
+	points.append(points[0]) # close polygon
+	draw_colored_polygon(points, col)
 
+func _draw() -> void:
 	var color: Color = PALETTES.get(piece_id, Color.WHITE)
 	var radius := size * 0.4
 	
-	# Premium soft drop-shadow
-	draw_circle(Vector2(0, 4.0), radius + 2.0, Color(0, 0, 0, 0.12))
+	# 1. UNDERLAYS (Always drawn, even for 3D sphere scenes)
 	
-	# Glassmorphic glow / underlay glow (p1.md: "neon under ice")
-	var glow_color := Color(color.r, color.g, color.b, 0.22)
-	draw_circle(Vector2.ZERO, radius + 6.0, glow_color)
+	# Premium dynamic drop-shadow (grows and softens when selected)
+	var shadow_offset := 4.0 + selection_alpha * 3.5
+	var shadow_radius := radius * (1.02 + selection_alpha * 0.08)
+	var shadow_alpha := 0.12 - selection_alpha * 0.04
+	draw_circle(Vector2(0.0, shadow_offset), shadow_radius, Color(0.04, 0.06, 0.12, shadow_alpha))
 	
-	# Active selection pulse ring
-	if is_selected:
-		var pulse_scale := 1.0 + sin(select_pulse_time) * 0.06
-		var sel_color := Color(color.r + 0.1, color.g + 0.1, color.b + 0.1, 0.95)
-		draw_arc(Vector2.ZERO, radius + 6.5 * pulse_scale, 0.0, TAU, 36, sel_color, 2.5)
+	# Frost Glow underlay (vibrant radial glow, increases on selection)
+	var glow_alpha := 0.16 + selection_alpha * 0.24
+	var glow_radius := radius * (1.1 + selection_alpha * 0.2)
+	var glow_color := Color(color.r, color.g, color.b, glow_alpha)
+	# Multilayer draw for smooth gradient-like soft edge glow
+	draw_circle(Vector2.ZERO, glow_radius, glow_color)
+	draw_circle(Vector2.ZERO, glow_radius * 0.7, Color(color.r, color.g, color.b, glow_alpha * 0.5))
+	
+	# 2. SPHERE 3D SCENE EXIT
+	# If 3D sphere scene is used and valid, it handles drawing the main body.
+	# We just draw the underlays and then overlay the selection focus rings.
+	if USE_SCENE_SPHERES and sphere_type != CellState.SphereType.NONE and is_instance_valid(sphere_node):
+		_draw_selection_overlay(radius)
+		return
+	
+	# 3. 2D FALLBACK BODY DRAW (if 3D scene is not active)
+	_draw_2d_fallback_body(radius, color)
+	
+	# 4. OVERLAYS (Focus rings)
+	_draw_selection_overlay(radius)
 
-	# Slow dynamic internal waves/refraction rotation angle
-	var rotate_angle := time_elapsed * 0.35
+func _draw_selection_overlay(radius: float) -> void:
+	if selection_alpha <= 0.0:
+		return
+	
+	# focus/ring: #00E6F2 (Frost Aqua)
+	var focus_color := Color("00E6F2")
+	
+	# Outer animated breathing/pulsing aura ring
+	var pulse_scale := 1.0
+	if not reduced_motion:
+		pulse_scale = 1.0 + sin(select_pulse_time) * 0.06
+	
+	var outer_radius := radius * (1.12 + pulse_scale * 0.06)
+	var outer_color := focus_color
+	outer_color.a = selection_alpha * 0.65
+	draw_arc(Vector2.ZERO, outer_radius, 0.0, TAU, 40, outer_color, 2.2)
+	
+	# Inner sharp premium high-contrast focus ring (3px target targets)
+	var inner_color := focus_color
+	inner_color.a = selection_alpha * 0.90
+	draw_arc(Vector2.ZERO, radius * 1.08, 0.0, TAU, 40, inner_color, 1.6)
 
-	# Draw specific geometric shapes based on piece_id with frosted glass details
-	match piece_id:
-		0: # Pink Pearl: Circle with moving liquid wave
-			draw_circle(Vector2.ZERO, radius, color)
-			# Outer crystal rim
-			draw_circle(Vector2.ZERO, radius, Color(1, 1, 1, 0.15))
-			# Yin-yang style internal wave
-			var wave_center := Vector2(cos(rotate_angle) * radius * 0.2, sin(rotate_angle) * radius * 0.2)
-			draw_circle(wave_center, radius * 0.45, Color(1, 1, 1, 0.32))
-			# Glare highlight
-			draw_circle(Vector2(-radius * 0.35, -radius * 0.35), radius * 0.25, Color(1, 1, 1, 0.65))
-			
-		1: # Blue Flow: Diamond with vertical flow ribbon
-			var points := PackedVector2Array([
-				Vector2(0, -radius),
-				Vector2(radius, 0),
-				Vector2(0, radius),
-				Vector2(-radius, 0)
-			])
-			draw_colored_polygon(points, color)
-			draw_polyline(points, Color(1, 1, 1, 0.35), 1.5)
-			
-			# Rotating flow line
-			var wave_p := Vector2(cos(rotate_angle) * radius * 0.3, 0)
-			draw_line(Vector2(wave_p.x, -radius * 0.65), Vector2(-wave_p.x, radius * 0.65), Color(1, 1, 1, 0.45), 2.5)
-			# Highlight
-			var hl := PackedVector2Array([
-				Vector2(0, -radius * 0.75),
-				Vector2(radius * 0.35, -radius * 0.35),
-				Vector2(-radius * 0.35, -radius * 0.35)
-			])
-			draw_colored_polygon(hl, Color(1, 1, 1, 0.35))
-			
-		2: # Ice Spark: Hexagonal star facets
-			var points := PackedVector2Array()
-			for i in range(6):
-				var angle := i * PI / 3.0
-				points.append(Vector2(cos(angle) * radius, sin(angle) * radius))
-			draw_colored_polygon(points, color)
-			draw_polyline(points, Color(1, 1, 1, 0.4), 1.5)
-			
-			# Internal crystalline facets
-			for i in range(3):
-				var angle := rotate_angle + i * PI / 1.5
-				draw_line(Vector2.ZERO, Vector2(cos(angle) * radius * 0.8, sin(angle) * radius * 0.8), Color(1, 1, 1, 0.28), 1.0)
-			draw_circle(Vector2(-radius * 0.25, -radius * 0.25), radius * 0.22, Color(1, 1, 1, 0.55))
-			
-		3: # Frost Pearl: Multi-layered white sphere with gas bubbles
-			draw_circle(Vector2.ZERO, radius, color)
-			draw_circle(Vector2.ZERO, radius - 2.0, Color(color.r - 0.05, color.g - 0.05, color.b - 0.02, 1.0))
-			
-			# Micro bubbles floating slowly
-			for i in range(3):
-				var bubble_offset := Vector2(
-					sin(time_elapsed + i * 2.0) * radius * 0.3,
-					cos(time_elapsed * 0.8 + i * 3.0) * radius * 0.3
-				)
-				draw_circle(bubble_offset, 2.5, Color(1, 1, 1, 0.65))
-			# Crescent rim reflection
-			draw_arc(Vector2.ZERO, radius - 3.0, PI * 1.1, PI * 1.9, 24, Color(1, 1, 1, 0.55), 1.5)
-			
-		4: # Mint Shiver: Soft triangle with wind wave
-			var points := PackedVector2Array([
-				Vector2(0, -radius),
-				Vector2(radius * 0.9, radius * 0.75),
-				Vector2(-radius * 0.9, radius * 0.75)
-			])
-			draw_colored_polygon(points, color)
-			draw_polyline(points, Color(1, 1, 1, 0.35), 1.5)
-			
-			# Rotating wind arc inside
-			var arc_center := Vector2(0, radius * 0.1)
-			draw_arc(arc_center, radius * 0.4, rotate_angle, rotate_angle + PI * 0.8, 16, Color(1, 1, 1, 0.48), 2.0)
-			draw_circle(Vector2(0, -radius * 0.3), radius * 0.18, Color(1, 1, 1, 0.5))
-			
-		5: # Gold Aurora: Rounded block with warm energy core
-			var points := PackedVector2Array([
-				Vector2(-radius * 0.75, -radius * 0.75),
-				Vector2(radius * 0.75, -radius * 0.75),
-				Vector2(radius * 0.75, radius * 0.75),
-				Vector2(-radius * 0.75, radius * 0.75)
-			])
-			draw_colored_polygon(points, color)
-			draw_polyline(points, Color(1, 1, 1, 0.38), 1.5)
-			
-			# Pulse inner core
-			var pulse_val := 0.4 + sin(time_elapsed * 2.5) * 0.12
-			draw_circle(Vector2.ZERO, radius * pulse_val, Color(1, 1, 1, 0.42))
-			draw_circle(Vector2(-radius * 0.3, -radius * 0.3), radius * 0.18, Color(1, 1, 1, 0.55))
-			
-		6: # Amethyst Haze: Lavender octagon with crystal rings
-			var points := PackedVector2Array()
-			for i in range(8):
-				var angle := i * PI / 4.0
-				points.append(Vector2(cos(angle) * radius, sin(angle) * radius))
-			draw_colored_polygon(points, color)
-			draw_polyline(points, Color(1, 1, 1, 0.32), 1.5)
-			
-			# Concentric orbital rings
-			var ring_rad := radius * 0.45 + sin(time_elapsed * 1.5) * radius * 0.08
-			draw_arc(Vector2.ZERO, ring_rad, 0, TAU, 24, Color(1, 1, 1, 0.38), 1.2)
-			draw_circle(Vector2(-radius * 0.25, -radius * 0.25), radius * 0.2, Color(1, 1, 1, 0.5))
-			
-		7: # Rose Glow: Rose shape / heart with rotating core
-			var points := PackedVector2Array()
-			for i in range(12):
-				var r := radius if i % 3 == 0 else radius * 0.62
-				var angle := i * PI / 6.0
-				points.append(Vector2(cos(angle) * r, sin(angle) * r))
-			draw_colored_polygon(points, color)
-			
-			# Spiral galaxy rotation inside
-			var rot_p1 := Vector2(cos(rotate_angle) * radius * 0.3, sin(rotate_angle) * radius * 0.3)
-			var rot_p2 := Vector2(cos(rotate_angle + PI) * radius * 0.3, sin(rotate_angle + PI) * radius * 0.3)
-			draw_line(rot_p1, rot_p2, Color(1, 1, 1, 0.45), 2.0)
-			draw_circle(Vector2.ZERO, radius * 0.2, Color(1, 1, 1, 0.38))
-			draw_circle(Vector2(-radius * 0.2, -radius * 0.2), radius * 0.22, Color(1, 1, 1, 0.5))
-			
-		_:
-			draw_circle(Vector2.ZERO, radius, color)
+func _draw_2d_fallback_body(radius: float, color: Color) -> void:
+	# Check if it's a special sphere (BLUE_RIBBON, PURPLE_RIBBON, CROSS_WAVE)
+	if sphere_type == CellState.SphereType.BLUE_RIBBON or sphere_type == CellState.SphereType.PURPLE_RIBBON or sphere_type == CellState.SphereType.CROSS_WAVE:
+		# Draw a glowing dark backing to make special spheres stand out
+		draw_circle(Vector2.ZERO, radius * 1.15, Color(0, 0, 0, 0.35))
+		
+		# Draw main body
+		draw_circle(Vector2.ZERO, radius, Color.WHITE)
+		draw_circle(Vector2.ZERO, radius * 0.95, color)
+		
+		# Glass shine overlay
+		draw_arc(Vector2.ZERO, radius * 0.94, -0.15 * PI, 1.72 * PI, 30, Color(1.0, 1.0, 1.0, 0.45), 2.0)
+		draw_circle(Vector2(-radius * 0.34, -radius * 0.34), radius * 0.24, Color(1.0, 1.0, 1.0, 0.68))
+		draw_circle(Vector2(-radius * 0.42, -radius * 0.42), radius * 0.10, Color(1.0, 1.0, 1.0, 0.85))
+
+		match sphere_type:
+			CellState.SphereType.BLUE_RIBBON: # Beam / Line laser Ribbon
+				var line_color := Color.WHITE
+				draw_line(Vector2(-radius * 0.85, 0), Vector2(radius * 0.85, 0), line_color, 3.8)
+				draw_line(Vector2(0, -radius * 0.85), Vector2(0, radius * 0.85), line_color, 3.8)
+				# Double rotating outer ring
+				var ring_rot := time_elapsed * 2.8
+				draw_arc(Vector2.ZERO, radius * 1.15, ring_rot, ring_rot + PI * 0.6, 24, color.lightened(0.2), 3.0)
+				draw_arc(Vector2.ZERO, radius * 1.15, ring_rot + PI, ring_rot + PI * 1.6, 24, color.lightened(0.2), 3.0)
+				
+			CellState.SphereType.PURPLE_RIBBON: # Blast / Bomb area Sphere
+				var ring_rot := -time_elapsed * 2.4
+				for i in range(6):
+					var angle := ring_rot + float(i) * (TAU / 6.0)
+					draw_arc(Vector2.ZERO, radius * 1.22, angle, angle + (TAU / 12.0), 10, color.lightened(0.3), 3.8)
+				# Radiant spikes
+				for i in range(8):
+					var angle := float(i) * (TAU / 8.0) + time_elapsed * 0.5
+					var dir := Vector2(cos(angle), sin(angle))
+					draw_line(dir * radius * 0.4, dir * radius * 0.88, Color.WHITE, 2.5)
+				
+			CellState.SphereType.CROSS_WAVE: # Color Bomb / Rainbow Prism Star
+				var rot1 := time_elapsed * 1.6
+				var rot2 := -time_elapsed * 1.3
+				_draw_prism_star(radius * 0.88, rot1, Color(1.0, 0.2, 0.2, 0.8))
+				_draw_prism_star(radius * 0.72, rot2, Color(0.2, 1.0, 0.2, 0.8))
+				_draw_prism_star(radius * 0.56, rot1 + PI * 0.25, Color(0.2, 0.5, 1.0, 0.9))
+				# Central pulsing diamond core
+				var pulse := 0.22 + sin(time_elapsed * 4.0) * 0.05
+				draw_rect(Rect2(-radius * pulse, -radius * pulse, radius * pulse * 2.0, radius * pulse * 2.0), Color.WHITE)
+	else:
+		# Uniform round gems: cleaner board readability, no square artifacts.
+		draw_circle(Vector2.ZERO, radius, Color(1.0, 1.0, 1.0, 0.92))
+		draw_circle(Vector2.ZERO, radius * 0.9, color)
+		
+		# Glassmorphic inner gradient approximation
+		draw_circle(Vector2(-radius * 0.15, -radius * 0.15), radius * 0.75, Color(color.r + 0.15, color.g + 0.15, color.b + 0.15, 0.5))
+		
+		# Outer shine arcs
+		draw_arc(Vector2.ZERO, radius * 0.94, -0.15 * PI, 1.72 * PI, 30, Color(1.0, 1.0, 1.0, 0.45), 2.0)
+		draw_arc(Vector2(radius * 0.04, radius * 0.08), radius * 0.7, 0.18 * PI, 1.35 * PI, 24, Color(1.0, 1.0, 1.0, 0.32), 1.4)
+		
+		# Top-left hot highlights
+		draw_circle(Vector2(-radius * 0.34, -radius * 0.34), radius * 0.24, Color(1.0, 1.0, 1.0, 0.65))
+		draw_circle(Vector2(-radius * 0.42, -radius * 0.42), radius * 0.10, Color(1.0, 1.0, 1.0, 0.82))
+
+		var rotate_angle := time_elapsed * 0.35
+		var accent_phase := rotate_angle + float(wrapi(piece_id, 0, 8)) * 0.6
+		var accent_alpha := 0.42
+		match wrapi(piece_id, 0, 8):
+			0:
+				draw_circle(Vector2(cos(accent_phase) * radius * 0.2, sin(accent_phase) * radius * 0.2), radius * 0.34, Color(1.0, 1.0, 1.0, accent_alpha))
+			1:
+				draw_arc(Vector2.ZERO, radius * 0.48, accent_phase, accent_phase + PI * 0.86, 18, Color(1.0, 1.0, 1.0, accent_alpha), 2.4)
+			2:
+				draw_line(Vector2(-radius * 0.54, sin(accent_phase) * radius * 0.08), Vector2(radius * 0.54, -sin(accent_phase) * radius * 0.08), Color(1.0, 1.0, 1.0, accent_alpha), 2.0)
+			3:
+				draw_arc(Vector2.ZERO, radius * 0.34, 0.0, TAU, 20, Color(1.0, 1.0, 1.0, accent_alpha), 1.8)
+			4:
+				draw_arc(Vector2.ZERO, radius * 0.48, PI * 0.2 + accent_phase * 0.3, PI * 1.05 + accent_phase * 0.3, 18, Color(1.0, 1.0, 1.0, accent_alpha), 2.0)
+			5, 6, 7:
+				draw_circle(Vector2.ZERO, radius * (0.24 + sin(time_elapsed * 2.2) * 0.05), Color(1.0, 1.0, 1.0, accent_alpha))

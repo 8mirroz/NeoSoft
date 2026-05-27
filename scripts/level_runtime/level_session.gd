@@ -164,9 +164,12 @@ func _process(delta: float) -> void:
 		
 	if fever_mode_enabled:
 		combo_controller.update(delta)
-		# Также если pipeline не IDLE, продвигаем FSM в _process для надежности
+		# Также если pipeline не IDLE, продвигаем FSM в _process для надежности,
+		# но только если мы не ждем завершения визуальных эффектов гравитации или свайпа.
 		if pipeline.context.state != ResolveContext.State.IDLE:
-			_advance_cfe_pipeline()
+			var state := pipeline.context.state
+			if state != ResolveContext.State.GRAVITY_APPLYING and state != ResolveContext.State.SWAP_REQUESTED:
+				_advance_cfe_pipeline()
 
 	# Hint timer (p2.md §22: подсказка через 5 сек бездействия)
 	if not hint_active:
@@ -294,6 +297,20 @@ func _check_end_conditions() -> bool:
 		EventBus.analytics_event_requested.emit("level_finished", result)
 		return true
 	return false
+
+func continue_with_extra_moves(amount: int) -> bool:
+	if not session_finished or amount <= 0:
+		return false
+	move_counter.add_moves(amount)
+	session_finished = false
+	session_paused = false
+	_emit_status_updates()
+	EventBus.analytics_event_requested.emit("extra_moves_applied", {
+		"level_id": level_number,
+		"moves_added": amount,
+		"moves_remaining": move_counter.remaining(),
+	})
+	return true
 
 # ──────────────────────────────────────────────
 # Status updates
@@ -472,6 +489,9 @@ func _on_game_resumed() -> void:
 # ──────────────────────────────────────────────
 # CFE Helper Methods and Event Handlers
 # ──────────────────────────────────────────────
+
+func notify_visual_pipeline_ready() -> void:
+	_advance_cfe_pipeline()
 
 func _advance_cfe_pipeline() -> void:
 	if not fever_mode_enabled:

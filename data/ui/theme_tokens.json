@@ -29,6 +29,21 @@
     "font": { "caption": 13, "body": 16, "subtitle": 18, "title": 24, "hero": 48 }
   },
   "gameplay": {
+    "visual": {
+      "bg_top": "#F5EDFA",
+      "bg_bottom": "#EAF2FF",
+      "nebula_rose": "#FFD1E0",
+      "nebula_lavender": "#E1D1FF",
+      "nebula_aqua": "#CDEFFF",
+      "nebula_pink": "#FFDBEB",
+      "pearl_shimmer": "#FFF5FF",
+      "sparkle": "#FFFFFF",
+      "sparkle_warm": "#FFFDF0",
+      "edge_top": "#D1B8FF",
+      "edge_bottom": "#B8EAFF",
+      "edge_left": "#FFD1E0",
+      "edge_right": "#E0FFD1"
+    },
     "surface": {
       "hud": {
         "bg": "#FFFFFF8A",
@@ -93,6 +108,22 @@
       "moves_warning": "#885527",
       "moves_danger": "#A43A58"
     },
+    "board": {
+      "inner_bg": "#F6F8FFB8",
+      "inner_border": "#FFFFFFD6",
+      "cell_bg_primary": "#FFFFFF2B",
+      "cell_bg_secondary": "#ECF6FF36",
+      "cell_border": "#FFFFFF94",
+      "cell_shadow": "#A193D030",
+      "cell_selected_bg": "#FFF2CC4D",
+      "cell_selected_border": "#F4C35BEB",
+      "cell_selected_shadow": "#F4C35B59",
+      "cell_hint_bg": "#D8F4FF42",
+      "cell_hint_border": "#75CFF7D9",
+      "cell_hint_shadow": "#75CFF752",
+      "cell_hammer_bg": "#FFD9E238",
+      "cell_hammer_border": "#F49AAAB3"
+    },
     "button": {
       "normal": {
         "bg": "#FFFFFFA6",
@@ -129,6 +160,17 @@
     }
   },
   "menu": {
+    "visual": {
+      "orb_pedestal": "#B8A6D642",
+      "orb_orbit": "#FFFFFF75",
+      "orb_base": "#FAF5FFB8",
+      "orb_pink": "#FFBDD661",
+      "orb_blue": "#BDD6FF5C",
+      "orb_mint": "#CCFAD947",
+      "orb_gold": "#FFEBC24D",
+      "orb_gloss": "#FFFFFFBF",
+      "orb_arc": "#FFFFFF52"
+    },
     "surface": {
       "card": {
         "bg": "#FFFFFF8A",

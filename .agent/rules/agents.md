@@ -1,9 +1,9 @@
 # Antigravity Agent Configuration and Navigation Guide
 
 ## 📍 Current Status
-- **Latest Arch Version**: `genesis/v5`
-- **Active Task List**: `Pending` (Wait for /blueprint)
-- **Last Updated**: `2026-05-26`
+- **Latest Arch Version**: `genesis/v6`
+- **Active Task List**: `In Progress` (Premium UI/UX Soft Frost Overhaul)
+- **Last Updated**: `2026-05-27`
 
 ---
 
@@ -13,7 +13,7 @@
 
 ```text
 /Users/user/3-line/
-├── genesis/v5/          # Arch Docs (Active)
+├── genesis/v6/          # Arch Docs (Active)
 │   ├── 00_MANIFEST.md
 │   ├── concept_model.json
 │   ├── 01_PRD.md
@@ -21,13 +21,7 @@
 │   ├── 03_ADR/
 │   │   ├── ADR_001_TECH_STACK.md
 │   │   ├── ADR_002_RESOLVER_PIPELINE.md
-│   │   ├── ADR_003_INPUT_BUFFER_CONTROLLER.md
-│   │   ├── ADR_004_MATCH_SHAPE_DETECTOR.md
-│   │   ├── ADR_005_TARGET_PRIORITY_SYSTEM.md
-│   │   ├── ADR_006_FEEDBACK_ORCHESTRATOR.md
-│   │   ├── ADR_007_TELEMETRY_BALANCE_SYSTEM.md
-│   │   ├── ADR_008_CONTROLLED_CASCADE.md
-│   │   ├── ADR_009_BALANCE_GOVERNOR.md
+│   │   ├── ...
 │   │   └── ADR_010_UI_UX_SYSTEM.md
 │   ├── 04_SYSTEM_DESIGN/
 │   │   ├── combo_fever_engine.md
@@ -35,7 +29,8 @@
 │   │   └── ui-ux-design-system.md     ★ Design System v1.0
 │   ├── 06_CHANGELOG.md
 │   └── 07_INSTALLED_SKILLS.md
-├── genesis/v4/          # Arch Docs (Previous)
+├── genesis/v5/          # Arch Docs (Previous)
+
 ├── scenes/              # Game Scenes
 │   ├── boot/
 │   ├── gameplay/
@@ -56,13 +51,13 @@
 
 ## 🧭 Navigation Guide
 
-- **Arch Overview**: [02_ARCHITECTURE_OVERVIEW.md](file:///Users/user/3-line/genesis/v5/02_ARCHITECTURE_OVERVIEW.md)
-- **PRD**: [01_PRD.md](file:///Users/user/3-line/genesis/v5/01_PRD.md)
-- **ADR**: See [genesis/v5/03_ADR/](file:///Users/user/3-line/genesis/v5/03_ADR/)
-- **Detailed Design**: [combo_fever_engine.md](file:///Users/user/3-line/genesis/v5/04_SYSTEM_DESIGN/combo_fever_engine.md)
-- **UI/UX Design System**: [ui-ux-design-system.md](file:///Users/user/3-line/genesis/v5/04_SYSTEM_DESIGN/ui-ux-design-system.md) ★
-- **UI/UX Screens**: [ui_ux_system.md](file:///Users/user/3-line/genesis/v5/04_SYSTEM_DESIGN/ui_ux_system.md)
-- **Task List**: Pending (run /blueprint)
+- **Arch Overview**: [02_ARCHITECTURE_OVERVIEW.md](file:///Users/user/3-line/genesis/v6/02_ARCHITECTURE_OVERVIEW.md)
+- **PRD**: [01_PRD.md](file:///Users/user/3-line/genesis/v6/01_PRD.md)
+- **ADR**: See [genesis/v6/03_ADR/](file:///Users/user/3-line/genesis/v6/03_ADR/)
+- **Detailed Design**: [combo_fever_engine.md](file:///Users/user/3-line/genesis/v6/04_SYSTEM_DESIGN/combo_fever_engine.md)
+- **UI/UX Design System**: [ui-ux-design-system.md](file:///Users/user/3-line/genesis/v6/04_SYSTEM_DESIGN/ui-ux-design-system.md) ★
+- **UI/UX Screens**: [ui_ux_system.md](file:///Users/user/3-line/genesis/v6/04_SYSTEM_DESIGN/ui_ux_system.md)
+- **Task List**: In Progress (`/Users/user/.gemini/antigravity-ide/brain/098162c9-77b1-4d70-854a-5fb271447146/task.md`)
 
 ---
 

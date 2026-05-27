@@ -13,8 +13,12 @@ void fragment() {
 	vec2 offset = normal * wave_strength * wave * (1.0 - smoothstep(0.0, 0.7, dist));
 
 	vec4 base = texture(TEXTURE, UV + offset);
+	
+	// Precise geometric circular cutout of black background (restores soft inner refractions)
+	float circular_mask = 1.0 - smoothstep(0.44, 0.48, dist);
+	
 	float foam = smoothstep(0.45, 0.08, dist);
 	vec3 color = mix(base.rgb, tint_color.rgb, tint_color.a);
 	color += vec3(0.06, 0.12, 0.14) * foam;
-	COLOR = vec4(color, base.a);
+	COLOR = vec4(color, base.a * circular_mask);
 }

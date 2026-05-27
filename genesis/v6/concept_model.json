@@ -1,0 +1,187 @@
+{
+  "project": "Neo Soft Frost",
+  "version": "v5 — Controlled Cascade Pleasure Engine",
+  "domain": "Premium Mobile Match-3 Game",
+  "core_concept": "Shape Merge + Controlled Cascade Pleasure + Combo Fever + Player Agency During Cascades + Premium Juicy Feedback",
+
+  "entities": {
+    "board": {
+      "description": "Игровое поле NxM с ячейками",
+      "attributes": ["width", "height", "grid", "cell_states", "gravity_direction"],
+      "states": ["STABLE", "LOCKED", "FALLING", "SPAWNING", "RESOLVING", "RESERVED", "BLOCKED", "TARGET"]
+    },
+    "sphere": {
+      "description": "Базовый игровой элемент (сфера/gem)",
+      "attributes": ["gem_id", "color_type", "position", "is_special", "special_type"],
+      "types": ["basic", "beam", "blast", "pulse", "homing", "prism", "cross", "gravity", "lightning", "field", "dynamo", "singularity_core"]
+    },
+    "shape": {
+      "description": "Геометрическая фигура, образованная совпадающими сферами",
+      "types": ["line_3", "line_4", "square_2x2", "l_5", "t_5", "line_5", "cross_5", "hook_6", "zigzag_6", "rectangle_2x3", "complex_7_plus", "rare_9_plus"],
+      "attributes": ["shape_type", "cells", "center_cell", "moved_cell", "strategic_cell", "complexity_score", "weight"]
+    },
+    "special_sphere": {
+      "description": "Спец-сфера, созданная из распознанной формы",
+      "mapping": {
+        "line_4": "beam_sphere",
+        "square_2x2": "homing_sphere",
+        "l_5": "blast_sphere",
+        "t_5": "pulse_sphere",
+        "line_5": "prism_sphere",
+        "cross_5": "cross_sphere",
+        "hook_6": "gravity_sphere",
+        "zigzag_6": "lightning_sphere",
+        "rectangle_2x3": "field_sphere",
+        "complex_7_plus": "dynamo_sphere",
+        "rare_9_plus": "singularity_core"
+      }
+    },
+    "cascade": {
+      "description": "Серия автоматических матчей после хода игрока",
+      "modes": ["natural", "assisted", "cinematic"],
+      "attributes": ["depth", "born_specials", "total_clears", "cascade_chain_index"]
+    },
+    "drop": {
+      "description": "Падение сфер сверху после очистки",
+      "types": ["natural_drop", "assisted_drop", "lucky_drop", "cinematic_drop"],
+      "governance": ["max_cascade_depth", "assisted_drop_cooldown", "lucky_drop_cap", "cinematic_drop_cap"]
+    },
+    "combo_window": {
+      "description": "Временное окно после матча для быстрого следующего хода",
+      "attributes": ["duration_sec", "visual_countdown", "combo_multiplier", "fever_charge_bonus"]
+    },
+    "fever": {
+      "description": "Режим повышенного множителя при длинных комбо",
+      "attributes": ["meter_value", "threshold", "duration", "multiplier", "is_active"]
+    },
+    "target": {
+      "description": "Цель уровня (лёд, цепи, объект)",
+      "priority_levels": [
+        "level_objective_critical",
+        "locked_objective",
+        "blocker_with_1_hp",
+        "corner_or_hard_to_reach_goal",
+        "portal_blocker",
+        "infection_source",
+        "ancient_core_charge_cell",
+        "highest_combo_potential_cell",
+        "useful_random"
+      ]
+    },
+    "blocker": {
+      "description": "Препятствия на поле",
+      "types": ["ice", "chain", "portal", "resonance_cell", "ancient_core", "infection", "shadow_cell"],
+      "unlock_phases": {
+        "levels_1_10": ["basic_match", "line_4", "beam_sphere"],
+        "levels_11_20": ["l_t_shapes", "blast_pulse", "simple_blockers"],
+        "levels_21_35": ["homing_sphere", "ice_layers"],
+        "levels_36_50": ["prism_sphere", "special_combos", "chain_locks"],
+        "levels_51_75": ["portals", "resonance_cells", "cascade_contracts"],
+        "levels_76_100": ["gravity_sphere", "infection_shadow", "ancient_cores"],
+        "levels_100_plus": ["directional_gravity", "boss_cascade_puzzles", "singularity_events"]
+      }
+    },
+    "feedback": {
+      "description": "VFX/SFX/Camera/Haptics система эскалации",
+      "tiers": {
+        "x1_nice": {"vfx": "small_flash", "sfx": "soft_ping", "fever_charge": 1.0},
+        "x2_combo": {"vfx": "ripple_wave", "sfx": "layered_chime", "fever_charge": 1.4},
+        "x3_chain_reaction": {"vfx": "board_pulse", "sfx": "rising_tone", "fever_charge": 1.9},
+        "x4_cascade_surge": {"vfx": "energy_lines", "sfx": "bass_impact", "fever_charge": 2.6},
+        "x5_plus_fever_spark": {"vfx": "mini_fever_aura", "sfx": "signature_combo_hit", "fever_charge": 3.5}
+      }
+    },
+    "ui_screen": {
+      "description": "Экраны пользовательского интерфейса игры",
+      "screens": [
+        "loading_screen",
+        "main_menu",
+        "world_map",
+        "level_preview",
+        "gameplay_hud",
+        "pause_menu",
+        "level_complete",
+        "out_of_moves",
+        "daily_rewards",
+        "shop"
+      ]
+    }
+  },
+
+  "verbs": {
+    "player_actions": [
+      "swap_spheres",
+      "queue_move",
+      "cancel_queued_move",
+      "activate_booster",
+      "navigate_world_map",
+      "select_level",
+      "pause_game",
+      "resume_game",
+      "restart_level",
+      "claim_reward",
+      "purchase_item"
+    ],
+    "system_actions": [
+      "detect_match",
+      "classify_shape",
+      "spawn_special",
+      "resolve_match",
+      "apply_gravity",
+      "check_cascade",
+      "assisted_drop",
+      "cinematic_drop",
+      "lucky_drop",
+      "charge_fever",
+      "activate_fever",
+      "open_combo_window",
+      "target_priority_select",
+      "escalate_feedback",
+      "log_telemetry",
+      "stabilize_board",
+      "force_recovery"
+    ]
+  },
+
+  "flows": {
+    "main_game_loop": [
+      "player_swap_requested",
+      "board_validates_move",
+      "match_detector_finds_matches",
+      "shape_detector_classifies_pattern",
+      "special_factory_decides_spawn",
+      "match_resolver_clears_cells",
+      "vfx_director_plays_tiered_feedback",
+      "gravity_solver_drops_spheres",
+      "cascade_engine_evaluates_new_matches",
+      "cascade_governor_approves_or_blocks",
+      "fever_meter_receives_charge",
+      "telemetry_logs_outcome",
+      "board_stabilizes"
+    ],
+    "ui_flow": [
+      "loading_screen → main_menu",
+      "main_menu → world_map",
+      "world_map → level_preview",
+      "level_preview → gameplay",
+      "gameplay → pause_menu",
+      "gameplay → level_complete",
+      "gameplay → out_of_moves",
+      "main_menu → daily_rewards",
+      "main_menu → shop"
+    ]
+  },
+
+  "dark_matter": [
+    "Directional gravity for advanced levels",
+    "Boss-level cascade puzzles (100+)",
+    "Singularity events (rare 9+ matches)",
+    "Cascade contracts (level objectives tied to cascade depth)",
+    "Resonance cells (cells that amplify adjacent special effects)",
+    "Anti-softlock detection during complex cascades",
+    "Cross-platform haptics (iOS vs Android vs Web)",
+    "Accessibility: colorblind mode for sphere differentiation",
+    "Monetization balancing (Add 5 Moves → 900 coins fairness)",
+    "Social features (Friends, Rankings, Inbox notification badges)"
+  ]
+}

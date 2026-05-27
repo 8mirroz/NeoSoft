@@ -25,6 +25,9 @@ func remaining() -> int:
 func is_exhausted() -> bool:
 	return moves_used >= max_moves
 
+func add_moves(amount: int) -> void:
+	max_moves += maxi(0, amount)
+
 func snapshot() -> Dictionary:
 	return {
 		"max_moves": max_moves,
