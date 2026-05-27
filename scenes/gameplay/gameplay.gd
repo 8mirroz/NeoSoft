@@ -296,7 +296,11 @@ func _on_swap_resolved(_from: Vector2i, _to: Vector2i) -> void:
 	board_visual.play_swap_fx(_from, _to)
 
 func _on_turn_finished() -> void:
-	board_visual.refresh()
+	# Do NOT call board_visual.refresh() here — turn_finished fires synchronously
+	# within the same call stack as match/collapse/spawn signals, before any await
+	# in FxDirector. Calling refresh() here overwrites the visual snapshot with
+	# board_model's final state, destroying the animation sequencing.
+	# Snapshot is synced after all animations complete in _on_board_visual_animations_finished.
 	board_visual.clear_hints()
 	_refresh_undo_button()
 
@@ -331,11 +335,11 @@ func _on_dead_board_detected(_payload: Dictionary) -> void:
 	_show_status("No valid moves. Stabilizing board...", true, 0.96)
 
 func _on_auto_shuffle_applied(_payload: Dictionary) -> void:
-	board_visual.refresh()
+	board_visual.force_snapshot_sync()
 	_show_status("Fresh pattern generated.", false, 0.92)
 
 func _on_undo_used(_payload: Dictionary) -> void:
-	board_visual.refresh()
+	board_visual.force_snapshot_sync()
 	board_visual.clear_hints()
 	_refresh_undo_button()
 
@@ -645,7 +649,10 @@ func _spawn_toast(msg: String) -> void:
 func _on_board_visual_animations_finished() -> void:
 	if input_router != null:
 		input_router.process_pending_queue()
-		
+	
+	# Safe moment to sync snapshot — all animations have completed
+	board_visual.force_snapshot_sync()
+	
 	if level_session.fever_mode_enabled:
 		level_session.notify_visual_pipeline_ready()
 

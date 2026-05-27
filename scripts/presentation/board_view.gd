@@ -142,6 +142,15 @@ func setup(model: RefCounted) -> void:
 	queue_redraw()
 
 func refresh() -> void:
+	# During active animation pipeline, do NOT reset the snapshot from board_model.
+	# The FxDirector manages snapshot updates step by step.
+	# Only sync snapshot when the visual queue is fully empty (safe idle state).
+	if not is_processing_queue and visual_queue.is_empty() and not _has_active_effects():
+		snapshot_take_from_model()
+	queue_redraw()
+
+func force_snapshot_sync() -> void:
+	"""Force-sync snapshot from board_model — use ONLY for undo, shuffle, board reset."""
 	snapshot_take_from_model()
 	queue_redraw()
 
